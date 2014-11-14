@@ -7,6 +7,7 @@ namespace Snake
 		public static void Main (string[] args)
 		{
 			Console.WriteLine ("Hello Anders");
+			Console.WriteLine ("Greetings Traveler");
 		}
 	}
 }
