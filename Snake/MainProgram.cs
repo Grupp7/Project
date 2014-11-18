@@ -2,7 +2,7 @@
 
 namespace Snake
 {
-	class MainClass
+	public class MainProgram
 	{
 		public static void Main (string[] args)
 		{
@@ -11,3 +11,4 @@ namespace Snake
 		}
 	}
 }
+
