@@ -6,8 +6,11 @@ namespace Snake
 	{
 		public static void Main (string[] args)
 		{
+
+			WorkerTheadExample.testarStuff ();
 			Console.WriteLine ("Hello Anders");
-			Console.WriteLine ("Greetings Traveler");
+			Console.WriteLine ("Lukas has done stuff ;O");
+			Console.ReadKey ();
 		}
 	}
 }
