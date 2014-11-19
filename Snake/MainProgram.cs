@@ -9,6 +9,7 @@ namespace Snake{
 		public static void Main (string[] args){
 			Form main = new MainFrame().getMainScreen();
 			Application.Run(new ExtendedForm());
+			Console.WriteLine("BRANCH");
 		}
 
 	}
