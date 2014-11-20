@@ -7,15 +7,17 @@ namespace Snake{
 		GraphicsState state;
 		public float angle;
 		public Point location;
+		private Point direction;
 		public RotateSquare(){
-
+		
 		
 		}
 
 		#region IGameObject implementation
 
 		public void passData (GameData newInfo){
-			throw new NotImplementedException();
+			direction.X += newInfo.point.X;
+			direction.Y += newInfo.point.Y;
 		}
 
 		public void update (double gameTime){
@@ -23,6 +25,8 @@ namespace Snake{
 			if(angle > 359){
 				angle = 0;
 			}
+			location.X += direction.X;
+			location.Y += direction.Y;
 
 		}
 
@@ -51,7 +55,7 @@ namespace Snake{
 			//Matrix 1
 			Matrix mx = new Matrix();
 			mx.Rotate(angle, MatrixOrder.Append);
-			mx.Translate(500, 500, MatrixOrder.Append);
+			mx.Translate(this.location.X, this.location.Y, MatrixOrder.Append);
 			brush.Transform = mx;
 			brush.FillRectangle(Brushes.Black, -100, -100, 200, 200);
 		}
