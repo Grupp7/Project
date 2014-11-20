@@ -60,7 +60,7 @@ namespace Snake
 			if(angle > 359){
 				angle = 0;
 			}
-			Invalidate();
+
 		}
 		private void updateBuffer (){
 		
