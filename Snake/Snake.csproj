@@ -44,7 +44,6 @@
     <Compile Include="Learning\ExtendedForm.cs" />
     <Compile Include="IModelUpdate.cs" />
     <Compile Include="SnakeModel.cs" />
-    <Compile Include="MainForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
