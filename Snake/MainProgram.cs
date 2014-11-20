@@ -9,9 +9,10 @@ namespace Snake{
 		[STAThread]
 		public static void Main (string[] args){
 
-			new MainFrame ();
-			//Application.Run(new ExtendedForm());
+
+			Application.Run(new MainFrame ());
 			//WorkerTheadExample.testarStuff ();
+
 		}
 
 	}

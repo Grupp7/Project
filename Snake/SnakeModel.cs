@@ -1,35 +1,53 @@
 ﻿using System;
 using System.Threading;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Snake
 {
 	public class SnakeModel:IModelUpdate
 	{
-		private volatile bool shouldStop;
+
 		private double timeElapsed;
+
+		private Point point;
+
+		private Char key;
+
 		public SnakeModel ()
 		{
-			shouldStop = false;
+
 
 		}
 
 		#region IModelUpdate implementation
 
-		public void update ()
+		public void update (object sender, System.Timers.ElapsedEventArgs e)
 		{
-			while (!shouldStop) {
+
 				timeElapsed++;
+			switch(this.key){
+			case (char)Keys.W:
+				point.Y -= 10;
 
+				break;
+			case (char)Keys.S:
+				point.Y += 10;
+			
+				break;
+			case (char)Keys.A:
+				point.X -= 10;
 
-				Thread.Sleep (20);
+				break;
+			case (char)Keys.D:
+				point.X += 10;
+
+				break;
 			}
-			Console.WriteLine ("worker Snakethread: terminating gracefully.");
+
+
 		}
 
-		public void requestStop ()
-		{
-			shouldStop = true;
-		}
 
 
 		public double getCounter ()
@@ -37,7 +55,22 @@ namespace Snake
 			return timeElapsed;
 
 		}
+
+		public void setPos (Point point)
+		{
+			this.point = point;
+		}
+
+		public System.Drawing.Point getPos ()
+		{
+			return point;
+		}
+
+		public void sendKey (Char key)
+		{
+			this.key = key;
+		}
 		#endregion
 	}
-}
 
+}

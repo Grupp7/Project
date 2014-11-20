@@ -22,6 +22,7 @@ namespace Snake{
 			this.frameRateTimer = new System.Windows.Forms.Timer(this.components);
 			this.frameRateTimer.Enabled = true;
 			this.frameRateTimer.Tick += new System.EventHandler(this.rotateAngle);
+			frameRateTimer.Interval = 16;
 			this.KeyPress +=	new KeyPressEventHandler(this.extendedFormKeyPressed);
 		}
 
