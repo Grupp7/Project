@@ -44,7 +44,7 @@ namespace Snake
 			this.keyInputTimer.Tick += new System.EventHandler(this.rotateAngle);
 			keyInputTimer.Interval = 1;
 			this.KeyPress +=	new KeyPressEventHandler(this.extendedFormKeyPressed);
-
+			this.DoubleBuffered = true;
 
 		}
 
