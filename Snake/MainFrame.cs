@@ -19,7 +19,7 @@ namespace Snake
 		private System.Windows.Forms.Timer keyInputTimer;
 		private float angle;
 		private IContainer components;
-
+		RotateSquare test = new RotateSquare();
 		private volatile Bitmap backBuffer;
 
 		public MainFrame ()
@@ -30,7 +30,9 @@ namespace Snake
 			rotateUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
 			rotateUpdateTimer.Elapsed += rotateAngle;
 			rotateUpdateTimer.Enabled = true;
-
+			test.location.X = 0;
+			test.location.Y = 0;
+			test.angle = 0;
 			//Init frameTimer
 			snakeUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
 			snakeUpdateTimer.Enabled = true;
@@ -70,7 +72,7 @@ namespace Snake
 			if(angle > 359){
 				angle = 0;
 			}
-		
+			test.update(5);
 
 		}
 		private void updateBuffer (){
@@ -139,6 +141,9 @@ namespace Snake
 
 			// Draw string to screen.
 			g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat);
+
+
+			test.draw(g);
 			g.Dispose();
 
 		}

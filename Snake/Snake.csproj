@@ -47,6 +47,7 @@
     <Compile Include="IGameObject.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="GameObjectCollection.cs" />
+    <Compile Include="RotateSquare.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
