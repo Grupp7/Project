@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using System.Timers;
 
 namespace Snake{
 	public class MainProgram{
@@ -8,9 +9,9 @@ namespace Snake{
 		[STAThread]
 		public static void Main (string[] args){
 
-			Form main = new MainFrame().getMainScreen();
-			Application.Run(new ExtendedForm());
-			WorkerTheadExample.testarStuff ();
+			new MainFrame ();
+			//Application.Run(new ExtendedForm());
+			//WorkerTheadExample.testarStuff ();
 		}
 
 	}

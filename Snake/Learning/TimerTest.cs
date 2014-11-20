@@ -3,43 +3,7 @@ using System.Timers;
 using System.Threading;
 namespace Snake
 {  
-	public class ShowDirektion
-	{
 
-
-		private volatile bool shouldStop = false;
-
-		public void snakeDirektion()
-		{
-
-			while (!shouldStop)
-			{
-				Console.Clear();
-				switch(DataStuff.Direktion.Key)
-				{
-				case ConsoleKey.LeftArrow:
-					Console.WriteLine("{0} vänster", DataStuff.counter);
-					break;
-				case ConsoleKey.RightArrow:
-					Console.WriteLine("{0} höger", DataStuff.counter);
-					break;
-				case ConsoleKey.UpArrow:
-					Console.WriteLine("{0} upp", DataStuff.counter);
-					break;
-				default:
-					Console.WriteLine("{0} ner", DataStuff.counter) ;
-					break;
-				}
-				Thread.Sleep(20);
-			}
-			Console.WriteLine("worker thread: terminating gracefully.");
-		}
-		public void RequestStop()
-		{
-			shouldStop = true;
-		}
-
-	}
 	public class WorkerTheadExample
 	{
 
@@ -88,6 +52,46 @@ namespace Snake
 		{
 
 			DataStuff.counter++;
+		}
+
+	}
+	public class ShowDirektion
+	{
+
+
+		private volatile bool shouldStop = false;
+
+		public void snakeDirektion()
+		{
+
+			while (!shouldStop)
+			{
+				Console.Clear();
+				switch(DataStuff.Direktion.Key)
+				{
+				case ConsoleKey.LeftArrow:
+					Console.WriteLine("{0} vänster", DataStuff.counter);
+					break;
+				case ConsoleKey.RightArrow:
+					Console.WriteLine("{0} höger", DataStuff.counter);
+					break;
+				case ConsoleKey.UpArrow:
+					Console.WriteLine("{0} upp", DataStuff.counter);
+					break;
+				case ConsoleKey.DownArrow:
+					Console.WriteLine("{0} ner", DataStuff.counter) ;
+					break;
+				default:
+
+					break;
+				}
+				Thread.Sleep(20);
+			}
+			Console.WriteLine("worker thread: terminating gracefully.");
+		}
+		public void RequestStop()
+		{
+			shouldStop = true;
 		}
 
 	}

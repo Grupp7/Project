@@ -42,6 +42,8 @@
     <Compile Include="Learning\TimerTest.cs" />
     <Compile Include="Learning\FormWrapper.cs" />
     <Compile Include="Learning\ExtendedForm.cs" />
+    <Compile Include="IModelUpdate.cs" />
+    <Compile Include="SnakeModel.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
