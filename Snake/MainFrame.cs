@@ -32,7 +32,7 @@ namespace Snake
 			rotateUpdateTimer.Enabled = true;
 
 			//Init frameTimer
-			snakeUpdateTimer = new System.Timers.Timer (200); // behövde tydligen skriva hela namnet
+			snakeUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
 			snakeUpdateTimer.Enabled = true;
 
 			snakeModel = new SnakeModel ();
@@ -42,7 +42,7 @@ namespace Snake
 			this.keyInputTimer = new System.Windows.Forms.Timer(this.components);
 			this.keyInputTimer.Enabled = true;
 			this.keyInputTimer.Tick += new System.EventHandler(this.rotateAngle);
-			keyInputTimer.Interval = 1;
+			//keyInputTimer.Interval = 1;
 			this.KeyPress +=	new KeyPressEventHandler(this.extendedFormKeyPressed);
 			this.DoubleBuffered = true;
 
@@ -171,6 +171,8 @@ namespace Snake
 		protected override void OnPaintBackground (PaintEventArgs pevent){
 		}
 
+
+	
 	}
 }
 

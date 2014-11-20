@@ -28,19 +28,19 @@ namespace Snake
 				timeElapsed++;
 			switch(this.key){
 			case (char)Keys.W:
-				point.Y -= 10;
+				point.Y -= 5;
 
 				break;
 			case (char)Keys.S:
-				point.Y += 10;
+				point.Y += 5;
 			
 				break;
 			case (char)Keys.A:
-				point.X -= 10;
+				point.X -= 5;
 
 				break;
 			case (char)Keys.D:
-				point.X += 10;
+				point.X += 5;
 
 				break;
 			}
