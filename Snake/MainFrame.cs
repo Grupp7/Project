@@ -44,22 +44,33 @@ namespace Snake
 			this.keyInputTimer.Tick += new System.EventHandler(this.rotateAngle);
 			//keyInputTimer.Interval = 1;
 			this.KeyPress +=	new KeyPressEventHandler(this.extendedFormKeyPressed);
-			this.DoubleBuffered = true;
+
+			//This form is double buffered
+			SetStyle(
+				ControlStyles.AllPaintingInWmPaint |
+				ControlStyles.DoubleBuffer |
+				ControlStyles.ResizeRedraw |
+				ControlStyles.UserPaint,
+				true);
 
 		}
 
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
 			snakeModel.sendKey (e.KeyChar);
+
+
 		}
 
 
 
 
 		private void rotateAngle (object sender, System.EventArgs e){
+
 			angle += 1;
 			if(angle > 359){
 				angle = 0;
 			}
+		
 
 		}
 		private void updateBuffer (){
@@ -152,12 +163,13 @@ namespace Snake
 		protected override void OnPaint (PaintEventArgs e){
 			Console.Clear ();
 			Invalidate();
-		
+
 			updateGameData ();
 			renderUpdate ();
 			putToScreen ();
 			//Move/copy the backBuffer off to the screen
 			//"The Bitmap" object we have painted on
+
 			e.Graphics.DrawImageUnscaled(backBuffer, 0, 0);
 		}
 		protected override void OnSizeChanged (EventArgs e){

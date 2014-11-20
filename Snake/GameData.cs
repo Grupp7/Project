@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Snake
 {
-	class GameData
+	public class GameData
 	{
 	}
 
