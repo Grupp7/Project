@@ -28,7 +28,7 @@ namespace Snake
 			this.Show ();
 			this.components = new System.ComponentModel.Container();
 			//Init frameTimer
-			rotateUpdateTimer = new System.Timers.Timer (100); // behövde tydligen skriva hela namnet
+			rotateUpdateTimer = new System.Timers.Timer (400); // behövde tydligen skriva hela namnet
 			rotateUpdateTimer.Elapsed += rotateAngle;
 			rotateUpdateTimer.Enabled = true;
 			test.location.X = 0;
@@ -89,7 +89,7 @@ namespace Snake
 			Graphics g = Graphics.FromImage(backBuffer);
 			g.Clear(Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
-
+			snakeStuff.draw (g);
 			//Matrix 1
 			Matrix mx = new Matrix();
 			mx.Rotate(angle, MatrixOrder.Append);
@@ -148,7 +148,8 @@ namespace Snake
 
 
 			test.draw(g);
-			snakeStuff.draw (g);
+
+
 			g.Dispose();
 
 		}

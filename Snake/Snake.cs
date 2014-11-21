@@ -1,36 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace Snake
 {
-	public struct snakeparts
-	{
-		public int cordX;
-		public int cordY;
 
-	
-	}
 	public class Snake:IGameObject
 	{
-		int X;
-		int Y;
-		Userinput userInput;
-		List <snakeparts> snakeBody;
-		snakeparts firstPart;
-		snakeparts part;
 
+		GraphicsState state;
+		private  volatile LinkedList<Point> snakeBody;
+		private int currentDirection = 1;
+		private Point newDirection =new Point (100,100);
+		private int turnCounter;
 
 		public Snake ()
 		{
-//			userInput = new Userinput ();
-//			snakeBody = new List<snakeparts> ();
-//			firstPart = new snakeparts ();
-//			part = new snakeparts();
-//			X = userInput.x;
-//			Y = userInput.y;
+			snakeBody = new LinkedList<Point> ();
+
+			snakeBody.AddFirst ( new Point (100, 140));
+			snakeBody.AddFirst ( new Point (100, 120));
+			snakeBody.AddFirst ( new Point (100, 100));
+
 		
+
 		}
+
+
 		#region IGameObject implementation
 
 		/// <summary>
@@ -39,7 +36,7 @@ namespace Snake
 		/// <param name="newInfo">New info.</param>
 		public void passData (GameData newInfo)
 		{
-		
+
 		}
 
 		/// <summary>
@@ -49,6 +46,17 @@ namespace Snake
 		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime)
 		{
+			snakeBody.RemoveFirst ();
+			getNewDirection ();
+			snakeBody.AddLast(newDirection);
+			turnCounter++;
+			if(turnCounter >10){
+				if(currentDirection ==4){
+					currentDirection = 0;
+				}
+				currentDirection++;
+				turnCounter = 0;
+			}
 
 		}
 
@@ -58,12 +66,11 @@ namespace Snake
 		/// <param name="brush">Brush.</param>
 		public void draw (System.Drawing.Graphics brush)
 		{
-			Pen rectanglePen = new Pen(Color.AliceBlue);
-			rectanglePen.Color = Color.Aqua;
-			Rectangle rect = new Rectangle (1, 2, 20, 30);
-			brush.DrawRectangle (rectanglePen,rect);
 
-			Pen myPen= new Pen(Color.Black);
+		
+			//setupTransform(brush);
+			renderObject(brush);
+			//restoreTransform(brush);
 
 		}
 
@@ -74,17 +81,59 @@ namespace Snake
 
 		#endregion
 
-		private void setFirstPart()
+		private void getNewDirection()
 		{
-			firstPart.cordX = X;
-			firstPart.cordY = Y;
+			int lenght = snakeBody.Count;
+			switch (currentDirection) 
+			{
+			case 1:
+				//Console.WriteLine ("snakeMoveRight");
+				newDirection = new Point (snakeBody.Last.Value.X + 20, snakeBody.Last.Value.Y);
+				break;
+			case 2:
+				//Console.WriteLine ("SnakeMoveLeft");
+				newDirection =  new Point (snakeBody.Last.Value.X - 20, snakeBody.Last.Value.Y);
+				break;
+			case 3:
+				//Console.WriteLine ("snakeMoveUp");
+				newDirection =  new Point (snakeBody.Last.Value.X, snakeBody.Last.Value.Y + 20);
+				break;
+			case 4:
+				//snakeMoveDown
+				newDirection =  new Point (snakeBody.Last.Value.X, snakeBody.Last.Value.Y - 20);
+				break;
+			default:
+				newDirection =  new Point (0, 0);
+				break;
+			}
 		}
-		private void move ()
-		{
-			int lastPart;
-			lastPart = snakeBody.Count;
-			snakeBody.RemoveAt (lastPart);
-			snakeBody.Insert (0, firstPart);
+		void setupTransform (Graphics brush){
+			state=brush.Save();		
+
+		}
+
+		void renderObject (Graphics brush){
+			SolidBrush myBrush = new SolidBrush(Color.Green);
+
+
+//			for (int i = 0; i < snakeBody.Count; i++) 
+//			{
+//				//Rectangle cir = new Rectangle (snakeBody[i].X,snakeBody[i].Y, 20, 20);
+//				//brush.FillEllipse (myBrush, cir);
+//
+//			}
+			foreach (var item in snakeBody)
+			{
+
+				Rectangle cir = new Rectangle (item.X,item.Y, 20, 20);
+				brush.FillEllipse (myBrush, cir);
+			}
+	
+
+		}
+
+		void restoreTransform (Graphics brush){
+			brush.Restore(state);
 		}
 	}
 }
