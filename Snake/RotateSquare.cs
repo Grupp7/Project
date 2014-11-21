@@ -57,7 +57,7 @@ namespace Snake{
 			mx.Rotate(angle, MatrixOrder.Append);
 			mx.Translate(this.location.X, this.location.Y, MatrixOrder.Append);
 			brush.Transform = mx;
-			brush.FillRectangle(Brushes.Black, -100, -100, 200, 200);
+			brush.FillRectangle(Brushes.DarkKhaki, -100, -100, 200, 200);
 		}
 
 		void restoreTransform (Graphics brush){

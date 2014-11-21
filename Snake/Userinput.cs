@@ -8,24 +8,21 @@ namespace Snake
 		// Current keypress for move
 		int currentKey = 3;
 		//current key pressed
-		int key = keyPress;
+		//int key = keyPress;
 		// Map Coordinates
 		public int x = 0;
 		public int y = 0;
 		// Main
-		public void Main ()
-		{
-			Userinput ();
-		}
+
 		// program
 		public Userinput ()
 		{
 			keyPress();
-			if (snakeDirection = true) {
+			if (snakeDirection() == true) {
 
 
 			} else {
-				currentKey = key;
+			//	currentKey = key;
 			}
 			move ();
 
@@ -33,18 +30,23 @@ namespace Snake
 		// check what direction
 		public bool snakeDirection()
 		{
-			bool Direction;
+			bool Direction = false;
 
-
-			if (key = 0 || key == currentKey) {
-				Direction = true;
-			} else {
-				Direction = false;
-			}
+//
+//			if (key == 0 || key == currentKey) {
+//				Direction = true;
+//			} else {
+//				Direction = false;
+//			}
 
 			return Direction;
 		}
-		// check keypress
+
+
+		/// <summary>
+		/// Keies the press.
+		/// </summary>
+		/// <returns>The press.</returns>
 		public int keyPress()
 		{
 			string keypressed;
@@ -52,22 +54,22 @@ namespace Snake
 			const int rightKey = 1 , leftKey= 2 , upKey= 3 , downKey= 4;
 
 			keypressed = Console.ReadLine ();
-
-			switch(keypressed)
-			{
-			case ConsoleKey.LeftArrow:
-				key = leftKey;
-				break;
-			case ConsoleKey.RightArrow:
-				key = rightKey;
-				break;
-			case ConsoleKey.UpArrow:
-				key = upKey;
-				break;
-			case ConsoleKey.DownArrow:
-				key = downKey;
-				break;
-			}
+//
+//			switch(keypressed)
+//			{
+//			case ConsoleKey.LeftArrow:
+//				key = leftKey;
+//				break;
+//			case ConsoleKey.RightArrow:
+//				key = rightKey;
+//				break;
+//			case ConsoleKey.UpArrow:
+//				key = upKey;
+//				break;
+//			case ConsoleKey.DownArrow:
+//				key = downKey;
+//				break;
+//			}
 
 			return key;
 		}

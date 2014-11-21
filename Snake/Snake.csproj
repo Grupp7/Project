@@ -48,15 +48,15 @@
     <Compile Include="GameData.cs" />
     <Compile Include="GameObjectCollection.cs" />
     <Compile Include="RotateSquare.cs" />
+    <Compile Include="Snake.cs" />
+    <Compile Include="Userinput.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Learning\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Learning\Userinput.cs" />
     <None Include="Learning\GameUpdate.cs" />
     <None Include="Learning\GameData.cs" />
-    <None Include="Learning\Snake.cs" />
   </ItemGroup>
 </Project>

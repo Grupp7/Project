@@ -20,6 +20,7 @@ namespace Snake
 		private float angle;
 		private IContainer components;
 		RotateSquare test = new RotateSquare();
+		Snake snakeStuff = new Snake();
 		private volatile Bitmap backBuffer;
 
 		public MainFrame ()
@@ -27,12 +28,14 @@ namespace Snake
 			this.Show ();
 			this.components = new System.ComponentModel.Container();
 			//Init frameTimer
-			rotateUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
+			rotateUpdateTimer = new System.Timers.Timer (100); // behövde tydligen skriva hela namnet
 			rotateUpdateTimer.Elapsed += rotateAngle;
 			rotateUpdateTimer.Enabled = true;
 			test.location.X = 0;
 			test.location.Y = 0;
 			test.angle = 0;
+
+
 			//Init frameTimer
 			snakeUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
 			snakeUpdateTimer.Enabled = true;
@@ -60,7 +63,7 @@ namespace Snake
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
 			snakeModel.sendKey (e.KeyChar);
 			test.passData(new GameData(e.KeyChar));
-
+			snakeStuff.passData(new GameData(e.KeyChar));
 		}
 
 
@@ -73,6 +76,7 @@ namespace Snake
 				angle = 0;
 			}
 			test.update(5);
+			snakeStuff.update (5);
 
 		}
 		private void updateBuffer (){
@@ -144,6 +148,7 @@ namespace Snake
 
 
 			test.draw(g);
+			snakeStuff.draw (g);
 			g.Dispose();
 
 		}
