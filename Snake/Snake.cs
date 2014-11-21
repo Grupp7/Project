@@ -10,10 +10,12 @@ namespace Snake
 	{
 
 		GraphicsState state;
-		private  volatile LinkedList<Point> snakeBody;
+		private LinkedList<Point> snakeBody;
 		private int currentDirection = 1;
 		private Point newDirection =new Point (100,100);
 		private int turnCounter;
+
+		private volatile bool isAvailable;
 
 		public Snake ()
 		{
@@ -23,7 +25,7 @@ namespace Snake
 			snakeBody.AddFirst ( new Point (100, 120));
 			snakeBody.AddFirst ( new Point (100, 100));
 
-		
+			isAvailable = true;
 
 		}
 
@@ -46,18 +48,22 @@ namespace Snake
 		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime)
 		{
-			snakeBody.RemoveFirst ();
-			getNewDirection ();
-			snakeBody.AddLast(newDirection);
-			turnCounter++;
-			if(turnCounter >10){
-				if(currentDirection ==4){
-					currentDirection = 0;
+			if(isAvailable){
+				isAvailable = false;
+				snakeBody.RemoveFirst ();
+				getNewDirection ();
+				snakeBody.AddLast(newDirection);
+				turnCounter++;
+				if(turnCounter >10){
+					if(currentDirection ==4){
+						currentDirection = 0;
+					}
+					currentDirection++;
+					turnCounter = 0;
 				}
-				currentDirection++;
-				turnCounter = 0;
 			}
-
+		
+			isAvailable = true;
 		}
 
 		/// <summary>
@@ -113,7 +119,9 @@ namespace Snake
 		}
 
 		void renderObject (Graphics brush){
-			SolidBrush myBrush = new SolidBrush(Color.Green);
+			if (isAvailable) {
+				isAvailable = false;
+			SolidBrush myBrush = new SolidBrush (Color.Green);
 
 
 //			for (int i = 0; i < snakeBody.Count; i++) 
@@ -122,13 +130,12 @@ namespace Snake
 //				//brush.FillEllipse (myBrush, cir);
 //
 //			}
-			foreach (var item in snakeBody)
-			{
+			foreach (var item in snakeBody) {
 
-				Rectangle cir = new Rectangle (item.X,item.Y, 20, 20);
+				Rectangle cir = new Rectangle (item.X, item.Y, 20, 20);
 				brush.FillEllipse (myBrush, cir);
 			}
-	
+			}isAvailable = true;
 
 		}
 

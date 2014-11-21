@@ -14,12 +14,13 @@ namespace Snake
 		//Specifik name needed for init
 		private System.Timers.Timer rotateUpdateTimer;
 		private System.Timers.Timer snakeUpdateTimer;
-		private IModelUpdate snakeModel;
+		private System.Timers.Timer snakeTimer;
+//		private IModelUpdate snakeModel;
 		private double timeElapsed;
 		private System.Windows.Forms.Timer keyInputTimer;
 		private float angle;
 		private IContainer components;
-		RotateSquare test = new RotateSquare();
+//		RotateSquare test = new RotateSquare();
 		Snake snakeStuff = new Snake();
 		private volatile Bitmap backBuffer;
 
@@ -28,21 +29,22 @@ namespace Snake
 			this.Show ();
 			this.components = new System.ComponentModel.Container();
 			//Init frameTimer
-			rotateUpdateTimer = new System.Timers.Timer (400); // behövde tydligen skriva hela namnet
+			rotateUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
 			rotateUpdateTimer.Elapsed += rotateAngle;
 			rotateUpdateTimer.Enabled = true;
-			test.location.X = 0;
-			test.location.Y = 0;
-			test.angle = 0;
-
-
+//			test.location.X = 0;
+//			test.location.Y = 0;
+//			test.angle = 0;
+			snakeTimer = new  System.Timers.Timer (400);
+			snakeTimer.Elapsed += tick;
+			snakeTimer.Enabled = true;
 			//Init frameTimer
 			snakeUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
 			snakeUpdateTimer.Enabled = true;
-
-			snakeModel = new SnakeModel ();
-			snakeUpdateTimer.Elapsed += snakeModel.update;
-
+//
+//			snakeModel = new SnakeModel ();
+//			snakeUpdateTimer.Elapsed += snakeModel.update;
+//
 			//keyInputTimer init
 			this.keyInputTimer = new System.Windows.Forms.Timer(this.components);
 			this.keyInputTimer.Enabled = true;
@@ -61,13 +63,15 @@ namespace Snake
 		}
 
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
-			snakeModel.sendKey (e.KeyChar);
-			test.passData(new GameData(e.KeyChar));
-			snakeStuff.passData(new GameData(e.KeyChar));
+			//snakeModel.sendKey (e.KeyChar);
+			//test.passData(new GameData(e.KeyChar));
+			//snakeStuff.passData(new GameData(e.KeyChar));
 		}
 
 
-
+		private void tick(object sender, System.EventArgs e){
+			snakeStuff.update (5);
+		}
 
 		private void rotateAngle (object sender, System.EventArgs e){
 
@@ -75,8 +79,8 @@ namespace Snake
 			if(angle > 359){
 				angle = 0;
 			}
-			test.update(5);
-			snakeStuff.update (5);
+			//test.update(5);
+
 
 		}
 		private void updateBuffer (){
@@ -111,18 +115,18 @@ namespace Snake
 			g.Transform = mx;
 			g.FillRectangle(Brushes.Blue, -50, -50, 100, 100);
 
-			//Matrix 3
-			mx = new Matrix();
-			mx.Rotate((-angle * 4), MatrixOrder.Append);
-			float temp = this.ClientSize.Width / 2 +snakeModel.getPos().X ;
-			float temp2 = this.ClientSize.Height / 2  +snakeModel.getPos().Y;
-			mx.Translate(temp, temp2, MatrixOrder.Append);
-			g.Transform = mx;
-			g.FillRectangle(Brushes.PowderBlue, -50, -50, 100, 100);
-
-
-			// Create string to draw.
-			String drawString = "M: " + timeElapsed + " S: " + snakeModel.getCounter ();
+//			//Matrix 3
+//			mx = new Matrix();
+//			mx.Rotate((-angle * 4), MatrixOrder.Append);
+//			float temp = this.ClientSize.Width / 2 +snakeModel.getPos().X ;
+//			float temp2 = this.ClientSize.Height / 2  +snakeModel.getPos().Y;
+//			mx.Translate(temp, temp2, MatrixOrder.Append);
+//			g.Transform = mx;
+//			g.FillRectangle(Brushes.PowderBlue, -50, -50, 100, 100);
+//
+//
+//			// Create string to draw.
+//			String drawString = string.Format ("M: {0} S: {1}", timeElapsed, snakeModel.getCounter ());
 
 			// Create font and brush.
 			Font drawFont = new Font("Arial", 16);
@@ -144,10 +148,10 @@ namespace Snake
 			drawFormat.Alignment = StringAlignment.Center;
 
 			// Draw string to screen.
-			g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat);
+//			g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat);
 
 
-			test.draw(g);
+			//test.draw(g);
 
 
 			g.Dispose();
@@ -163,7 +167,7 @@ namespace Snake
 		{
 
 			Console.WriteLine ("Off to SCREEN");
-			Console.WriteLine ("MAINFRAMECOUNTER: " + timeElapsed + " SNAKECOUNTER: " + snakeModel.getCounter ());
+//			Console.WriteLine ("MAINFRAMECOUNTER: " + timeElapsed + " SNAKECOUNTER: " + snakeModel.getCounter ());
 		}
 
 		private void updateGameData ()
