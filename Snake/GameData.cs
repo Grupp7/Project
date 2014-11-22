@@ -6,10 +6,13 @@ namespace Snake
 {
 	public class GameData
 	{
-		char key;
+		public char key;
 
 		public Point point;
 
+		public GameData(){
+
+		}
 		public GameData(char keyChar){
 		
 			switch(keyChar){

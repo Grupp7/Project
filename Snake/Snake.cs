@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace Snake
 {
@@ -38,7 +39,24 @@ namespace Snake
 		/// <param name="newInfo">New info.</param>
 		public void passData (GameData newInfo)
 		{
+			switch(newInfo.key){
+			case (char)Keys.W:
+				currentDirection =1;
 
+				break;
+			case (char)Keys.S:
+				currentDirection =2;
+
+				break;
+			case (char)Keys.A:
+				currentDirection =3;
+
+				break;
+			case (char)Keys.D:
+				currentDirection =4;
+			
+				break;
+			}
 		}
 
 		/// <summary>

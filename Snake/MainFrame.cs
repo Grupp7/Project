@@ -65,7 +65,9 @@ namespace Snake
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
 			//snakeModel.sendKey (e.KeyChar);
 			//test.passData(new GameData(e.KeyChar));
-			//snakeStuff.passData(new GameData(e.KeyChar));
+			GameData temp = new GameData ();
+			temp.key = e.KeyChar;
+			snakeStuff.passData(temp);
 		}
 
 
