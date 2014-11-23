@@ -110,22 +110,26 @@ namespace Snake
 
 		private void collision ()
 		{
-			Random rand = new Random ();
-			int maxX = 500;
-			int maxY = 500;
-			int foodX = rand.Next(20, 20*maxX)/20;
-			int foodY = rand.Next(20, 20*maxY)/20;
+
+
 			if (snakeBody.Contains(newDirection))
 			{
-				Console.WriteLine (" Snake död ");
+				//Console.WriteLine (" Snake död ");
 			}
 			if (foodList.Contains (newDirection)) 
 			{
-				Console.WriteLine (" food taken ");
+				Random rand = new Random ();
+				int maxX = 500;
+				int maxY = 500;
+				int foodX = rand.Next(1, maxX/20+1)*20;
+				int foodY = rand.Next(1, maxY/20+1)*20;
+				//Console.WriteLine (" food taken ");
 				foodList.RemoveFirst ();
 				foodList.AddFirst ( new Point (foodX, foodY));
 				snakeGrow = true;
+				//Console.WriteLine ("x {0} y {1}", foodX, foodY);
 			}
+
 		}
 
 
