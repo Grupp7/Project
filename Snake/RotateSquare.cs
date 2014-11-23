@@ -8,8 +8,11 @@ namespace Snake{
 		public float angle;
 		public Point location;
 		private Point direction;
+		private double speed = 50;
+		private double distance;
+		private bool addDistance=true;
 		public RotateSquare(){
-		
+			speed = 2;
 		
 		}
 
@@ -18,6 +21,9 @@ namespace Snake{
 		public void passData (GameData newInfo){
 			direction.X += newInfo.point.X;
 			direction.Y += newInfo.point.Y;
+			speed = 50;
+
+		
 		}
 
 		public void update (double gameTime){
@@ -25,8 +31,24 @@ namespace Snake{
 			if(angle > 359){
 				angle = 0;
 			}
-			location.X += direction.X;
-			location.Y += direction.Y;
+			double yDiff = location.Y - direction.Y;
+			double xDiff = location.X - direction.X;
+
+
+				location.X -= (int)(xDiff / speed);
+
+
+
+				location.Y -= (int)(yDiff/speed);
+	
+		
+			if((int)(yDiff/speed) ==0){
+
+				direction.X *= -1;
+				direction.Y *= -1;
+		
+			}
+		
 
 		}
 

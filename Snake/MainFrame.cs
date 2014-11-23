@@ -20,7 +20,7 @@ namespace Snake
 		private System.Windows.Forms.Timer keyInputTimer;
 		private float angle;
 		private IContainer components;
-//		RotateSquare test = new RotateSquare();
+		RotateSquare test = new RotateSquare();
 		Snake snakeStuff = new Snake();
 		private volatile Bitmap backBuffer;
 
@@ -32,9 +32,13 @@ namespace Snake
 			rotateUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
 			rotateUpdateTimer.Elapsed += rotateAngle;
 			rotateUpdateTimer.Enabled = true;
-//			test.location.X = 0;
-//			test.location.Y = 0;
+			test.location.X = 0;
+			test.location.Y = 0;
 //			test.angle = 0;
+			GameData temp = new GameData ();
+			temp.point.X = 700;
+			temp.point.Y = 700;
+			test.passData(temp);
 			snakeTimer = new  System.Timers.Timer (400);
 			snakeTimer.Elapsed += tick;
 			snakeTimer.Enabled = true;
@@ -81,7 +85,7 @@ namespace Snake
 			if(angle > 359){
 				angle = 0;
 			}
-			//test.update(5);
+			test.update(5);
 
 
 		}
@@ -153,7 +157,7 @@ namespace Snake
 //			g.DrawString(drawString, drawFont, drawBrush, drawRect, drawFormat);
 
 
-			//test.draw(g);
+			test.draw(g);
 
 
 			g.Dispose();
