@@ -40,16 +40,16 @@
     <Compile Include="MainProgram.cs" />
     <Compile Include="MainFrame.cs" />
     <Compile Include="Learning\TimerTest.cs" />
-    <Compile Include="Learning\FormWrapper.cs" />
-    <Compile Include="Learning\ExtendedForm.cs" />
     <Compile Include="GameObjects\ParticleSystem.cs" />
     <Compile Include="GameObjects\RotateSquare.cs" />
-    <Compile Include="GameObjects\Snake.cs" />
     <Compile Include="GameObjects\IGameObject.cs" />
     <Compile Include="GameObjects\GameObjectCollection.cs" />
-    <Compile Include="Learning\Userinput.cs" />
     <Compile Include="GameObjects\GameCamera.cs" />
     <Compile Include="GameObjects\GameData.cs" />
+    <Compile Include="GameObjects\SnakeObject.cs" />
+    <Compile Include="Learning\FormWrapperTest.cs" />
+    <Compile Include="Learning\UserinputTest.cs" />
+    <Compile Include="Learning\ExtendedFormTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -58,6 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Learning\GameUpdate.cs" />
-    <None Include="Learning\GameData.cs" />
+    <None Include="Learning\GameDataTest.cs" />
   </ItemGroup>
 </Project>
