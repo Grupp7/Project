@@ -7,6 +7,10 @@ using System.ComponentModel;
 
 
 namespace Snake{
+
+	/// <summary>
+	/// Main frame.
+	/// </summary>
 	public class MainFrame:Form{
 
 		#region Forms and timers
@@ -118,6 +122,11 @@ namespace Snake{
 			}
 		}
 
+		/// <summary>
+		/// Tick the specified sender and e.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		private void tick (object sender, System.EventArgs e){
 			snakeStuff.update(5);
 			cameraPosition.X = snakeStuff.cameraPosition.X;
@@ -227,6 +236,10 @@ namespace Snake{
 			Console.WriteLine("Update gameData: " + timeElapsed);
 		}
 
+		/// <summary>
+		/// Raises the paint event.
+		/// </summary>
+		/// <param name="e">E.</param>
 		protected override void OnPaint (PaintEventArgs e){
 			Console.Clear();
 			Invalidate();
@@ -240,6 +253,10 @@ namespace Snake{
 			e.Graphics.DrawImageUnscaled(backBuffer, 0, 0);
 		}
 
+		/// <summary>
+		/// Raises the size changed event.
+		/// </summary>
+		/// <param name="e">E.</param>
 		protected override void OnSizeChanged (EventArgs e){
 			if(backBuffer!=null){
 				backBuffer.Dispose();
@@ -247,7 +264,12 @@ namespace Snake{
 			}
 			base.OnSizeChanged(e);
 		}
+
 		// No background paint
+		/// <summary>
+		/// Paints the background of the control.
+		/// </summary>
+		/// <param name="pevent">Pevent.</param>
 		protected override void OnPaintBackground (PaintEventArgs pevent){
 		}
 	}

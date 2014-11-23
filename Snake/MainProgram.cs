@@ -5,6 +5,10 @@ using System.Timers;
 using Snake;
 
 namespace Snake{
+
+	/// <summary>
+	/// Main program.
+	/// </summary>
 	public class MainProgram{
 
 		[STAThread]

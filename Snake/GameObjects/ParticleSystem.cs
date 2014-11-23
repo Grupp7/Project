@@ -1,6 +1,10 @@
 ﻿using System;
 
 namespace Snake{
+
+	/// <summary>
+	/// Particle system.
+	/// </summary>
 	public class ParticleSystem:IGameObject{
 		public ParticleSystem(){
 		}
