@@ -6,60 +6,46 @@ using System.Drawing.Drawing2D;
 using System.ComponentModel;
 
 
-namespace Snake
-{
-	public class MainFrame:Form
-	{
+namespace Snake{
+	public class MainFrame:Form{
 
+		#region Forms and timers
+
+		//Form specific stuff like graphics
+		private volatile Bitmap backBuffer;
+		private IContainer components;
 		//Specifik name needed for init
+		//Wondering if we only need one timer and
+		//put local speed in each gameobject
+		//that would make more sense to
+		// have one timer and method for each object
 		private System.Timers.Timer rotateUpdateTimer;
 		private System.Timers.Timer snakeUpdateTimer;
 		private System.Timers.Timer snakeTimer;
-//		private IModelUpdate snakeModel;
-		private double timeElapsed;
-		private System.Windows.Forms.Timer keyInputTimer;
-		private float angle;
-		private IContainer components;
-		RotateSquare test = new RotateSquare();
-		Snake snakeStuff = new Snake();
-		private volatile Bitmap backBuffer;
 
+		#endregion
+
+		//GameControllers
+		private System.Windows.Forms.Timer keyInputTimer;
+		private double timeElapsed;
 		private Point cameraPosition;
 
-		public MainFrame ()
-		{	cameraPosition.X = snakeStuff.cameraPosition.X;
-			cameraPosition.Y = snakeStuff.cameraPosition.Y;
+		//IGameObjects
+		RotateSquare test = new RotateSquare();
+		Snake snakeStuff = new Snake();
+	
+		//Testdata and stuff
+		private float angle;
 
-			this.Show ();
+		public MainFrame(){
+			initForm();
 			this.components = new System.ComponentModel.Container();
-			//Init frameTimer
-			rotateUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
-			rotateUpdateTimer.Elapsed += rotateAngle;
-			rotateUpdateTimer.Enabled = true;
-			test.location.X = 0;
-			test.location.Y = 0;
-//			test.angle = 0;
-			GameData temp = new GameData ();
-			temp.point.X = 700;
-			temp.point.Y = 700;
-			test.passData(temp);
-			snakeTimer = new  System.Timers.Timer (400);
-			snakeTimer.Elapsed += tick;
-			snakeTimer.Enabled = true;
-			//Init frameTimer
-			snakeUpdateTimer = new System.Timers.Timer (32); // behövde tydligen skriva hela namnet
-			snakeUpdateTimer.Enabled = true;
-//
-//			snakeModel = new SnakeModel ();
-//			snakeUpdateTimer.Elapsed += snakeModel.update;
-//
-			//keyInputTimer init
-			this.keyInputTimer = new System.Windows.Forms.Timer(this.components);
-			this.keyInputTimer.Enabled = true;
-			this.keyInputTimer.Tick += new System.EventHandler(this.rotateAngle);
-			//keyInputTimer.Interval = 1;
 			this.KeyPress +=	new KeyPressEventHandler(this.extendedFormKeyPressed);
+			initTestData();
+		}
 
+		private void initForm (){
+			this.Show();
 			//This form is double buffered
 			SetStyle(
 				ControlStyles.AllPaintingInWmPaint |
@@ -67,40 +53,73 @@ namespace Snake
 				ControlStyles.ResizeRedraw |
 				ControlStyles.UserPaint,
 				true);
+		}
+
+		private void initTestData (){
+			cameraPosition.X = snakeStuff.cameraPosition.X;
+			cameraPosition.Y = snakeStuff.cameraPosition.Y;
+
+
+
+			//Init frameTimer
+			rotateUpdateTimer = new System.Timers.Timer(32); // behövde tydligen skriva hela namnet
+			rotateUpdateTimer.Elapsed += rotateAngle;
+			rotateUpdateTimer.Enabled = true;
+			test.location.X = 0;
+			test.location.Y = 0;
+			//			test.angle = 0;
+			GameData temp = new GameData();
+			temp.point.X = 700;
+			temp.point.Y = 700;
+			test.passData(temp);
+			snakeTimer = new  System.Timers.Timer(400);
+			snakeTimer.Elapsed += tick;
+			snakeTimer.Enabled = true;
+			//Init frameTimer
+			snakeUpdateTimer = new System.Timers.Timer(32); // behövde tydligen skriva hela namnet
+			snakeUpdateTimer.Enabled = true;
+			//
+			//			snakeModel = new SnakeModel ();
+			//			snakeUpdateTimer.Elapsed += snakeModel.update;
+			//
+			//keyInputTimer init
+			this.keyInputTimer = new System.Windows.Forms.Timer(this.components);
+			this.keyInputTimer.Enabled = true;
+			this.keyInputTimer.Tick += new System.EventHandler(this.rotateAngle);
+			//keyInputTimer.Interval = 1;
 
 		}
 
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
 			//snakeModel.sendKey (e.KeyChar);
 			//test.passData(new GameData(e.KeyChar));
-			GameData temp = new GameData ();
+			GameData temp = new GameData();
 			temp.key = e.KeyChar;
 			temp.point = cameraPosition;
 			snakeStuff.passData(temp);
 			switch(e.KeyChar){
 			case (char)Keys.W:
-				cameraPosition.Y -=10;
+				cameraPosition.Y -= 10;
 
 				break;
 			case (char)Keys.S:
-				cameraPosition.Y +=10;
+				cameraPosition.Y += 10;
 
 				break;
 			case (char)Keys.A:
-				cameraPosition.X -=10;
+				cameraPosition.X -= 10;
 
 				break;
 			case (char)Keys.D:
-				cameraPosition.X +=10;
+				cameraPosition.X += 10;
 
 				break;
 
 			}
 		}
 
-
-		private void tick(object sender, System.EventArgs e){
-			snakeStuff.update (5);
+		private void tick (object sender, System.EventArgs e){
+			snakeStuff.update(5);
 			cameraPosition.X = snakeStuff.cameraPosition.X;
 			cameraPosition.Y = snakeStuff.cameraPosition.Y;
 
@@ -116,6 +135,7 @@ namespace Snake
 
 
 		}
+
 		private void updateBuffer (){
 		
 			if(backBuffer==null){
@@ -126,11 +146,11 @@ namespace Snake
 			Graphics g = Graphics.FromImage(backBuffer);
 			g.Clear(Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
-			snakeStuff.draw (g);
+			snakeStuff.draw(g);
 			//Matrix 1
 			Matrix mx = new Matrix();
 			mx.Rotate(angle, MatrixOrder.Append);
-			mx.Translate(this.ClientSize.Width / 2-cameraPosition.X, this.ClientSize.Height / 2-cameraPosition.Y, MatrixOrder.Append);
+			mx.Translate(this.ClientSize.Width / 2 - cameraPosition.X, this.ClientSize.Height / 2 - cameraPosition.Y, MatrixOrder.Append);
 			g.Transform = mx;
 			g.FillRectangle(Brushes.Red, -100, -100, 200, 200);
 
@@ -190,36 +210,36 @@ namespace Snake
 			g.Dispose();
 
 		}
-		private void renderUpdate ()
-		{
-			updateBuffer ();
-			Console.WriteLine ("RENDER BITMAP");
+
+		private void renderUpdate (){
+			updateBuffer();
+			Console.WriteLine("RENDER BITMAP");
 		}
 
-		private void putToScreen ()
-		{
+		private void putToScreen (){
 
-			Console.WriteLine ("Off to SCREEN");
+			Console.WriteLine("Off to SCREEN");
 //			Console.WriteLine ("MAINFRAMECOUNTER: " + timeElapsed + " SNAKECOUNTER: " + snakeModel.getCounter ());
 		}
 
-		private void updateGameData ()
-		{
+		private void updateGameData (){
 			timeElapsed++;
-			Console.WriteLine ("Update gameData: "+timeElapsed);
+			Console.WriteLine("Update gameData: " + timeElapsed);
 		}
+
 		protected override void OnPaint (PaintEventArgs e){
-			Console.Clear ();
+			Console.Clear();
 			Invalidate();
 
-			updateGameData ();
-			renderUpdate ();
-			putToScreen ();
+			updateGameData();
+			renderUpdate();
+			putToScreen();
 			//Move/copy the backBuffer off to the screen
 			//"The Bitmap" object we have painted on
 
 			e.Graphics.DrawImageUnscaled(backBuffer, 0, 0);
 		}
+
 		protected override void OnSizeChanged (EventArgs e){
 			if(backBuffer!=null){
 				backBuffer.Dispose();
@@ -230,9 +250,6 @@ namespace Snake
 		// No background paint
 		protected override void OnPaintBackground (PaintEventArgs pevent){
 		}
-
-
-	
 	}
 }
 
