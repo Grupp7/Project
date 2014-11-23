@@ -11,7 +11,9 @@ namespace Snake
 	{
 
 		GraphicsState state;
+		private LinkedList<Point> foodList;
 		private LinkedList<Point> snakeBody;
+		private bool snakeGrow = false;
 		private int currentDirection = 1;
 		private Point newDirection =new Point (100,100);
 		private int turnCounter;
@@ -27,6 +29,9 @@ namespace Snake
 			snakeBody.AddFirst ( new Point (100, 120));
 			snakeBody.AddFirst ( new Point (100, 100));
 
+
+			foodList = new LinkedList<Point> ();
+			foodList.AddFirst ( new Point (100, 180));
 			//isAvailable = true;
 
 		}
@@ -74,8 +79,17 @@ namespace Snake
 		
 			//if(isAvailable){
 				//isAvailable = false;
-				snakeBody.RemoveFirst ();
+				if (snakeGrow) 
+				{
+					snakeGrow = false;
+				}
+				else
+				{
+					snakeBody.RemoveFirst ();
+				}
+
 				getNewDirection ();
+				collision ();
 				snakeBody.AddLast(newDirection);
 				turnCounter++;
 				if(turnCounter >10){
@@ -93,6 +107,27 @@ namespace Snake
 
 			}
 		}
+
+		private void collision ()
+		{
+			Random rand = new Random ();
+			int maxX = 500;
+			int maxY = 500;
+			int foodX = rand.Next(20, 20*maxX)/20;
+			int foodY = rand.Next(20, 20*maxY)/20;
+			if (snakeBody.Contains(newDirection))
+			{
+				Console.WriteLine (" Snake död ");
+			}
+			if (foodList.Contains (newDirection)) 
+			{
+				Console.WriteLine (" food taken ");
+				foodList.RemoveFirst ();
+				foodList.AddFirst ( new Point (foodX, foodY));
+				snakeGrow = true;
+			}
+		}
+
 
 		/// <summary>
 		/// Draw the snakeparts here with the brush 60x
@@ -150,6 +185,13 @@ namespace Snake
 			lock(snakeBody){
 				//if(isAvailable){
 					//isAvailable = false;
+					SolidBrush myBrush2 = new SolidBrush (Color.DarkRed);
+					foreach (var item in foodList) 
+					{
+
+						Rectangle cir = new Rectangle (item.X, item.Y, 20, 20);
+						brush.FillEllipse (myBrush2, cir);
+					}
 					SolidBrush myBrush = new SolidBrush(Color.Green);
 
 
