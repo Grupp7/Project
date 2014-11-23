@@ -42,20 +42,19 @@
     <Compile Include="Learning\TimerTest.cs" />
     <Compile Include="Learning\FormWrapper.cs" />
     <Compile Include="Learning\ExtendedForm.cs" />
-    <Compile Include="IModelUpdate.cs" />
-    <Compile Include="SnakeModel.cs" />
-    <Compile Include="IGameObject.cs" />
-    <Compile Include="GameData.cs" />
-    <Compile Include="GameObjectCollection.cs" />
-    <Compile Include="RotateSquare.cs" />
-    <Compile Include="Snake.cs" />
-    <Compile Include="Userinput.cs" />
-    <Compile Include="GameCamera.cs" />
-    <Compile Include="ParticleSystem.cs" />
+    <Compile Include="GameObjects\ParticleSystem.cs" />
+    <Compile Include="GameObjects\RotateSquare.cs" />
+    <Compile Include="GameObjects\Snake.cs" />
+    <Compile Include="GameObjects\IGameObject.cs" />
+    <Compile Include="GameObjects\GameObjectCollection.cs" />
+    <Compile Include="Learning\Userinput.cs" />
+    <Compile Include="GameObjects\GameCamera.cs" />
+    <Compile Include="GameObjects\GameData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Learning\" />
+    <Folder Include="GameObjects\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Learning\GameUpdate.cs" />
