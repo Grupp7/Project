@@ -15,9 +15,10 @@ namespace Snake
 		private int currentDirection = 1;
 		private Point newDirection =new Point (100,100);
 		private int turnCounter;
-		private bool grow;
-		private volatile bool isAvailable;
-
+//		private bool grow;
+//		private volatile bool isAvailable;
+//
+		public Point cameraPosition;
 		public Snake ()
 		{
 			snakeBody = new LinkedList<Point> ();
@@ -26,7 +27,7 @@ namespace Snake
 			snakeBody.AddFirst ( new Point (100, 120));
 			snakeBody.AddFirst ( new Point (100, 100));
 
-			isAvailable = true;
+			//isAvailable = true;
 
 		}
 
@@ -58,6 +59,7 @@ namespace Snake
 				break;
 		
 			}
+			cameraPosition = newInfo.point;
 		}
 
 		/// <summary>
@@ -83,6 +85,8 @@ namespace Snake
 					currentDirection++;
 					turnCounter = 0;
 				}
+				cameraPosition.X = snakeBody.First.Value.X;
+				cameraPosition.Y = snakeBody.First.Value.Y;
 			//}
 		
 			//isAvailable = true;
@@ -157,7 +161,7 @@ namespace Snake
 //			}
 					foreach(var item in snakeBody){
 
-						Rectangle cir = new Rectangle(item.X, item.Y, 20, 20);
+					Rectangle cir = new Rectangle(item.X, item.Y, 20, 20);
 						brush.FillEllipse(myBrush, cir);
 					}
 				//}

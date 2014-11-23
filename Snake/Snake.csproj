@@ -50,6 +50,7 @@
     <Compile Include="RotateSquare.cs" />
     <Compile Include="Snake.cs" />
     <Compile Include="Userinput.cs" />
+    <Compile Include="GameCamera.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

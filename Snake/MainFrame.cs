@@ -24,8 +24,12 @@ namespace Snake
 		Snake snakeStuff = new Snake();
 		private volatile Bitmap backBuffer;
 
+		private Point cameraPosition;
+
 		public MainFrame ()
-		{
+		{	cameraPosition.X = snakeStuff.cameraPosition.X;
+			cameraPosition.Y = snakeStuff.cameraPosition.Y;
+
 			this.Show ();
 			this.components = new System.ComponentModel.Container();
 			//Init frameTimer
@@ -71,12 +75,35 @@ namespace Snake
 			//test.passData(new GameData(e.KeyChar));
 			GameData temp = new GameData ();
 			temp.key = e.KeyChar;
+			temp.point = cameraPosition;
 			snakeStuff.passData(temp);
+			switch(e.KeyChar){
+			case (char)Keys.W:
+				cameraPosition.Y -=10;
+
+				break;
+			case (char)Keys.S:
+				cameraPosition.Y +=10;
+
+				break;
+			case (char)Keys.A:
+				cameraPosition.X -=10;
+
+				break;
+			case (char)Keys.D:
+				cameraPosition.X +=10;
+
+				break;
+
+			}
 		}
 
 
 		private void tick(object sender, System.EventArgs e){
 			snakeStuff.update (5);
+			cameraPosition.X = snakeStuff.cameraPosition.X;
+			cameraPosition.Y = snakeStuff.cameraPosition.Y;
+
 		}
 
 		private void rotateAngle (object sender, System.EventArgs e){
@@ -103,7 +130,7 @@ namespace Snake
 			//Matrix 1
 			Matrix mx = new Matrix();
 			mx.Rotate(angle, MatrixOrder.Append);
-			mx.Translate(this.ClientSize.Width / 2, this.ClientSize.Height / 2, MatrixOrder.Append);
+			mx.Translate(this.ClientSize.Width / 2-cameraPosition.X, this.ClientSize.Height / 2-cameraPosition.Y, MatrixOrder.Append);
 			g.Transform = mx;
 			g.FillRectangle(Brushes.Red, -100, -100, 200, 200);
 
