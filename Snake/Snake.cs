@@ -15,7 +15,7 @@ namespace Snake
 		private int currentDirection = 1;
 		private Point newDirection =new Point (100,100);
 		private int turnCounter;
-
+		private bool grow;
 		private volatile bool isAvailable;
 
 		public Snake ()
@@ -41,21 +41,22 @@ namespace Snake
 		{
 			switch(newInfo.key){
 			case (char)Keys.W:
-				currentDirection =1;
+				currentDirection =4;
 
 				break;
 			case (char)Keys.S:
-				currentDirection =2;
-
-				break;
-			case (char)Keys.A:
 				currentDirection =3;
 
 				break;
+			case (char)Keys.A:
+				currentDirection =2;
+
+				break;
 			case (char)Keys.D:
-				currentDirection =4;
+				currentDirection =1;
 			
 				break;
+		
 			}
 		}
 
@@ -66,8 +67,11 @@ namespace Snake
 		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime)
 		{
-			if(isAvailable){
-				isAvailable = false;
+			lock(snakeBody){
+				
+		
+			//if(isAvailable){
+				//isAvailable = false;
 				snakeBody.RemoveFirst ();
 				getNewDirection ();
 				snakeBody.AddLast(newDirection);
@@ -79,9 +83,11 @@ namespace Snake
 					currentDirection++;
 					turnCounter = 0;
 				}
-			}
+			//}
 		
-			isAvailable = true;
+			//isAvailable = true;
+
+			}
 		}
 
 		/// <summary>
@@ -137,9 +143,10 @@ namespace Snake
 		}
 
 		void renderObject (Graphics brush){
-			if (isAvailable) {
-				isAvailable = false;
-			SolidBrush myBrush = new SolidBrush (Color.Green);
+			lock(snakeBody){
+				//if(isAvailable){
+					//isAvailable = false;
+					SolidBrush myBrush = new SolidBrush(Color.Green);
 
 
 //			for (int i = 0; i < snakeBody.Count; i++) 
@@ -148,13 +155,14 @@ namespace Snake
 //				//brush.FillEllipse (myBrush, cir);
 //
 //			}
-			foreach (var item in snakeBody) {
+					foreach(var item in snakeBody){
 
-				Rectangle cir = new Rectangle (item.X, item.Y, 20, 20);
-				brush.FillEllipse (myBrush, cir);
+						Rectangle cir = new Rectangle(item.X, item.Y, 20, 20);
+						brush.FillEllipse(myBrush, cir);
+					}
+				//}
+				//isAvailable = true;
 			}
-			}isAvailable = true;
-
 		}
 
 		void restoreTransform (Graphics brush){
