@@ -51,6 +51,7 @@
     <Compile Include="Snake.cs" />
     <Compile Include="Userinput.cs" />
     <Compile Include="GameCamera.cs" />
+    <Compile Include="ParticleSystem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
