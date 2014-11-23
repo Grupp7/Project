@@ -62,5 +62,6 @@
   <ItemGroup>
     <None Include="Learning\GameUpdate.cs" />
     <None Include="Learning\GameDataTest.cs" />
+    <None Include="README.txt" />
   </ItemGroup>
 </Project>
