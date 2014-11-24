@@ -16,7 +16,7 @@ namespace Snake
 		private bool snakeGrow = false;
 		private int currentDirection = 1;
 		private Point newDirection =new Point (100,100);
-		private int turnCounter;
+//		private int turnCounter;
 //		private bool grow;
 //		private volatile bool isAvailable;
 //
@@ -102,14 +102,14 @@ namespace Snake
 				getNewDirection ();
 				collision ();
 				snakeBody.AddLast(newDirection);
-				turnCounter++;
-				if(turnCounter >10){
-					if(currentDirection ==4){
-						currentDirection = 0;
-					}
-					currentDirection++;
-					turnCounter = 0;
-				}
+//				turnCounter++;
+//				if(turnCounter >10){
+//					if(currentDirection ==4){
+//						currentDirection = 0;
+//					}
+//					currentDirection++;
+//					turnCounter = 0;
+//				}
 				cameraPosition.X = snakeBody.First.Value.X;
 				cameraPosition.Y = snakeBody.First.Value.Y;
 			//}
