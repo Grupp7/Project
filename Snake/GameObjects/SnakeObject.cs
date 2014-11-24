@@ -47,19 +47,30 @@ namespace Snake
 		{
 			switch(newInfo.key){
 			case (char)Keys.W:
+				if(currentDirection !=3)
+				{
 				currentDirection =4;
-
+				}
 				break;
 			case (char)Keys.S:
-				currentDirection =3;
+				if(currentDirection !=4)
+				{
+					currentDirection =3;
+				}
 
 				break;
 			case (char)Keys.A:
-				currentDirection =2;
+				if(currentDirection !=1)
+				{
+					currentDirection =2;
+				}
 
 				break;
 			case (char)Keys.D:
-				currentDirection =1;
+				if(currentDirection !=2)
+				{
+					currentDirection =1;
+				}
 			
 				break;
 		
