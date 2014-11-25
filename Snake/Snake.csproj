@@ -50,9 +50,12 @@
     <Compile Include="Learning\FormWrapperTest.cs" />
     <Compile Include="Learning\UserinputTest.cs" />
     <Compile Include="Learning\ExtendedFormTest.cs" />
-    <Compile Include="GameController.cs" />
     <Compile Include="SoundManager.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="Learning\MainFrameTest.cs" />
+    <Compile Include="Learning\ModelTest.cs" />
+    <Compile Include="Learning\IGameModel.cs" />
+    <Compile Include="Learning\GameController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -13,7 +13,7 @@ namespace Snake{
 
 		[STAThread]
 		public static void Main (string[] args){
-			Application.Run(new MainFrame ());
+			Application.Run(new MainFrameTest ());
 			//WorkerTheadExample.testarStuff ();
 
 		}

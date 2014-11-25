@@ -6,7 +6,11 @@ namespace Snake{
 	/// Game controller.
 	/// </summary>
 	public class GameController{
+		private IGameModel IGameModel;
+		private MainFrameTest mainFrame;
+
 		public GameController(){
+
 		}
 	}
 }
