@@ -60,9 +60,7 @@ namespace Snake{
 		}
 
 		private void initTestData (){
-			cameraPosition.X = snakeStuff.cameraPosition.X;
-			cameraPosition.Y = snakeStuff.cameraPosition.Y;
-
+		
 
 
 			//Init frameTimer
@@ -129,8 +127,7 @@ namespace Snake{
 		/// <param name="e">E.</param>
 		private void tick (object sender, System.EventArgs e){
 			snakeStuff.update(5);
-			cameraPosition.X = snakeStuff.cameraPosition.X;
-			cameraPosition.Y = snakeStuff.cameraPosition.Y;
+
 
 		}
 

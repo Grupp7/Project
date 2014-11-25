@@ -14,8 +14,6 @@ namespace Snake{
 		[STAThread]
 		public static void Main (string[] args){
 			Application.Run(new MainFrameTest ());
-			//WorkerTheadExample.testarStuff ();
-
 		}
 
 	}

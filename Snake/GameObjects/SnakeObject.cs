@@ -16,10 +16,7 @@ namespace Snake
 		private bool snakeGrow = false;
 		private int currentDirection = 1;
 		private Point newDirection =new Point (100,100);
-//		private int turnCounter;
-//		private bool grow;
-//		private volatile bool isAvailable;
-//
+
 		public Point cameraPosition;
 		public Snake ()
 		{
@@ -32,7 +29,6 @@ namespace Snake
 
 			foodList = new LinkedList<Point> ();
 			foodList.AddFirst ( new Point (100, 180));
-			//isAvailable = true;
 
 		}
 
@@ -102,14 +98,7 @@ namespace Snake
 				getNewDirection ();
 				collision ();
 				snakeBody.AddLast(newDirection);
-//				turnCounter++;
-//				if(turnCounter >10){
-//					if(currentDirection ==4){
-//						currentDirection = 0;
-//					}
-//					currentDirection++;
-//					turnCounter = 0;
-//				}
+
 				cameraPosition.X = snakeBody.First.Value.X;
 				cameraPosition.Y = snakeBody.First.Value.Y;
 			//}
@@ -198,8 +187,6 @@ namespace Snake
 
 		void renderObject (Graphics brush){
 			lock(snakeBody){
-				//if(isAvailable){
-					//isAvailable = false;
 					SolidBrush myBrush2 = new SolidBrush (Color.DarkRed);
 					foreach (var item in foodList) 
 					{
@@ -209,20 +196,11 @@ namespace Snake
 					}
 					SolidBrush myBrush = new SolidBrush(Color.Green);
 
-
-//			for (int i = 0; i < snakeBody.Count; i++) 
-//			{
-//				//Rectangle cir = new Rectangle (snakeBody[i].X,snakeBody[i].Y, 20, 20);
-//				//brush.FillEllipse (myBrush, cir);
-//
-//			}
 					foreach(var item in snakeBody){
 
 					Rectangle cir = new Rectangle(item.X, item.Y, 20, 20);
 						brush.FillEllipse(myBrush, cir);
 					}
-				//}
-				//isAvailable = true;
 			}
 		}
 

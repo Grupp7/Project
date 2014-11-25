@@ -9,11 +9,9 @@ namespace Snake{
 		public Point location;
 		private Point direction;
 		private double speed = 50;
-		private double distance;
-		private bool addDistance=true;
+	
 		public RotateSquare(){
 			speed = 2;
-		
 		}
 
 		#region IGameObject implementation
