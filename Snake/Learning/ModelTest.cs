@@ -19,7 +19,7 @@ namespace Snake{
 		private IGameObject square;
 		private IGameObject snake;
 		#endregion
-	
+
 		public ModelTest(Size clientSize){
 			this.components = new System.ComponentModel.Container();
 			tickTimer = new  System.Timers.Timer(10);
@@ -27,18 +27,28 @@ namespace Snake{
 			tickTimer.Enabled = true;
 			this.clientSize = clientSize;
 			gameObjects = new List<IGameObject>();
-		    initTestData();
+			initTestData();
 		}
-			
+
 		private void initTestData (){
 			square = new RotateSquare();
 			snake = new Snake();
-			gameObjects.Add(snake);
-			gameObjects.Add(square);
+			//gameObjects.Add(snake);
+			//gameObjects.Add(square);
 			GameData temp = new GameData();
 			temp.point.X = 700;
 			temp.point.Y = 700;
 			square.passData(temp);
+
+			for (int i = 0; i < 500; i+=50) {
+				gameObjects.Add (new BlockObject (new Rectangle (new Point (0, i), new Size (50, 20))));
+				gameObjects.Add (new BlockObject (new Rectangle (new Point (500, i), new Size (50, 20))));
+			}
+			for (int i =0; i < 500; i+=20) {
+				gameObjects.Add (new BlockObject (new Rectangle (new Point (i, 0), new Size (20, 20))));
+				gameObjects.Add (new BlockObject (new Rectangle (new Point (i,500), new Size (20, 20))));
+
+			}
 		}
 
 		public void updateCurrentKey(char key){
@@ -47,12 +57,22 @@ namespace Snake{
 			temp.key = key;
 			snake.passData(temp);
 		}
-	
+
 		private void tick (object sender, System.EventArgs e){
+
 			foreach(var item in gameObjects){
+
 				item.update(5);
+				if(GameUtils.isColliding(item,snake)){
+					GameData temp = new GameData();
+					temp.key = (char)Keys.P;
+					snake.passData (temp);
+					//	gameObjects.Add(new BlockObject (new Rectangle (new Point (160, 160), new Size (20, 20))));
+					//Console.WriteLine ("as");
+				}
 
 			}
+			snake.update (7);
 		}
 
 		public Bitmap getBitmap (){
@@ -70,6 +90,7 @@ namespace Snake{
 			foreach(var item in gameObjects){
 				item.draw(g);
 			}
+			snake.draw (g);
 			g.Dispose();
 		}
 
@@ -82,4 +103,3 @@ namespace Snake{
 		}
 	}
 }
-

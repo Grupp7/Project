@@ -56,6 +56,9 @@
     <Compile Include="Learning\ModelTest.cs" />
     <Compile Include="Learning\IGameModel.cs" />
     <Compile Include="Learning\GameController.cs" />
+    <Compile Include="Properties\GameUtils.cs" />
+    <Compile Include="GameObjects\SnakePartObject.cs" />
+    <Compile Include="GameObjects\BlockObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

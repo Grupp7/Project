@@ -30,6 +30,7 @@ namespace Snake{
 		/// </summary>
 		/// <returns>The rectangle.</returns>
 		Rectangle getRectangle();
+
+		bool isColliding(IGameObject objectToTest);
 	}
 }
-

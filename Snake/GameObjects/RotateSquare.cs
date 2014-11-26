@@ -9,19 +9,24 @@ namespace Snake{
 		public Point location;
 		private Point direction;
 		private double speed = 50;
-	
+
 		public RotateSquare(){
 			speed = 2;
 		}
 
 		#region IGameObject implementation
 
+		public bool isColliding (IGameObject objectToTest)
+		{
+			throw new NotImplementedException ();
+		}
+
 		public void passData (GameData newInfo){
 			direction.X += newInfo.point.X;
 			direction.Y += newInfo.point.Y;
 			speed = 50;
 
-		
+
 		}
 
 		public void update (double gameTime){
@@ -33,20 +38,20 @@ namespace Snake{
 			double xDiff = location.X - direction.X;
 
 
-				location.X -= (int)(xDiff / speed);
+			location.X -= (int)(xDiff / speed);
 
 
 
-				location.Y -= (int)(yDiff/speed);
-	
-		
+			location.Y -= (int)(yDiff/speed);
+
+
 			if((int)(yDiff/speed) ==0){
 
 				direction.X *= -1;
 				direction.Y *= -1;
-		
+
 			}
-		
+
 
 		}
 
@@ -71,7 +76,7 @@ namespace Snake{
 		}
 
 		void renderObject (Graphics brush){
-		
+
 			//Matrix 1
 			Matrix mx = new Matrix();
 			mx.Rotate(angle, MatrixOrder.Append);
@@ -85,4 +90,3 @@ namespace Snake{
 		}
 	}
 }
-

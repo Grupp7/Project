@@ -14,23 +14,28 @@ namespace Snake{
 
 		public MainFrameTest(){
 			initForm();
-			model = new ModelTest(this.ClientSize);
+
 			this.KeyPress +=	new KeyPressEventHandler(this.extendedFormKeyPressed);
+
+			model = new ModelTest(this.ClientSize);
 		}
 
 		private void initForm (){
 			this.Show();
 			//This form is double buffered
+
 			SetStyle(
 				ControlStyles.AllPaintingInWmPaint |
 				ControlStyles.DoubleBuffer |
 				ControlStyles.ResizeRedraw |
 				ControlStyles.UserPaint,
 				true);
+
 		}
 
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
 			model.updateCurrentKey(e.KeyChar);
+			this.Size = new Size (700, 700);
 		}
 
 		protected override void OnPaint (PaintEventArgs e){
@@ -41,10 +46,10 @@ namespace Snake{
 		protected override void OnSizeChanged (EventArgs e){
 			model.resizeBitmap(this.ClientSize);
 			base.OnSizeChanged(e);
+
 		}
 
 		protected override void OnPaintBackground (PaintEventArgs pevent){
 		}
 	}
 }
-

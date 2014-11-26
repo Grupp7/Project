@@ -11,31 +11,38 @@ namespace Snake
 	{
 
 		GraphicsState state;
-		private LinkedList<Point> foodList;
-		private LinkedList<Point> snakeBody;
-		private bool snakeGrow = false;
+
 		private int currentDirection = 1;
-		private Point newDirection =new Point (100,100);
+		private IGameObject newDirection;
 		private int speed;
 		private int tickCounter;
-		public Point cameraPosition;
+
+		private LinkedList<IGameObject> snakeParts;
+		private LinkedList<IGameObject> snakeFood;
+		private bool growSnake;
 		public Snake ()
 		{
-			snakeBody = new LinkedList<Point> ();
+			snakeParts = new LinkedList<IGameObject> ();
+			snakeFood = new LinkedList<IGameObject> ();
+			newDirection = new SnakePartObject (new Rectangle (new Point (100, 140), new Size (new Point (20, 20))));
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,140),new Size(new Point(20,20)))));
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,120),new Size(new Point(20,20)))));
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,100),new Size(new Point(20,20)))));
 
-			snakeBody.AddFirst ( new Point (100, 140));
-			snakeBody.AddFirst ( new Point (100, 120));
-			snakeBody.AddFirst ( new Point (100, 100));
+			snakeFood.AddFirst(new SnakePartObject(new Rectangle(new Point(100,200),new Size(new Point(20,20)))));
 
 
-			foodList = new LinkedList<Point> ();
-			foodList.AddFirst ( new Point (100, 180));
 			speed = 300;
 			tickCounter = 0;
 		}
 
 
 		#region IGameObject implementation
+
+		public bool isColliding (IGameObject objectToTest)
+		{
+			return GameUtils.isColliding (this, objectToTest);
+		}
 
 		/// <summary>
 		/// The current key pressed that will be handeled
@@ -47,7 +54,7 @@ namespace Snake
 			case (char)Keys.W:
 				if(currentDirection !=3)
 				{
-				currentDirection =4;
+					currentDirection =4;
 				}
 				break;
 			case (char)Keys.S:
@@ -69,11 +76,14 @@ namespace Snake
 				{
 					currentDirection =1;
 				}
-			
+
 				break;
-		
+			case (char)Keys.P:
+				speed = 500000;
+				break;
+
 			}
-			cameraPosition = newInfo.point;
+
 		}
 
 		/// <summary>
@@ -85,59 +95,58 @@ namespace Snake
 		{
 			tickCounter++;
 			if (speed < tickCounter * 10) {
-				lock (snakeBody) {
-				
-		
-					//if(isAvailable){
-					//isAvailable = false;
-					if (snakeGrow) {
-						snakeGrow = false;
+				lock (snakeParts) {
+					getNewDirection ();
+
+					if (collision ()) {
+						snakeFood.RemoveFirst ();
+						snakeFood.AddFirst (new SnakePartObject (new Rectangle (new Point (100, 100), new Size (new Point (20, 20)))));
+
 					} else {
-						snakeBody.RemoveFirst ();
+						snakeParts.RemoveFirst ();
+					}
+					if(snakeCollide()){
+						speed = 1000000;
+
 					}
 
-					getNewDirection ();
-					collision ();
-					snakeBody.AddLast (newDirection);
-
-					cameraPosition.X = snakeBody.First.Value.X;
-					cameraPosition.Y = snakeBody.First.Value.Y;
-					//}
-		
-					//isAvailable = true;
-
+					snakeParts.AddLast (newDirection);
 				}
 				tickCounter = 0;
 			}
 		}
 
-		private void collision ()
-		{
+		private bool collision ()
+		{	bool foodCollided = false;
+			lock (snakeFood) {
+				lock (snakeParts) {
 
 
-			if (snakeBody.Contains(newDirection))
-			{
-				//Console.WriteLine (" Snake död ");
-			}
-			if (foodList.Contains (newDirection)) 
-			{
-				Random rand = new Random ();
-				int maxX = 500;
-				int maxY = 500;
-				int foodX = rand.Next(1, maxX/20+1)*20;
-				int foodY = rand.Next(1, maxY/20+1)*20;
-				//Console.WriteLine (" food taken ");
-				foodList.RemoveFirst ();
-				foodList.AddFirst ( new Point (foodX, foodY));
-				snakeGrow = true;
-				//Console.WriteLine ("x {0} y {1}", foodX, foodY);
-				if (speed > 40) {
-					speed -= 20;
+					if (snakeFood.First.Value.isColliding (snakeParts.Last.Value)) {
+						foodCollided = true;
+
+					}
+
+
+
 				}
 			}
+			return foodCollided;
 
 		}
 
+		private bool snakeCollide(){
+			bool snakeIsDead = false;
+			lock (snakeParts) {
+				foreach (var item in snakeParts) {
+					if (newDirection.isColliding(item) ){
+						snakeIsDead = true;
+					}
+				}
+			}
+			return snakeIsDead;
+
+		}
 
 		/// <summary>
 		/// Draw the snakeparts here with the brush 60x
@@ -146,7 +155,7 @@ namespace Snake
 		public void draw (System.Drawing.Graphics brush)
 		{
 
-		
+
 			//setupTransform(brush);
 			renderObject(brush);
 			//restoreTransform(brush);
@@ -155,36 +164,44 @@ namespace Snake
 
 		public System.Drawing.Rectangle getRectangle ()
 		{
-			return new Rectangle(0,0,1,1);
+			return snakeParts.Last.Value.getRectangle ();
 		}
 
 		#endregion
 
 		private void getNewDirection()
 		{
-			int lenght = snakeBody.Count;
+			int lenght = snakeParts.Count;
+			int xPos = snakeParts.Last.Value.getRectangle().X;
+			int yPos = snakeParts.Last.Value.getRectangle().Y;
+
 			switch (currentDirection) 
 			{
+
 			case 1:
 				//Console.WriteLine ("snakeMoveRight");
-				newDirection = new Point (snakeBody.Last.Value.X + 20, snakeBody.Last.Value.Y);
+				newDirection = getWrapperGameObject(new Point (xPos + 20, yPos));
 				break;
 			case 2:
 				//Console.WriteLine ("SnakeMoveLeft");
-				newDirection =  new Point (snakeBody.Last.Value.X - 20, snakeBody.Last.Value.Y);
+				newDirection =  getWrapperGameObject(new Point (xPos - 20, yPos));
 				break;
 			case 3:
 				//Console.WriteLine ("snakeMoveUp");
-				newDirection =  new Point (snakeBody.Last.Value.X, snakeBody.Last.Value.Y + 20);
+				newDirection =  getWrapperGameObject(new Point (xPos, yPos + 20));
 				break;
 			case 4:
 				//snakeMoveDown
-				newDirection =  new Point (snakeBody.Last.Value.X, snakeBody.Last.Value.Y - 20);
+				newDirection = getWrapperGameObject( new Point (xPos, yPos - 20));
 				break;
 			default:
-				newDirection =  new Point (0, 0);
+				newDirection = getWrapperGameObject( new Point (0, 0));
 				break;
 			}
+		}
+
+		private IGameObject getWrapperGameObject(Point point){
+			return new SnakePartObject(new Rectangle(point,new Size(new Point(20,20))));
 		}
 		void setupTransform (Graphics brush){
 			state=brush.Save();		
@@ -192,21 +209,13 @@ namespace Snake
 		}
 
 		void renderObject (Graphics brush){
-			lock(snakeBody){
-					SolidBrush myBrush2 = new SolidBrush (Color.DarkRed);
-					foreach (var item in foodList) 
-					{
-
-						Rectangle cir = new Rectangle (item.X, item.Y, 20, 20);
-						brush.FillEllipse (myBrush2, cir);
-					}
-					SolidBrush myBrush = new SolidBrush(Color.Green);
-
-					foreach(var item in snakeBody){
-
-					Rectangle cir = new Rectangle(item.X, item.Y, 20, 20);
-						brush.FillEllipse(myBrush, cir);
-					}
+			lock(snakeParts){
+				foreach (var item in snakeParts) {
+					item.draw (brush);
+				}
+				foreach (var item in snakeFood) {
+					item.draw (brush);
+				}
 			}
 		}
 
@@ -215,4 +224,3 @@ namespace Snake
 		}
 	}
 }
-

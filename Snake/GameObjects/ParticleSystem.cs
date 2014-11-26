@@ -11,6 +11,11 @@ namespace Snake{
 
 		#region IGameObject implementation
 
+		public bool isColliding (IGameObject objectToTest)
+		{
+			throw new NotImplementedException ();
+		}
+
 		public void passData (GameData newInfo){
 			throw new NotImplementedException();
 		}
@@ -30,4 +35,3 @@ namespace Snake{
 		#endregion
 	}
 }
-
