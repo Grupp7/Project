@@ -6,7 +6,7 @@ using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 
 namespace Snake{
-	public class ModelTest:IGameModel{
+	public class GameModel:IGameModel{
 		#region ModelConfig
 		private Bitmap backBuffer;
 		private IContainer components;
@@ -20,7 +20,7 @@ namespace Snake{
 		private IGameObject snake;
 		#endregion
 
-		public ModelTest(Size clientSize){
+		public GameModel(Size clientSize){
 			this.components = new System.ComponentModel.Container();
 			tickTimer = new  System.Timers.Timer(10);
 			tickTimer.Elapsed += tick;

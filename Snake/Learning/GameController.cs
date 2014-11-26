@@ -7,7 +7,7 @@ namespace Snake{
 	/// </summary>
 	public class GameController{
 		private IGameModel IGameModel;
-		private MainFrameTest mainFrame;
+		private MainFrame mainFrame;
 
 		public GameController(){
 
