@@ -22,7 +22,7 @@ namespace Snake{
 	
 		public ModelTest(Size clientSize){
 			this.components = new System.ComponentModel.Container();
-			tickTimer = new  System.Timers.Timer(32);
+			tickTimer = new  System.Timers.Timer(10);
 			tickTimer.Elapsed += tick;
 			tickTimer.Enabled = true;
 			this.clientSize = clientSize;
@@ -51,6 +51,7 @@ namespace Snake{
 		private void tick (object sender, System.EventArgs e){
 			foreach(var item in gameObjects){
 				item.update(5);
+
 			}
 		}
 
@@ -62,7 +63,7 @@ namespace Snake{
 			return backBuffer;
 		}
 
-		void renderGameObjects (){
+		private void renderGameObjects (){
 			Graphics g = Graphics.FromImage(backBuffer);
 			g.Clear(Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;

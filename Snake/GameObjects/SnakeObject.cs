@@ -16,7 +16,8 @@ namespace Snake
 		private bool snakeGrow = false;
 		private int currentDirection = 1;
 		private Point newDirection =new Point (100,100);
-
+		private int speed;
+		private int tickCounter;
 		public Point cameraPosition;
 		public Snake ()
 		{
@@ -29,7 +30,8 @@ namespace Snake
 
 			foodList = new LinkedList<Point> ();
 			foodList.AddFirst ( new Point (100, 180));
-
+			speed = 300;
+			tickCounter = 0;
 		}
 
 
@@ -81,30 +83,31 @@ namespace Snake
 		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime)
 		{
-			lock(snakeBody){
+			tickCounter++;
+			if (speed < tickCounter * 10) {
+				lock (snakeBody) {
 				
 		
-			//if(isAvailable){
-				//isAvailable = false;
-				if (snakeGrow) 
-				{
-					snakeGrow = false;
-				}
-				else
-				{
-					snakeBody.RemoveFirst ();
-				}
+					//if(isAvailable){
+					//isAvailable = false;
+					if (snakeGrow) {
+						snakeGrow = false;
+					} else {
+						snakeBody.RemoveFirst ();
+					}
 
-				getNewDirection ();
-				collision ();
-				snakeBody.AddLast(newDirection);
+					getNewDirection ();
+					collision ();
+					snakeBody.AddLast (newDirection);
 
-				cameraPosition.X = snakeBody.First.Value.X;
-				cameraPosition.Y = snakeBody.First.Value.Y;
-			//}
+					cameraPosition.X = snakeBody.First.Value.X;
+					cameraPosition.Y = snakeBody.First.Value.Y;
+					//}
 		
-			//isAvailable = true;
+					//isAvailable = true;
 
+				}
+				tickCounter = 0;
 			}
 		}
 
@@ -128,6 +131,9 @@ namespace Snake
 				foodList.AddFirst ( new Point (foodX, foodY));
 				snakeGrow = true;
 				//Console.WriteLine ("x {0} y {1}", foodX, foodY);
+				if (speed > 40) {
+					speed -= 20;
+				}
 			}
 
 		}
