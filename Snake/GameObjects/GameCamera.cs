@@ -7,8 +7,8 @@ namespace Snake{
 	/// Game camera.
 	/// </summary>
 	public class GameCamera{
-		private Point cameraPosition;
-		private Rectangle cameraSize;
+		//private Point cameraPosition;
+		//private Rectangle cameraSize;
 		public GameCamera(){
 
 		}

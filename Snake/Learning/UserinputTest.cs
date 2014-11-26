@@ -51,7 +51,7 @@ namespace Snake
 		{
 			string keypressed;
 			int key= 0;
-			const int rightKey = 1 , leftKey= 2 , upKey= 3 , downKey= 4;
+			//const int rightKey = 1 , leftKey= 2 , upKey= 3 , downKey= 4;
 
 			keypressed = Console.ReadLine ();
 //

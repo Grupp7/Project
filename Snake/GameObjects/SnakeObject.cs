@@ -19,7 +19,7 @@ namespace Snake
 
 		private LinkedList<IGameObject> snakeParts;
 		private LinkedList<IGameObject> snakeFood;
-		private bool growSnake;
+
 		public Snake ()
 		{
 			snakeParts = new LinkedList<IGameObject> ();
