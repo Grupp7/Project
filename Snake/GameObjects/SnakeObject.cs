@@ -12,7 +12,8 @@ namespace Snake
 
 		GraphicsState state;
 
-		private int currentDirection = 1;
+		private string lastDirection = "LEFT";
+		private string currentDirection = "RIGHT";
 		private IGameObject newDirection;
 		private int speed;
 		private int tickCounter;
@@ -52,29 +53,29 @@ namespace Snake
 		{
 			switch(newInfo.key){
 			case (char)Keys.W:
-				if(currentDirection !=3)
+				if(lastDirection != "UP")
 				{
-					currentDirection =4;
+					currentDirection = "UP";
 				}
 				break;
 			case (char)Keys.S:
-				if(currentDirection !=4)
+				if(lastDirection != "DOWN" )
 				{
-					currentDirection =3;
+					currentDirection = "DOWN";
 				}
 
 				break;
 			case (char)Keys.A:
-				if(currentDirection !=1)
+				if(lastDirection != "LEFT" )
 				{
-					currentDirection =2;
+					currentDirection = "LEFT";
 				}
 
 				break;
 			case (char)Keys.D:
-				if(currentDirection !=2)
+				if(lastDirection != "RIGHT" )
 				{
-					currentDirection =1;
+					currentDirection = "RIGHT";
 				}
 
 				break;
@@ -113,6 +114,20 @@ namespace Snake
 					snakeParts.AddLast (newDirection);
 				}
 				tickCounter = 0;
+			}
+			switch (currentDirection) {
+			case "UP":
+				lastDirection = "DOWN";
+				break;
+			case "DOWN":
+				lastDirection = "UP";
+				break;
+			case "RIGHT":
+				lastDirection = "LEFT";
+				break;
+			case "LEFT":
+				lastDirection = "RIGHT";
+				break;
 			}
 		}
 
@@ -178,19 +193,19 @@ namespace Snake
 			switch (currentDirection) 
 			{
 
-			case 1:
+			case "RIGHT":
 				//Console.WriteLine ("snakeMoveRight");
 				newDirection = getWrapperGameObject(new Point (xPos + 20, yPos));
 				break;
-			case 2:
+			case "LEFT":
 				//Console.WriteLine ("SnakeMoveLeft");
 				newDirection =  getWrapperGameObject(new Point (xPos - 20, yPos));
 				break;
-			case 3:
+			case "DOWN":
 				//Console.WriteLine ("snakeMoveUp");
 				newDirection =  getWrapperGameObject(new Point (xPos, yPos + 20));
 				break;
-			case 4:
+			case "UP":
 				//snakeMoveDown
 				newDirection = getWrapperGameObject( new Point (xPos, yPos - 20));
 				break;
