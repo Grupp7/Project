@@ -40,7 +40,6 @@
     <Compile Include="MainProgram.cs" />
     <Compile Include="Learning\TimerTest.cs" />
     <Compile Include="GameObjects\ParticleSystem.cs" />
-    <Compile Include="GameObjects\RotateSquare.cs" />
     <Compile Include="GameObjects\IGameObject.cs" />
     <Compile Include="GameObjects\GameObjectCollection.cs" />
     <Compile Include="GameObjects\GameCamera.cs" />
@@ -57,6 +56,10 @@
     <Compile Include="Utils\GameState.cs" />
     <Compile Include="Utils\SoundManager.cs" />
     <Compile Include="Utils\GameUtils.cs" />
+    <Compile Include="Learning\RotateSquare.cs" />
+    <Compile Include="Learning\IPrint.cs" />
+    <Compile Include="Learning\PrinterA.cs" />
+    <Compile Include="Learning\PrinterB.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
