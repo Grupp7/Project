@@ -18,6 +18,8 @@ namespace Snake
 		private IGameObject newDirection;
 		private int speed;
 		private int tickCounter;
+	
+		private bool snakeDead;
 
 		private LinkedList<IGameObject> snakeParts;
 		private LinkedList<IGameObject> snakeFood;
@@ -32,7 +34,7 @@ namespace Snake
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,100),new Size(new Point(20,20)))));
 			player.Load();
 			snakeFood.AddFirst(new SnakeFoodObject(new Rectangle(new Point(100,200),new Size(new Point(20,20)))));
-
+			snakeDead = false;
 
 			speed = 300;
 			tickCounter = 0;
@@ -51,7 +53,7 @@ namespace Snake
 		/// </summary>
 		/// <param name="newInfo">New info.</param>
 		public void passData (GameData newInfo)
-		{
+		{	
 			switch(newInfo.key){
 			case (char)Keys.W:
 				if(lastDirection != "UP")
@@ -82,14 +84,19 @@ namespace Snake
 				break;
 			case (char)Keys.P:
 				speed = 500000;
-				using (SoundPlayer player = new SoundPlayer("Death.wav"))
-				{
-					player.PlaySync();
-				}
+
+				if(!snakeDead)
+					using (SoundPlayer player = new SoundPlayer("Death.wav"))
+					{
+						player.PlaySync();
+						snakeDead = true;
+					}
+			
 
 				break;
 			case (char)Keys.O:
 				speed = 200;
+				snakeDead = false;
 				break;
 
 			}
@@ -111,7 +118,8 @@ namespace Snake
 					if (collision ()) {
 						player.Play();
 						snakeFood.RemoveFirst ();
-						snakeFood.AddFirst (new SnakePartObject (new Rectangle (new Point (100, 100), new Size (new Point (20, 20)))));
+						Random rand = new Random();
+						snakeFood.AddFirst (new SnakeFoodObject (new Rectangle (new Point (rand.Next(50,500), rand.Next(5,500)), new Size (new Point (rand.Next(1,50), rand.Next(1,50))))));
 
 
 					} else {

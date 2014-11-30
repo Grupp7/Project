@@ -34,8 +34,8 @@ namespace Snake{
 		}
 
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
-			model.updateCurrentKey(e.KeyChar);
-			this.Size = new Size (700, 700);
+			model.updateCurrentKey(Convert.ToChar(e.KeyChar.ToString()));
+			this.Size = new Size (565, 560);
 		}
 
 		protected override void OnPaint (PaintEventArgs e){
