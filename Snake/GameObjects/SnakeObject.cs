@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Snake
 {
@@ -11,7 +12,7 @@ namespace Snake
 	{
 
 		GraphicsState state;
-
+		private SoundPlayer player = new SoundPlayer("Pickup.wav");
 		private string lastDirection = "LEFT";
 		private string currentDirection = "RIGHT";
 		private IGameObject newDirection;
@@ -29,7 +30,7 @@ namespace Snake
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,140),new Size(new Point(20,20)))));
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,120),new Size(new Point(20,20)))));
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,100),new Size(new Point(20,20)))));
-
+			player.Load();
 			snakeFood.AddFirst(new SnakeFoodObject(new Rectangle(new Point(100,200),new Size(new Point(20,20)))));
 
 
@@ -81,6 +82,11 @@ namespace Snake
 				break;
 			case (char)Keys.P:
 				speed = 500000;
+				using (SoundPlayer player = new SoundPlayer("Death.wav"))
+				{
+					player.PlaySync();
+				}
+
 				break;
 			case (char)Keys.O:
 				speed = 200;
@@ -103,14 +109,17 @@ namespace Snake
 					getNewDirection ();
 
 					if (collision ()) {
+						player.Play();
 						snakeFood.RemoveFirst ();
 						snakeFood.AddFirst (new SnakePartObject (new Rectangle (new Point (100, 100), new Size (new Point (20, 20)))));
+
 
 					} else {
 						snakeParts.RemoveFirst ();
 					}
 					if(snakeCollide()){
 						speed = 1000000;
+					
 
 					}
 

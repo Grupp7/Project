@@ -70,5 +70,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="README.txt" />
+    <None Include="Pickup.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Death.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
