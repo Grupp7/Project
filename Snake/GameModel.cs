@@ -10,17 +10,23 @@ namespace Snake{
 		#region ModelConfig
 		// The Bitmap that the MainFrame will get and draw to screen
 		private Bitmap backBuffer;
-		// TODO: WHAT
-		private IContainer components;
+
 		// The timer that will update the gameObjects
 		private System.Timers.Timer tickTimer;
+
+		// update method called every 10ms
+		private const double gameUpdateSpeed = 10;
+
 		// The keypressed updated from the MainFrame
 		private char keyPressed;
+
 		// The clientSize from the MainFrame
 		// This determinates the size of the Bitmap in this model
 		private Size clientSize;
+
 		#endregion
 		#region IGameObjects
+
 		// The dangerous obstacles for the snake
 		private List<IGameObject> gameObstacles;
 
@@ -31,15 +37,12 @@ namespace Snake{
 		#endregion
 
 		public GameModel(Size clientSize){
-			// This component class is need for Timers to work 
-			// TODO: Study why
-			this.components = new System.ComponentModel.Container();
-
+		
 			// How fast the objects will update
 			// 10 equals 10ms
 			// In a sense every IGameobject will have their
 			// update method called every 10ms
-			tickTimer = new  System.Timers.Timer(10);
+			tickTimer = new  System.Timers.Timer(gameUpdateSpeed);
 			tickTimer.Elapsed += tickGameObjects;
 			tickTimer.Enabled = true;
 
@@ -140,7 +143,7 @@ namespace Snake{
 
 			foreach(var item in gameObstacles){
 
-				item.update(5);
+				item.update(gameUpdateSpeed);
 				if(GameUtils.isColliding(item,snake)){
 					GameData temp = new GameData();
 					temp.key = (char)Keys.P;
@@ -148,7 +151,7 @@ namespace Snake{
 				}
 
 			}
-			snake.update (7);
+			snake.update (gameUpdateSpeed);
 		}
 
 	

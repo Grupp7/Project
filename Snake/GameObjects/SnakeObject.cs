@@ -30,7 +30,7 @@ namespace Snake
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,120),new Size(new Point(20,20)))));
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,100),new Size(new Point(20,20)))));
 
-			snakeFood.AddFirst(new SnakePartObject(new Rectangle(new Point(100,200),new Size(new Point(20,20)))));
+			snakeFood.AddFirst(new SnakeFoodObject(new Rectangle(new Point(100,200),new Size(new Point(20,20)))));
 
 
 			speed = 300;
@@ -81,6 +81,9 @@ namespace Snake
 				break;
 			case (char)Keys.P:
 				speed = 500000;
+				break;
+			case (char)Keys.O:
+				speed = 200;
 				break;
 
 			}
@@ -229,10 +232,11 @@ namespace Snake
 
 		void renderObject (Graphics brush){
 			lock(snakeParts){
-				foreach (var item in snakeParts) {
+
+				foreach (var item in snakeFood) {
 					item.draw (brush);
 				}
-				foreach (var item in snakeFood) {
+				foreach (var item in snakeParts) {
 					item.draw (brush);
 				}
 			}

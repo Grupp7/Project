@@ -43,7 +43,8 @@ namespace Snake
 		{
 			SolidBrush myBrush2 = new SolidBrush (Color.DarkRed);
 			Rectangle cir = location;
-			brush.FillEllipse (myBrush2, cir);		
+			brush.FillRectangle (myBrush2, cir);		
+	
 			myBrush2.Dispose ();
 		}
 

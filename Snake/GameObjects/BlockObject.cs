@@ -24,9 +24,9 @@ namespace Snake
 
 		public void draw (System.Drawing.Graphics brush)
 		{
-			SolidBrush myBrush2 = new SolidBrush (Color.DarkBlue);
+			SolidBrush myBrush2 = new SolidBrush (Color.Gray);
 			Rectangle cir = location;
-			brush.FillEllipse (myBrush2, cir);		
+			brush.FillRectangle (myBrush2, cir);		
 			myBrush2.Dispose ();
 		}
 
