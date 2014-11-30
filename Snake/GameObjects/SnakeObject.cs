@@ -117,16 +117,16 @@ namespace Snake
 			}
 			switch (currentDirection) {
 			case "UP":
-				lastDirection = "DOWN";
+
 				break;
 			case "DOWN":
-				lastDirection = "UP";
+
 				break;
 			case "RIGHT":
-				lastDirection = "LEFT";
+
 				break;
 			case "LEFT":
-				lastDirection = "RIGHT";
+
 				break;
 			}
 		}
@@ -196,18 +196,22 @@ namespace Snake
 			case "RIGHT":
 				//Console.WriteLine ("snakeMoveRight");
 				newDirection = getWrapperGameObject(new Point (xPos + 20, yPos));
+				lastDirection = "LEFT";
 				break;
 			case "LEFT":
 				//Console.WriteLine ("SnakeMoveLeft");
 				newDirection =  getWrapperGameObject(new Point (xPos - 20, yPos));
+				lastDirection = "RIGHT";
 				break;
 			case "DOWN":
 				//Console.WriteLine ("snakeMoveUp");
 				newDirection =  getWrapperGameObject(new Point (xPos, yPos + 20));
+				lastDirection = "UP";
 				break;
 			case "UP":
 				//snakeMoveDown
 				newDirection = getWrapperGameObject( new Point (xPos, yPos - 20));
+				lastDirection = "DOWN";
 				break;
 			default:
 				newDirection = getWrapperGameObject( new Point (0, 0));

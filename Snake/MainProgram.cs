@@ -14,8 +14,8 @@ namespace Snake{
 
 		[STAThread]
 		public static void Main (string[] args){
-			//Application.Run(new MainFrame ());
-			IPrint klassA = new PrinterA ();
+			Application.Run(new MainFrame ());
+/*			IPrint klassA = new PrinterA ();
 			IPrint klassB = new PrinterB ();
 
 
@@ -33,7 +33,7 @@ namespace Snake{
 			}
 			while (true) {
 
-			}
+			}*/
 
 		}
 
