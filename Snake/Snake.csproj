@@ -39,11 +39,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Learning\TimerTest.cs" />
-    <Compile Include="GameObjects\ParticleSystem.cs" />
     <Compile Include="GameObjects\IGameObject.cs" />
-    <Compile Include="GameObjects\GameObjectCollection.cs" />
-    <Compile Include="GameObjects\GameCamera.cs" />
-    <Compile Include="GameObjects\GameData.cs" />
     <Compile Include="GameObjects\SnakeObject.cs" />
     <Compile Include="Learning\UserinputTest.cs" />
     <Compile Include="Learning\ExtendedFormTest.cs" />
@@ -62,6 +58,9 @@
     <Compile Include="Learning\PrinterB.cs" />
     <Compile Include="GameObjects\SnakeFoodObject.cs" />
     <Compile Include="Learning\MainApp.cs" />
+    <Compile Include="Utils\GameData.cs" />
+    <Compile Include="Learning\GameCamera.cs" />
+    <Compile Include="Learning\ParticleSystem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
