@@ -38,6 +38,7 @@ namespace Snake{
 		// we do not need to know how it is implemented here.
 		private IGameObject snake;
 		private IGameObject gameScore;
+		private IGameObject background;
 		#endregion
 
 		private SoundPlayer player = new SoundPlayer("Pickup.wav");
@@ -76,7 +77,8 @@ namespace Snake{
 		private void initGameData (){
 			// Creates our implemented snake
 			snake = new Snake();
-
+			background = GameUtils.getBlockObject(0, 0, 600, 600);
+			background.passData(new GameData(GameState.None));
 			snakeFood.Add(GameUtils.getRandomSnakeFoodObject());
 			// Create the obstacles in the map
 			createPlayingField ();
@@ -208,6 +210,7 @@ namespace Snake{
 			Graphics g = Graphics.FromImage(backBuffer);
 			g.Clear(Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
+			background.draw(g);
 			foreach(var item in gameObstacles){
 				item.draw(g);
 			}
