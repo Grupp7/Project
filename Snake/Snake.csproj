@@ -50,7 +50,6 @@
     <Compile Include="MainFrame.cs" />
     <Compile Include="GameModel.cs" />
     <Compile Include="Utils\GameState.cs" />
-    <Compile Include="Utils\SoundManager.cs" />
     <Compile Include="Utils\GameUtils.cs" />
     <Compile Include="Learning\RotateSquare.cs" />
     <Compile Include="Learning\IPrint.cs" />
@@ -61,6 +60,7 @@
     <Compile Include="Utils\GameData.cs" />
     <Compile Include="Learning\GameCamera.cs" />
     <Compile Include="Learning\ParticleSystem.cs" />
+    <Compile Include="Learning\SoundManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

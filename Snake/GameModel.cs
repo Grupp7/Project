@@ -145,18 +145,18 @@ namespace Snake{
 			GameState state = GameState.None;
 
 			switch(key){
-			case (char)Keys.W:
+			case 'w':
 				state = GameState.Up;
 				break;
-			case (char)Keys.S:
+			case 's':
 				state = GameState.Down;
 
 				break;
-			case (char)Keys.D:
+			case 'd':
 				state = GameState.Right;
 
 				break;
-			case (char)Keys.A:
+			case 'a':
 				state = GameState.Left;
 
 				break;
@@ -180,7 +180,6 @@ namespace Snake{
 
 				item.update(gameUpdateSpeed);
 				if(GameUtils.isColliding(item,snake)){
-				
 					snake.passData (new GameData(GameState.Dead));
 				}
 
@@ -189,7 +188,6 @@ namespace Snake{
 				if(GameUtils.isColliding(item,snake)){
 					player.Play();
 					snake.passData (new GameData(GameState.Grow));
-					Random rand = new Random();
 					snakeFood.Clear();
 					snakeFood.Add (GameUtils.getRandomSnakeFoodObject());
 
