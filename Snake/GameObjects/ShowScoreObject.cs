@@ -32,11 +32,11 @@ namespace Snake
 			String drawString = "Score "+ score+ " HighScore"+ highScore;
 
 			// Create font and brush.
-			Font drawFont = new Font("Arial", 16);
+			Font drawFont = new Font("Arial", 14);
 			SolidBrush drawBrush = new SolidBrush(Color.Black);
 
 			// Create point for upper-left corner of drawing.
-			PointF drawPoint = new PointF(40.0F, 40.0F);
+			PointF drawPoint = new PointF(20.0F, 0F);
 
 			// Draw string to screen.
 			brush.DrawString(drawString, drawFont, drawBrush, drawPoint);

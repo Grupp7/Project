@@ -98,7 +98,7 @@ namespace Snake{
 			for (int i =0; i <= fieldHeigth; i+=blockWidth) {
 				gameObstacles.Add (GameUtils.getBlockObject(i, 0,blockWidth, blockHeight));
 				gameObstacles.Add (GameUtils.getBlockObject(i,fieldHeigth,blockWidth, blockHeight));
-				gameScore = new ShowScoreObject (new Rectangle (new Point (200, 200), new Size (20, 20)));
+				gameScore = new ShowScoreObject (new Rectangle (new Point (0, 200), new Size (20, 20)));
 			}
 
 		}
