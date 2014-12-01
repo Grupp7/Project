@@ -30,12 +30,12 @@ namespace Snake{
 				ControlStyles.ResizeRedraw |
 				ControlStyles.UserPaint,
 				true);
-
+			this.Size = new Size (537, 558);
 		}
 
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
 			model.updateCurrentKey(e.KeyChar);
-			this.Size = new Size (537, 558);
+
 		}
 
 		protected override void OnPaint (PaintEventArgs e){
