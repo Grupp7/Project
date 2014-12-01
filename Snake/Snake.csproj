@@ -61,6 +61,7 @@
     <Compile Include="Learning\PrinterA.cs" />
     <Compile Include="Learning\PrinterB.cs" />
     <Compile Include="GameObjects\SnakeFoodObject.cs" />
+    <Compile Include="Learning\MainApp.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

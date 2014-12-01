@@ -5,7 +5,7 @@ namespace Snake
 {
 	public static class GameUtils
 	{
-
+		public static Random random = new Random();
 
 		public static bool isColliding(IGameObject objA,IGameObject objB){
 
@@ -21,5 +21,16 @@ namespace Snake
 			}
 			return hasCollided;
 		}
+
+		public static SnakeFoodObject getRandomSnakeFoodObject(){
+
+			return new SnakeFoodObject (new Rectangle (new Point (random.Next(50,500), random.Next(5,500)), new Size (new Point (random.Next(1,50), random.Next(1,50)))));
+		}
+
+		public static BlockObject getBlockObject(int locX, int locY, int width, int height){
+
+			return new BlockObject (new Rectangle (new Point (locX, locY), new Size (width, height)));
+		}
 	}
+
 }

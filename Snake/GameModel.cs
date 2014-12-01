@@ -76,7 +76,7 @@ namespace Snake{
 			// Creates our implemented snake
 			snake = new Snake();
 
-			snakeFood.Add(new SnakeFoodObject(new Rectangle(new Point(100,200),new Size(new Point(20,20)))));
+			snakeFood.Add(GameUtils.getRandomSnakeFoodObject());
 			// Create the obstacles in the map
 			createPlayingField ();
 		}
@@ -85,14 +85,18 @@ namespace Snake{
 		/// Creates the playing field.
 		/// </summary>
 		private void createPlayingField(){
+			int fieldWidth = 500;
+			int fieldHeigth = 500;
+			int blockHeight = 20;
+			int blockWidth = 20;
 
-			for (int i = 0; i < 500; i+=50) {
-				gameObstacles.Add (new BlockObject (new Rectangle (new Point (0, i), new Size (50, 20))));
-				gameObstacles.Add (new BlockObject (new Rectangle (new Point (500, i), new Size (50, 20))));
+			for (int i = 0; i <= fieldWidth; i+=blockWidth) {
+				gameObstacles.Add (GameUtils.getBlockObject(0, i,blockWidth, blockHeight));
+				gameObstacles.Add (GameUtils.getBlockObject(fieldWidth, i,blockWidth, blockHeight));
 			}
-			for (int i =0; i < 500; i+=20) {
-				gameObstacles.Add (new BlockObject (new Rectangle (new Point (i, 0), new Size (20, 20))));
-				gameObstacles.Add (new BlockObject (new Rectangle (new Point (i,500), new Size (20, 20))));
+			for (int i =0; i <= fieldHeigth; i+=blockWidth) {
+				gameObstacles.Add (GameUtils.getBlockObject(i, 0,blockWidth, blockHeight));
+				gameObstacles.Add (GameUtils.getBlockObject(i,fieldHeigth,blockWidth, blockHeight));
 
 			}
 
@@ -187,7 +191,7 @@ namespace Snake{
 					snake.passData (new GameData(GameState.Grow));
 					Random rand = new Random();
 					snakeFood.Clear();
-					snakeFood.Add (new SnakeFoodObject (new Rectangle (new Point (rand.Next(50,500), rand.Next(5,500)), new Size (new Point (rand.Next(1,50), rand.Next(1,50))))));
+					snakeFood.Add (GameUtils.getRandomSnakeFoodObject());
 
 				}
 			}
