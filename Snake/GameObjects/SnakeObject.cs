@@ -5,36 +5,30 @@ using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using System.Media;
 
-namespace Snake
-{
+namespace Snake{
 
-	public class Snake:IGameObject
-	{
+	public class Snake:IGameObject{
 
-		GraphicsState state;
-		private SoundPlayer player = new SoundPlayer("Pickup.wav");
-		private string lastDirection = "LEFT";
-		private string currentDirection = "RIGHT";
+	
+	
+		private GameState lastDirection = GameState.Left;
+		private GameState currentDirection = GameState.Right;
 		private IGameObject newDirection;
 		private int speed;
 		private int tickCounter;
+		private List<GameState> gameStates;
 	
-		private bool snakeDead;
-
 		private LinkedList<IGameObject> snakeParts;
-		private LinkedList<IGameObject> snakeFood;
 
-		public Snake ()
-		{
-			snakeParts = new LinkedList<IGameObject> ();
-			snakeFood = new LinkedList<IGameObject> ();
-			newDirection = new SnakePartObject (new Rectangle (new Point (100, 140), new Size (new Point (20, 20))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,140),new Size(new Point(20,20)))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,120),new Size(new Point(20,20)))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100,100),new Size(new Point(20,20)))));
-			player.Load();
-			snakeFood.AddFirst(new SnakeFoodObject(new Rectangle(new Point(100,200),new Size(new Point(20,20)))));
-			snakeDead = false;
+
+		public Snake(){
+			gameStates = new List<GameState>();
+			snakeParts = new LinkedList<IGameObject>();
+
+			newDirection = new SnakePartObject(new Rectangle(new Point(100, 140), new Size(new Point(20, 20))));
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 140), new Size(new Point(20, 20)))));
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 120), new Size(new Point(20, 20)))));
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 100), new Size(new Point(20, 20)))));
 
 			speed = 300;
 			tickCounter = 0;
@@ -43,64 +37,51 @@ namespace Snake
 
 		#region IGameObject implementation
 
-		public bool isColliding (IGameObject objectToTest)
-		{
-			return GameUtils.isColliding (this, objectToTest);
+		public bool isColliding (IGameObject objectToTest){
+			return GameUtils.isColliding(this, objectToTest);
 		}
 
 		/// <summary>
 		/// The current key pressed that will be handeled
 		/// </summary>
 		/// <param name="newInfo">New info.</param>
-		public void passData (GameData newInfo)
-		{	
-			switch(newInfo.key){
-			case (char)Keys.W:
-				if(lastDirection != "UP")
-				{
-					currentDirection = "UP";
+		public void passData (GameData newInfo){	
+			addGameState(newInfo.state);
+			switch(newInfo.state){
+			case GameState.Up:
+				if(lastDirection!=GameState.Up){
+					currentDirection = GameState.Up;
 				}
 				break;
-			case (char)Keys.S:
-				if(lastDirection != "DOWN" )
-				{
-					currentDirection = "DOWN";
+			case GameState.Down:
+				if(lastDirection!=GameState.Down){
+					currentDirection = GameState.Down;
 				}
 
 				break;
-			case (char)Keys.A:
-				if(lastDirection != "LEFT" )
-				{
-					currentDirection = "LEFT";
+			case GameState.Left:
+				if(lastDirection!=GameState.Left){
+					currentDirection = GameState.Left;
 				}
 
 				break;
-			case (char)Keys.D:
-				if(lastDirection != "RIGHT" )
-				{
-					currentDirection = "RIGHT";
+			case GameState.Right:
+				if(lastDirection!=GameState.Right){
+					currentDirection = GameState.Right;
 				}
 
 				break;
-			case (char)Keys.P:
-				speed = 500000;
 
-				if(!snakeDead)
-					using (SoundPlayer player = new SoundPlayer("Death.wav"))
-					{
-						player.PlaySync();
-						snakeDead = true;
-					}
-			
-
-				break;
-			case (char)Keys.O:
-				speed = 200;
-				snakeDead = false;
-				break;
 
 			}
 
+		}
+
+		private void addGameState (GameState state){
+
+			if(!gameStates.Contains(state)){
+				gameStates.Add(state);
+			}
 		}
 
 		/// <summary>
@@ -108,74 +89,38 @@ namespace Snake
 		/// e snake movement
 		/// </summary>
 		/// <param name="gameTime">Game time.</param>
-		public void update (double gameTime)
-		{
+		public void update (double gameTime){
 			tickCounter++;
-			if (speed < tickCounter * 10) {
-				lock (snakeParts) {
-					getNewDirection ();
-
-					if (collision ()) {
-						player.Play();
-						snakeFood.RemoveFirst ();
-						Random rand = new Random();
-						snakeFood.AddFirst (new SnakeFoodObject (new Rectangle (new Point (rand.Next(50,500), rand.Next(5,500)), new Size (new Point (rand.Next(1,50), rand.Next(1,50))))));
-
-
-					} else {
-						snakeParts.RemoveFirst ();
-					}
-					if(snakeCollide()){
-						speed = 1000000;
-					
+			if(gameStates.Contains(GameState.Dead)){
+				speed = 1000000;
+			}
+			if(speed < tickCounter * 10){
+				lock(snakeParts){
+					newDirection = getNewDirection();
+					snakeCollide();
+					if(gameStates.Contains(GameState.Grow)){
+						gameStates.Remove(GameState.Grow);
 
 					}
+					else{
+						snakeParts.RemoveFirst();
+					}
 
-					snakeParts.AddLast (newDirection);
+
+					snakeParts.AddLast(newDirection);
 				}
 				tickCounter = 0;
 			}
-			switch (currentDirection) {
-			case "UP":
-
-				break;
-			case "DOWN":
-
-				break;
-			case "RIGHT":
-
-				break;
-			case "LEFT":
-
-				break;
-			}
 		}
 
-		private bool collision ()
-		{	bool foodCollided = false;
-			lock (snakeFood) {
-				lock (snakeParts) {
+	
 
-
-					if (snakeFood.First.Value.isColliding (snakeParts.Last.Value)) {
-						foodCollided = true;
-
-					}
-
-
-
-				}
-			}
-			return foodCollided;
-
-		}
-
-		private bool snakeCollide(){
+		private bool snakeCollide (){
 			bool snakeIsDead = false;
-			lock (snakeParts) {
-				foreach (var item in snakeParts) {
-					if (newDirection.isColliding(item) ){
-						snakeIsDead = true;
+			lock(snakeParts){
+				foreach(var item in snakeParts){
+					if(newDirection.isColliding(item)){
+						gameStates.Add(GameState.Dead);
 					}
 				}
 			}
@@ -187,80 +132,54 @@ namespace Snake
 		/// Draw the snakeparts here with the brush 60x
 		/// </summary>
 		/// <param name="brush">Brush.</param>
-		public void draw (System.Drawing.Graphics brush)
-		{
-
-
-			//setupTransform(brush);
-			renderObject(brush);
-			//restoreTransform(brush);
-
+		public void draw (System.Drawing.Graphics brush){
+			lock(snakeParts){
+				foreach(var item in snakeParts){
+					item.draw(brush);
+				}
+			}
 		}
 
-		public System.Drawing.Rectangle getRectangle ()
-		{
-			return snakeParts.Last.Value.getRectangle ();
+		public System.Drawing.Rectangle getRectangle (){
+			return snakeParts.Last.Value.getRectangle();
 		}
 
 		#endregion
 
-		private void getNewDirection()
-		{
+		private IGameObject getNewDirection (){
+			IGameObject temp;
 			int lenght = snakeParts.Count;
 			int xPos = snakeParts.Last.Value.getRectangle().X;
 			int yPos = snakeParts.Last.Value.getRectangle().Y;
 
-			switch (currentDirection) 
-			{
+			switch(currentDirection){
 
-			case "RIGHT":
-				//Console.WriteLine ("snakeMoveRight");
-				newDirection = getWrapperGameObject(new Point (xPos + 20, yPos));
-				lastDirection = "LEFT";
+			case GameState.Right:
+				temp = getWrapperGameObject(new Point(xPos + 20, yPos));
+				lastDirection = GameState.Left;
 				break;
-			case "LEFT":
-				//Console.WriteLine ("SnakeMoveLeft");
-				newDirection =  getWrapperGameObject(new Point (xPos - 20, yPos));
-				lastDirection = "RIGHT";
+			case GameState.Left:
+				temp = getWrapperGameObject(new Point(xPos - 20, yPos));
+				lastDirection = GameState.Right;
 				break;
-			case "DOWN":
-				//Console.WriteLine ("snakeMoveUp");
-				newDirection =  getWrapperGameObject(new Point (xPos, yPos + 20));
-				lastDirection = "UP";
+			case GameState.Down:
+				temp = getWrapperGameObject(new Point(xPos, yPos + 20));
+				lastDirection = GameState.Up;
 				break;
-			case "UP":
-				//snakeMoveDown
-				newDirection = getWrapperGameObject( new Point (xPos, yPos - 20));
-				lastDirection = "DOWN";
+			case GameState.Up:
+				temp = getWrapperGameObject(new Point(xPos, yPos - 20));
+				lastDirection = GameState.Down;
 				break;
 			default:
-				newDirection = getWrapperGameObject( new Point (0, 0));
+				temp = getWrapperGameObject(new Point(0, 0));
 				break;
 			}
+
+			return temp;
 		}
 
-		private IGameObject getWrapperGameObject(Point point){
-			return new SnakePartObject(new Rectangle(point,new Size(new Point(20,20))));
-		}
-		void setupTransform (Graphics brush){
-			state=brush.Save();		
-
-		}
-
-		void renderObject (Graphics brush){
-			lock(snakeParts){
-
-				foreach (var item in snakeFood) {
-					item.draw (brush);
-				}
-				foreach (var item in snakeParts) {
-					item.draw (brush);
-				}
-			}
-		}
-
-		void restoreTransform (Graphics brush){
-			brush.Restore(state);
+		private IGameObject getWrapperGameObject (Point point){
+			return new SnakePartObject(new Rectangle(point, new Size(new Point(20, 20))));
 		}
 	}
 }

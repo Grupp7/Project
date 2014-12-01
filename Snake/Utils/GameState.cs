@@ -5,6 +5,7 @@ namespace Snake{
 	/// Game state.
 	/// </summary>
 	public enum GameState{
+		Dead,Alive,Up,Down,Left,Right,Grow,None
 	}
 }
 

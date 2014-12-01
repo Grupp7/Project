@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
+using System.Media;
 
 namespace Snake{
 	public class GameModel:IGameModel{
@@ -30,11 +31,15 @@ namespace Snake{
 		// The dangerous obstacles for the snake
 		private List<IGameObject> gameObstacles;
 
+		private List<IGameObject> snakeFood;
+
 		// The snakeObject that includes our SnakeObject
 		// But since we only need to talk to our interface
 		// we do not need to know how it is implemented here.
 		private IGameObject snake;
 		#endregion
+
+		private SoundPlayer player = new SoundPlayer("Pickup.wav");
 
 		public GameModel(Size clientSize){
 		
@@ -54,8 +59,8 @@ namespace Snake{
 
 			// Initializze our gameobject list
 			gameObstacles = new List<IGameObject>();
-
-
+			snakeFood = new List<IGameObject>();
+			player.Load();
 			initGameData();
 		}
 
@@ -71,6 +76,7 @@ namespace Snake{
 			// Creates our implemented snake
 			snake = new Snake();
 
+			snakeFood.Add(new SnakeFoodObject(new Rectangle(new Point(100,200),new Size(new Point(20,20)))));
 			// Create the obstacles in the map
 			createPlayingField ();
 		}
@@ -99,10 +105,11 @@ namespace Snake{
 		/// </summary>
 		/// <param name="key">Key.</param>
 		public void updateCurrentKey(char key){
-			GameData temp = new GameData();
-			keyPressed = key;
-			temp.key = key;
-			snake.passData(temp);
+			GameState snakState = getKeyState(key);
+			if(snakState != GameState.None){
+				snake.passData(new GameData(snakState));
+			}
+		
 		}
 
 		/// <summary>
@@ -130,6 +137,30 @@ namespace Snake{
 		}
 		#endregion
 
+		private GameState getKeyState(char key){
+			GameState state = GameState.None;
+
+			switch(key){
+			case (char)Keys.W:
+				state = GameState.Up;
+				break;
+			case (char)Keys.S:
+				state = GameState.Down;
+
+				break;
+			case (char)Keys.D:
+				state = GameState.Right;
+
+				break;
+			case (char)Keys.A:
+				state = GameState.Left;
+
+				break;
+
+			}
+
+				return state;
+		}
 
 		/// <summary>
 		/// The tickTimer (Timer) will call this method every 10ms
@@ -145,11 +176,20 @@ namespace Snake{
 
 				item.update(gameUpdateSpeed);
 				if(GameUtils.isColliding(item,snake)){
-					GameData temp = new GameData();
-					temp.key = (char)Keys.P;
-					snake.passData (temp);
+				
+					snake.passData (new GameData(GameState.Dead));
 				}
 
+			}
+			foreach(var item in snakeFood){
+				if(GameUtils.isColliding(item,snake)){
+					player.Play();
+					snake.passData (new GameData(GameState.Grow));
+					Random rand = new Random();
+					snakeFood.Clear();
+					snakeFood.Add (new SnakeFoodObject (new Rectangle (new Point (rand.Next(50,500), rand.Next(5,500)), new Size (new Point (rand.Next(1,50), rand.Next(1,50))))));
+
+				}
 			}
 			snake.update (gameUpdateSpeed);
 		}
@@ -165,6 +205,9 @@ namespace Snake{
 			g.Clear(Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
 			foreach(var item in gameObstacles){
+				item.draw(g);
+			}
+			foreach(var item in snakeFood){
 				item.draw(g);
 			}
 			snake.draw (g);

@@ -12,29 +12,13 @@ namespace Snake
 
 		public Point point;
 
+		public GameState state;
 		public GameData(){
 
 		}
-		public GameData(char keyChar){
-		
-			switch(keyChar){
-			case (char)Keys.W:
-				point.Y -= 5;
+		public GameData(GameState state){
+			this.state = state;
 
-				break;
-			case (char)Keys.S:
-				point.Y += 5;
-
-				break;
-			case (char)Keys.A:
-				point.X -= 5;
-
-				break;
-			case (char)Keys.D:
-				point.X += 5;
-
-				break;
-			}
 		}
 	}
 
