@@ -31,6 +31,7 @@ namespace Snake{
 				ControlStyles.UserPaint,
 				true);
 			this.Size = new Size (537, 558);
+			this.MaximumSize=new Size (537, 558);
 		}
 
 		private void extendedFormKeyPressed (object sender, KeyPressEventArgs e){
