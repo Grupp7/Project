@@ -37,6 +37,7 @@ namespace Snake{
 		// But since we only need to talk to our interface
 		// we do not need to know how it is implemented here.
 		private IGameObject snake;
+		private IGameObject gameScore;
 		#endregion
 
 		private SoundPlayer player = new SoundPlayer("Pickup.wav");
@@ -97,7 +98,7 @@ namespace Snake{
 			for (int i =0; i <= fieldHeigth; i+=blockWidth) {
 				gameObstacles.Add (GameUtils.getBlockObject(i, 0,blockWidth, blockHeight));
 				gameObstacles.Add (GameUtils.getBlockObject(i,fieldHeigth,blockWidth, blockHeight));
-
+				gameScore = new ShowScoreObject (new Rectangle (new Point (200, 200), new Size (20, 20)));
 			}
 
 		}
@@ -213,6 +214,7 @@ namespace Snake{
 				item.draw(g);
 			}
 			snake.draw (g);
+			gameScore.draw (g);
 			g.Dispose();
 		}
 
