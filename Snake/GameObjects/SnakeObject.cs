@@ -10,14 +10,14 @@ namespace Snake{
 	public class Snake:IGameObject{
 
 	
-	
+		private SoundPlayer player = new SoundPlayer("Death.wav");
 		private GameState lastDirection = GameState.Left;
 		private GameState currentDirection = GameState.Right;
 		private IGameObject newDirection;
 		private int speed;
 		private int tickCounter;
 		private List<GameState> gameStates;
-	
+		private bool playedOnce;
 		private LinkedList<IGameObject> snakeParts;
 
 
@@ -29,7 +29,7 @@ namespace Snake{
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 140), new Size(new Point(20, 20)))));
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 120), new Size(new Point(20, 20)))));
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 100), new Size(new Point(20, 20)))));
-
+			player.Load();
 			speed = 80;
 			tickCounter = 0;
 		}
@@ -93,6 +93,11 @@ namespace Snake{
 			tickCounter++;
 			if(gameStates.Contains(GameState.Dead)){
 				speed = 1000000;
+				if(!playedOnce){
+					player.PlaySync();
+					playedOnce = true;
+				}
+
 			}
 	
 			if(speed < tickCounter * 10){
