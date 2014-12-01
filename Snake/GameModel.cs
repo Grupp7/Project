@@ -189,6 +189,7 @@ namespace Snake{
 				if(GameUtils.isColliding(item,snake)){
 					player.Play();
 					snake.passData (new GameData(GameState.Grow));
+					snake.passData (new GameData(GameState.SpeedUp));
 					snakeFood.Clear();
 					snakeFood.Add (GameUtils.getRandomSnakeFoodObject());
 

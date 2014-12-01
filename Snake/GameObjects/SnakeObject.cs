@@ -30,7 +30,7 @@ namespace Snake{
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 120), new Size(new Point(20, 20)))));
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 100), new Size(new Point(20, 20)))));
 
-			speed = 300;
+			speed = 80;
 			tickCounter = 0;
 		}
 
@@ -94,6 +94,7 @@ namespace Snake{
 			if(gameStates.Contains(GameState.Dead)){
 				speed = 1000000;
 			}
+	
 			if(speed < tickCounter * 10){
 				lock(snakeParts){
 					newDirection = getNewDirection();
@@ -105,7 +106,13 @@ namespace Snake{
 					else{
 						snakeParts.RemoveFirst();
 					}
+					if(gameStates.Contains(GameState.SpeedUp)){
+						if(speed>30){
+							speed -=10;
+						}
 
+						gameStates.Remove(GameState.SpeedUp);
+					}
 
 					snakeParts.AddLast(newDirection);
 				}
