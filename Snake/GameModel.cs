@@ -197,6 +197,7 @@ namespace Snake{
 
 				}
 			}
+
 			snake.update (gameUpdateSpeed);
 		}
 
