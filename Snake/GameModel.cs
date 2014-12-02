@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using System.Media;
+using System.Threading;
 
 namespace Snake
 {
@@ -306,7 +307,8 @@ namespace Snake
 			gameScore.update (gameUpdateSpeed);
 
 			if (snake.getStates ().Contains (GameState.Dead)) {
-
+			
+				Thread.Sleep (1000);
 				modelState = GameState.Menu;
 				initGameData ();
 				initMenu ();
