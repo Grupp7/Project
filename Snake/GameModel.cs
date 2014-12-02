@@ -42,6 +42,7 @@ namespace Snake{
 		private IGameObject gameScore;
 		private IGameObject background;
 		private IGameObject menu;
+		private IGameObject highScoreText;
 		#endregion
 
 		private GameState modelState;
@@ -74,7 +75,9 @@ namespace Snake{
 		}
 
 		private void initMenu(){
-			menu = new MenuObject (new Rectangle (new Point (50, 50), new Size (50, 50)));
+			menu = new MenuObject (new Rectangle (new Point (50, 200), new Size (50, 50)));
+			Rectangle temp = new Rectangle (new Point (20, 100), new Size (50, 50));
+			highScoreText = new TextObject (temp, "HIGHSCORE "+realHighScore.ToString());
 		}
 		/// <summary>
 		/// Here every gameObject is initialized 
@@ -273,6 +276,7 @@ namespace Snake{
 
 				modelState = GameState.Menu;
 				initGameData ();
+				initMenu ();
 			}
 		}
 	
@@ -296,6 +300,7 @@ namespace Snake{
 			g.Clear(Color.Black);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
 			menu.draw (g);
+			highScoreText.draw (g);
 			g.Dispose ();
 		}
 		private void gameRenderRunning(){

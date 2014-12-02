@@ -63,6 +63,7 @@
     <Compile Include="Learning\SoundManager.cs" />
     <Compile Include="GameObjects\ShowScoreObject.cs" />
     <Compile Include="GameObjects\MenuObject.cs" />
+    <Compile Include="GameObjects\TextObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
