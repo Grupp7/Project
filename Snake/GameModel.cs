@@ -187,18 +187,22 @@ namespace Snake{
 				}
 
 			}
-			foreach(var item in snakeFood){
-				if(GameUtils.isColliding(item,snake)){
-					player.Play();
-					snake.passData (new GameData(GameState.Grow));
-					snake.passData (new GameData(GameState.SpeedUp));
-					snakeFood.Clear();
-					snakeFood.Add (GameUtils.getRandomSnakeFoodObject());
-
+			lock (snakeFood) {
+				foreach(var item in snakeFood){
+					if(GameUtils.isColliding(item,snake)){
+						player.Play();
+						snake.passData (new GameData(GameState.Grow));
+						snake.passData (new GameData(GameState.SpeedUp));
+						snakeFood.Clear();
+						snakeFood.Add (GameUtils.getRandomSnakeFoodObject());
+						gameScore.passData (new GameData (GameState.Score));
+					}
 				}
 			}
+		
 
 			snake.update (gameUpdateSpeed);
+			gameScore .update(gameUpdateSpeed);
 		}
 
 	

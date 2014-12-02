@@ -45,7 +45,7 @@ namespace Snake{
 		}
 
 		protected override void OnSizeChanged (EventArgs e){
-			model.resizeBitmap(this.ClientSize);
+			//model.resizeBitmap(this.ClientSize);
 			base.OnSizeChanged(e);
 
 		}

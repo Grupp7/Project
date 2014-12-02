@@ -6,8 +6,8 @@ namespace Snake
 	public class ShowScoreObject:IGameObject
 	{
 		private Rectangle location;
-		private int highScore= 123344; //stuff
-		private int score= 1231231;  
+		private int highScore;
+		private int score;  
 
 		public ShowScoreObject (Rectangle location)
 		{
@@ -18,12 +18,18 @@ namespace Snake
 
 		public void passData (GameData newInfo)
 		{
+			if(newInfo.state == GameState.Score){
 
+				score++;
+			}
 		}
 
 		public void update (double gameTime)
 		{
+			if(highScore<score){
 
+				highScore = score;
+			}
 		}
 
 		public void draw (System.Drawing.Graphics brush)
