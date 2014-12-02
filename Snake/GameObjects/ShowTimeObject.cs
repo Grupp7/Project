@@ -21,7 +21,16 @@ namespace Snake
 		#region IGameObject implementation
 		public void passData (GameData newInfo)
 		{
+			if(newInfo.state==GameState.Pause){
+				stopwatch.Stop();
+			}
+			else if(newInfo.state==GameState.Start){
+				stopwatch.Start();
+			}
+			else if(newInfo.state == GameState.Reset){
+				stopwatch.Restart();
 
+			}
 		}
 		public void update (double gameTime)
 		{

@@ -40,7 +40,7 @@ namespace Snake
 		public void draw (System.Drawing.Graphics brush)
 		{
 			// Create string to draw.
-			String drawString = "Score "+ score+ " HighScore"+ highScore;
+			String drawString = "Score: "+ score+ " HighScore: "+ highScore;
 
 			// Create font and brush.
 			Font drawFont = new Font("Arial", 14);

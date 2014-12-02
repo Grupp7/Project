@@ -24,7 +24,7 @@ namespace Snake
 
 		public static SnakeFoodObject getRandomSnakeFoodObject(){
 			int temp = random.Next(20, 150);
-			return new SnakeFoodObject (new Rectangle (new Point (random.Next(50,500), random.Next(50,500)), new Size (new Point (temp,temp))));
+			return new SnakeFoodObject (new Rectangle (new Point (random.Next(50,465), random.Next(50,465)), new Size (new Point (temp,temp))));
 		}
 
 		public static BlockObject getBlockObject(int locX, int locY, int width, int height){
