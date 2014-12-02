@@ -25,13 +25,15 @@ namespace Snake
 		}
 		public void update (double gameTime)
 		{
-			elaptime = Convert.ToString (stopwatch.Elapsed);
+			elaptime = Convert.ToString (stopwatch.Elapsed.TotalSeconds);
+			string[] temp = elaptime.Split (',');
+			elaptime = temp [0];
 
 		}
 		public void draw (Graphics brush)
 		{
 			// Create string to draw.
-			String drawString = "Time "+ elaptime;
+			String drawString = "Time: "+ elaptime ;
 
 			// Create font and brush.
 			Font drawFont = new Font("Arial", 14);
