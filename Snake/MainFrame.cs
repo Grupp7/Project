@@ -42,6 +42,10 @@ namespace Snake{
 		protected override void OnPaint (PaintEventArgs e){
 			Invalidate();
 			e.Graphics.DrawImageUnscaled(model.getBitmap(), 0, 0);
+			if(model.getStates().Contains(GameState.ExitGame)){
+				this.Dispose ();
+				this.Close ();
+			}
 		}
 
 		protected override void OnSizeChanged (EventArgs e){

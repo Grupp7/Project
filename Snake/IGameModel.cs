@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace Snake{
 	public interface IGameModel{
@@ -24,6 +25,7 @@ namespace Snake{
 		/// <param name="key">Key.</param>
 		void updateCurrentKey(char key);
 
+		List<GameState> getStates();
 	}
 }
 

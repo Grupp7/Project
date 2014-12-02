@@ -77,6 +77,11 @@ namespace Snake{
 
 		}
 
+		public List<GameState> getStates ()
+		{
+			return gameStates;
+		}
+
 		private void addGameState (GameState state){
 
 			if(!gameStates.Contains(state)){

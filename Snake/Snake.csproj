@@ -62,6 +62,7 @@
     <Compile Include="Learning\ParticleSystem.cs" />
     <Compile Include="Learning\SoundManager.cs" />
     <Compile Include="GameObjects\ShowScoreObject.cs" />
+    <Compile Include="GameObjects\MenuObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

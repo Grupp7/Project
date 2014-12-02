@@ -6,7 +6,7 @@ namespace Snake
 	public class ShowScoreObject:IGameObject
 	{
 		private Rectangle location;
-		private int highScore;
+		public int highScore;
 		private int score;  
 
 		public ShowScoreObject (Rectangle location)
@@ -15,6 +15,11 @@ namespace Snake
 		}
 
 		#region IGameObject implementation
+
+		public System.Collections.Generic.List<GameState> getStates ()
+		{
+			throw new NotImplementedException ();
+		}
 
 		public void passData (GameData newInfo)
 		{

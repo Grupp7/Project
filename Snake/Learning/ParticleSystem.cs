@@ -11,6 +11,11 @@ namespace Snake{
 
 		#region IGameObject implementation
 
+		public System.Collections.Generic.List<GameState> getStates ()
+		{
+			throw new NotImplementedException ();
+		}
+
 		public bool isColliding (IGameObject objectToTest)
 		{
 			throw new NotImplementedException ();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace Snake{
 	/// <summary>
@@ -31,6 +32,7 @@ namespace Snake{
 		/// <returns>The rectangle.</returns>
 		Rectangle getRectangle();
 
+		List<GameState> getStates();
 		bool isColliding(IGameObject objectToTest);
 	}
 }

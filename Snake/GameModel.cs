@@ -25,6 +25,8 @@ namespace Snake{
 		// This determinates the size of the Bitmap in this model
 		private Size clientSize;
 
+	
+
 		#endregion
 		#region IGameObjects
 
@@ -39,8 +41,13 @@ namespace Snake{
 		private IGameObject snake;
 		private IGameObject gameScore;
 		private IGameObject background;
+		private IGameObject menu;
 		#endregion
 
+		private GameState modelState;
+		private int highScore;
+		private int realHighScore;
+		private int score;
 		private SoundPlayer player = new SoundPlayer("Pickup.wav");
 
 		public GameModel(Size clientSize){
@@ -59,13 +66,16 @@ namespace Snake{
 			// getBitmap method from IGameModel interface
 			this.clientSize = clientSize;
 
-			// Initializze our gameobject list
-			gameObstacles = new List<IGameObject>();
-			snakeFood = new List<IGameObject>();
+
 			player.Load();
+			modelState = GameState.Menu;
+			initMenu ();
 			initGameData();
 		}
 
+		private void initMenu(){
+			menu = new MenuObject (new Rectangle (new Point (50, 50), new Size (50, 50)));
+		}
 		/// <summary>
 		/// Here every gameObject is initialized 
 		/// for the snake game
@@ -75,11 +85,23 @@ namespace Snake{
 		/// 
 		/// </summary>
 		private void initGameData (){
+			// Initializze our gameobject list
+			gameObstacles = new List<IGameObject>();
+			snakeFood = new List<IGameObject>();
 			// Creates our implemented snake
 			snake = new Snake();
 			background = GameUtils.getBlockObject(0, 0, 600, 600);
 			background.passData(new GameData(GameState.None));
 			snakeFood.Add(GameUtils.getRandomSnakeFoodObject());
+			ShowScoreObject gameScore = new ShowScoreObject (new Rectangle (new Point (0, 200), new Size (20, 20)));
+			if(realHighScore < highScore){
+				realHighScore = highScore;
+			}
+
+			gameScore.highScore = realHighScore;
+			highScore = 0;
+			score = 0;
+			this.gameScore = gameScore;
 			// Create the obstacles in the map
 			createPlayingField ();
 		}
@@ -100,22 +122,44 @@ namespace Snake{
 			for (int i =0; i <= fieldHeigth; i+=blockWidth) {
 				gameObstacles.Add (GameUtils.getBlockObject(i, 0,blockWidth, blockHeight));
 				gameObstacles.Add (GameUtils.getBlockObject(i,fieldHeigth,blockWidth, blockHeight));
-				gameScore = new ShowScoreObject (new Rectangle (new Point (0, 200), new Size (20, 20)));
 			}
 
 		}
 
 		#region ImodelInterface methods
-
+		public List<GameState> getStates ()
+		{List<GameState> temp = new List<GameState> ();
+			temp.Add (modelState);
+			return temp;
+		}
 		/// <summary>
 		/// Updates the current key to the model
 		/// </summary>
 		/// <param name="key">Key.</param>
 		public void updateCurrentKey(char key){
-			GameState snakState = getKeyState(key);
-			if(snakState != GameState.None){
-				snake.passData(new GameData(snakState));
+			if(modelState==GameState.Menu){
+
+				menu.passData (new GameData (getKeyState (key)));
+				if(getKeyState (key)==GameState.Confirm){
+					if(menu.getStates()[0]==GameState.RunGame){
+						modelState = GameState.RunGame;
+
+					}else{
+						modelState = GameState.ExitGame;
+
+					}
+
+				}
 			}
+			else if(modelState==GameState.RunGame){
+				GameState snakState = getKeyState(key);
+				if(snakState != GameState.None){
+					snake.passData(new GameData(snakState));
+				}
+			}
+
+
+
 		
 		}
 
@@ -163,6 +207,10 @@ namespace Snake{
 				state = GameState.Left;
 
 				break;
+			case 'n':
+				state = GameState.Confirm;
+
+				break;
 
 			}
 
@@ -178,7 +226,20 @@ namespace Snake{
 		/// <param name="sender">Sender.</param>
 		/// <param name="e">E.</param>
 		private void tickGameObjects (object sender, System.EventArgs e){
+			if(modelState==GameState.Menu){
+				menUpdateRunning ();
+			}
+			else if(modelState==GameState.RunGame){
+				gameUpdateRunning ();
+			}
 
+		
+		}
+
+		private void menUpdateRunning(){
+
+		}
+		private void gameUpdateRunning(){
 			foreach(var item in gameObstacles){
 
 				item.update(gameUpdateSpeed);
@@ -196,15 +257,24 @@ namespace Snake{
 						snakeFood.Clear();
 						snakeFood.Add (GameUtils.getRandomSnakeFoodObject());
 						gameScore.passData (new GameData (GameState.Score));
+						score++;
 					}
 				}
 			}
-		
+			if(highScore<score){
+				highScore = score;
+
+			}
 
 			snake.update (gameUpdateSpeed);
-			gameScore .update(gameUpdateSpeed);
-		}
+			gameScore.update(gameUpdateSpeed);
 
+			if(snake.getStates().Contains(GameState.Dead)){
+
+				modelState = GameState.Menu;
+				initGameData ();
+			}
+		}
 	
 		/// <summary>
 		/// This method renders all gameObjects and its childs
@@ -212,6 +282,23 @@ namespace Snake{
 		/// 
 		/// </summary>
 		private void renderGameObjects (){
+			if(modelState==GameState.Menu){
+				menuRenderRunning ();
+			}
+			else if(modelState==GameState.RunGame){
+				gameRenderRunning ();
+			}
+
+		}
+
+		private void menuRenderRunning(){
+			Graphics g = Graphics.FromImage(backBuffer);
+			g.Clear(Color.Black);      
+			g.SmoothingMode = SmoothingMode.AntiAlias;
+			menu.draw (g);
+			g.Dispose ();
+		}
+		private void gameRenderRunning(){
 			Graphics g = Graphics.FromImage(backBuffer);
 			g.Clear(Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
@@ -224,12 +311,11 @@ namespace Snake{
 					item.draw(g);
 				}
 			}
-		
+
 			snake.draw (g);
 			gameScore.draw (g);
 			g.Dispose();
 		}
-
 
 	}
 }
