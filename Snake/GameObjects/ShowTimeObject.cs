@@ -10,13 +10,13 @@ namespace Snake
 		private Stopwatch stopwatch = new Stopwatch ();
 		private string elaptime;
 
-		public ShowTimeObject ()
+		public ShowTimeObject (Rectangle location)
 		{
 			this.location = location;
 			stopwatch.Start();
 
-
 		}
+
 
 		#region IGameObject implementation
 		public void passData (GameData newInfo)
@@ -25,36 +25,39 @@ namespace Snake
 		}
 		public void update (double gameTime)
 		{
-			stopwatch.Elapsed.ToString(elaptime);
+			elaptime = Convert.ToString (stopwatch.Elapsed);
+
 		}
-		public void draw (System.Drawing.Graphics brush)
+		public void draw (Graphics brush)
 		{
 			// Create string to draw.
-			String drawString = "Score "+ elaptime;
+			String drawString = "Time "+ elaptime;
 
 			// Create font and brush.
 			Font drawFont = new Font("Arial", 14);
 			SolidBrush drawBrush = new SolidBrush(Color.Black);
 
 			// Create point for upper-left corner of drawing.
-			PointF drawPoint = new PointF(20.0F, 0F);
+			PointF drawPoint = new PointF(location.X, 0F);
 
 			// Draw string to screen.
 			brush.DrawString(drawString, drawFont, drawBrush, drawPoint);
 		}
-		public System.Drawing.Rectangle getRectangle ()
+		public Rectangle getRectangle ()
 		{
 			return location;
+		}
+		public System.Collections.Generic.List<GameState> getStates ()
+		{
+			throw new NotImplementedException ();
 		}
 		public bool isColliding (IGameObject objectToTest)
 		{
 			return false;
 		}
 		#endregion
-
-
+	
 	}
-
 
 }
 

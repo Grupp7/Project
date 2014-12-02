@@ -40,6 +40,7 @@ namespace Snake{
 		// we do not need to know how it is implemented here.
 		private IGameObject snake;
 		private IGameObject gameScore;
+		private IGameObject gameTime;
 		private IGameObject background;
 		private IGameObject menu;
 		private IGameObject highScoreText;
@@ -88,6 +89,7 @@ namespace Snake{
 		/// 
 		/// </summary>
 		private void initGameData (){
+			gameTime = new ShowTimeObject (new Rectangle (new Point (300,0), new Size (10,10)));
 			// Initializze our gameobject list
 			gameObstacles = new List<IGameObject>();
 			snakeFood = new List<IGameObject>();
@@ -243,6 +245,7 @@ namespace Snake{
 
 		}
 		private void gameUpdateRunning(){
+			gameTime.update (gameUpdateSpeed);
 			foreach(var item in gameObstacles){
 
 				item.update(gameUpdateSpeed);
@@ -318,6 +321,7 @@ namespace Snake{
 			}
 
 			snake.draw (g);
+			gameTime.draw (g);
 			gameScore.draw (g);
 			g.Dispose();
 		}
