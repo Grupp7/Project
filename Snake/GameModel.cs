@@ -219,9 +219,12 @@ namespace Snake{
 			foreach(var item in gameObstacles){
 				item.draw(g);
 			}
-			foreach(var item in snakeFood){
-				item.draw(g);
+			lock (snakeFood) {
+				foreach(var item in snakeFood){
+					item.draw(g);
+				}
 			}
+		
 			snake.draw (g);
 			gameScore.draw (g);
 			g.Dispose();
