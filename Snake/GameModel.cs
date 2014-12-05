@@ -29,9 +29,11 @@ namespace Snake {
 		// that will get drawn.
 		private Size clientSize;
 
-
+		// string constants
 		private const string FOOD_SOUND = "Pickup.wav";
 		private const string HIGH_SCORE = "HIGHSCORE ";
+		private const string DEAD_SOUND = "Death.wav";
+		private const char UP = 'w';
 		#endregion
 
 		#region IGameObjects
@@ -70,8 +72,9 @@ namespace Snake {
 		private GameState modelState;
 
 		//The sound for eating a food
-		private SoundPlayer player;
+		private SoundPlayer playerFood;
 
+		private SoundPlayer playerDead;
 		// Keeping track of the current scores
 		private int tempHighScore;
 		private int highScore;
@@ -110,9 +113,11 @@ namespace Snake {
 			modelState = GameState.Menu;
 
 			//Initiate the sound for food
-			player = new SoundPlayer (FOOD_SOUND);
-			player.Load ();
-		
+			playerFood = new SoundPlayer (FOOD_SOUND);
+			playerFood.Load ();
+
+			playerDead = new SoundPlayer(DEAD_SOUND);
+			playerDead.Load ();
 			initMainMenu ();
 			initGameData ();
 		}
@@ -298,7 +303,7 @@ namespace Snake {
 			GameState state = GameState.None;
 
 			switch (key) {
-			case 'w':
+			case UP:
 				state = GameState.Up;
 				break;
 			case 's':
@@ -338,13 +343,17 @@ namespace Snake {
 		{
 			if (modelState == GameState.Menu) {
 				menUpdateRunning ();
-			} else if (modelState == GameState.RunGame) {
+			} 
+			else if (modelState == GameState.RunGame) {
 				gameUpdateRunning ();
 			}
 
 		
 		}
 
+		/// <summary>
+		/// Mens the update running.
+		/// </summary>
 		private void menUpdateRunning ()
 		{
 
@@ -358,13 +367,14 @@ namespace Snake {
 				item.update (gameUpdateSpeed);
 				if (GameUtils.isColliding (item, gameSnake)) {
 					gameSnake.passData (new GameData (GameState.Dead));
+				
 				}
 
 			}
 			lock (gameSnakeFood) {
 				foreach (var item in gameSnakeFood) {
 					if (GameUtils.isColliding (item, gameSnake)) {
-						player.Play ();
+						playerFood.Play ();
 						gameSnake.passData (new GameData (GameState.Grow));
 						gameSnake.passData (new GameData (GameState.SpeedUp));
 						gameSnakeFood.Clear ();
@@ -383,11 +393,12 @@ namespace Snake {
 			gameScore.update (gameUpdateSpeed);
 
 			if (gameSnake.getStates ().Contains (GameState.Dead)) {
-			
-				Thread.Sleep (1000);
-				modelState = GameState.Menu;
+				playerDead.Play ();
+
 				initGameData ();
 				initMainMenu ();
+				modelState = GameState.Menu;
+			
 			}
 		}
 
@@ -419,6 +430,7 @@ namespace Snake {
 		private void gameRenderRunning ()
 		{
 			Graphics g = Graphics.FromImage (backBuffer);
+
 			g.Clear (Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
 			mainMenuBackground.draw (g);
