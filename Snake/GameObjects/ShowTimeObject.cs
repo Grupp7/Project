@@ -13,7 +13,7 @@ namespace Snake
 		public ShowTimeObject (Rectangle location)
 		{
 			this.location = location;
-			stopwatch.Start();
+			//stopwatch.Start();
 
 		}
 
@@ -46,7 +46,7 @@ namespace Snake
 
 			// Create font and brush.
 			Font drawFont = new Font("Arial", 14);
-			SolidBrush drawBrush = new SolidBrush(Color.Black);
+			SolidBrush drawBrush = new SolidBrush(Color.White);
 
 			// Create point for upper-left corner of drawing.
 			PointF drawPoint = new PointF(location.X, 0F);

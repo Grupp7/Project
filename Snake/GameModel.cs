@@ -171,7 +171,7 @@ namespace Snake {
 
 			Size gameTimeSize = new Size (gameTimeWidth, gameTimeHeight);
 
-			int gameTimePosX = 300;
+			int gameTimePosX = 400;
 			int gameTimePosY = 0;
 
 			Point gameTimePoint = new Point (gameTimePosX, gameTimePosY);
@@ -192,7 +192,8 @@ namespace Snake {
 			gameSnake = new Snake ();
 			mainMenuBackground = GameUtils.getBlockObject (0, 0, 600, 600);
 			mainMenuBackground.passData (new GameData (GameState.None));
-			gameSnakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
+
+			gameSnakeFood.Add (new SnakeFoodObject(new Rectangle(new Point(300,350),new Size(100,100))));
 			ShowScoreObject gameScore = new ShowScoreObject (new Rectangle (new Point (0, 200), new Size (20, 20)));
 			if (highScore < tempHighScore) {
 				highScore = tempHighScore;
@@ -217,12 +218,23 @@ namespace Snake {
 			int blockWidth = 20;
 
 			for (int i = 0; i <= fieldWidth; i += blockWidth) {
-				gameObstacles.Add (GameUtils.getBlockObject (0, i, blockWidth, blockHeight));
 				gameObstacles.Add (GameUtils.getBlockObject (fieldWidth, i, blockWidth, blockHeight));
 			}
+			for (int i = 0; i <= fieldWidth; i += blockWidth) {
+				BlockObject temp = GameUtils.getBlockObject (0, i, blockWidth, blockHeight);
+				temp.passData (new GameData (GameState.Grey));
+				gameObstacles.Add (temp);
+			}
 			for (int i = 0; i <= fieldHeigth; i += blockWidth) {
-				gameObstacles.Add (GameUtils.getBlockObject (i, 0, blockWidth, blockHeight));
-				gameObstacles.Add (GameUtils.getBlockObject (i, fieldHeigth, blockWidth, blockHeight));
+				BlockObject temp = GameUtils.getBlockObject (i, 0, blockWidth, blockHeight);
+				temp.passData (new GameData (GameState.Grey));
+				gameObstacles.Add (temp);
+			}
+			for (int i = 0; i <= fieldHeigth; i += blockWidth) {
+
+				BlockObject temp = GameUtils.getBlockObject (i, fieldHeigth, blockWidth, blockHeight);
+				temp.passData (new GameData (GameState.Grey));
+				gameObstacles.Add (temp);
 			}
 
 		}
@@ -244,7 +256,7 @@ namespace Snake {
 		{
 			bool userPressedConfirmKey = getKeyState (key) == GameState.Confirm;
 			bool selectionBoxcontainsRunGame = mainMenuSelectionBox.getStates ().Contains (GameState.RunGame);
-
+			bool selectionBoxcontainsExitGame = mainMenuSelectionBox.getStates ().Contains (GameState.ExitGame);
 			switch(modelState){
 			case GameState.Menu:
 				mainMenuSelectionBox.passData (new GameData (getKeyState (key)));
@@ -252,6 +264,7 @@ namespace Snake {
 					modelState = GameState.RunGame;
 					if(userWantsNewGame){
 						gameTime.passData (new GameData (GameState.Reset));
+						gameTime.passData (new GameData (GameState.Start));
 						userWantsNewGame = false;
 					}
 				}
@@ -317,13 +330,18 @@ namespace Snake {
 			case 'a':
 				state = GameState.Left;
 				break;
-			case 'n':
+			case (char)Keys.Enter:
 				state = GameState.Confirm;
 				gameTime.passData (new GameData (GameState.Start));
+				mainMenuSelectionBox.passData (new GameData (GameState.UnPause));
 				break;
 			case (char)Keys.Escape:
+				if(modelState != GameState.Menu){
+					gameTime.passData (new GameData (GameState.Pause));
+					mainMenuSelectionBox.passData (new GameData (GameState.Pause));
+				}
 				modelState = GameState.Menu;
-				gameTime.passData (new GameData (GameState.Pause));
+
 				break;
 			}
 
@@ -394,7 +412,7 @@ namespace Snake {
 
 			if (gameSnake.getStates ().Contains (GameState.Dead)) {
 				playerDead.Play ();
-
+				gameTime.passData (new GameData (GameState.Pause));
 				initGameData ();
 				initMainMenu ();
 				modelState = GameState.Menu;
@@ -420,10 +438,23 @@ namespace Snake {
 		private void menuRenderRunning ()
 		{
 			Graphics g = Graphics.FromImage (backBuffer);
-			g.Clear (Color.Black);      
+			g.Clear (Color.LightGreen);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
+
+			foreach (var item in gameObstacles) {
+				item.draw (g);
+			}
+			lock (gameSnakeFood) {
+				foreach (var item in gameSnakeFood) {
+					item.draw (g);
+				}
+			}
+			gameSnake.draw (g);
 			mainMenuSelectionBox.draw (g);
-			mainMenuShowHighScore.draw (g);
+			//mainMenuShowHighScore.draw (g);
+			gameTime.draw (g);
+			gameScore.draw (g);
+		
 			g.Dispose ();
 		}
 

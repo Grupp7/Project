@@ -27,7 +27,7 @@ namespace Snake{
 		}
 
 		public void draw (System.Drawing.Graphics brush){
-			SolidBrush myBrush2 = new SolidBrush (Color.DarkRed);
+			SolidBrush myBrush2 = new SolidBrush (Color.DarkSlateBlue);
 			Rectangle cir = location;
 			Rectangle smaller = new Rectangle();
 			smaller.X = location.X + Convert.ToInt32((location.Width-location.Width *0.7)/2);

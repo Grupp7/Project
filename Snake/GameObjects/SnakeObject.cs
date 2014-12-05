@@ -25,10 +25,9 @@ namespace Snake{
 			snakeParts = new LinkedList<IGameObject>();
 
 			newDirection = new SnakePartObject(new Rectangle(new Point(100, 140), new Size(new Point(20, 20))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 140), new Size(new Point(20, 20)))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 120), new Size(new Point(20, 20)))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 100), new Size(new Point(20, 20)))));
-		
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 400), new Size(new Point(20, 20)))));
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 380), new Size(new Point(20, 20)))));
+			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 360), new Size(new Point(20, 20)))));
 			speed = 80;
 			tickCounter = 0;
 		}

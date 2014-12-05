@@ -40,11 +40,11 @@ namespace Snake
 		public void draw (System.Drawing.Graphics brush)
 		{
 			// Create string to draw.
-			String drawString = "Score: "+ score+ " HighScore: "+ highScore;
+			String drawString = "Score: "+ score+ "               HighScore: "+ highScore;
 
 			// Create font and brush.
 			Font drawFont = new Font("Arial", 14);
-			SolidBrush drawBrush = new SolidBrush(Color.Black);
+			SolidBrush drawBrush = new SolidBrush(Color.White);
 
 			// Create point for upper-left corner of drawing.
 			PointF drawPoint = new PointF(20.0F, 0F);

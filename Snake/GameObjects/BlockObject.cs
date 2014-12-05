@@ -31,9 +31,14 @@ namespace Snake
 		public void draw (System.Drawing.Graphics brush)
 		{	SolidBrush myBrush2 = new SolidBrush (Color.Gray);
 			if(state == GameState.None){
-				myBrush2 =new SolidBrush (Color.Chocolate);
+				myBrush2 =new SolidBrush (Color.LightGreen);
 			}
-
+			else if(state == GameState.Black){
+				myBrush2 =new SolidBrush (Color.DarkGoldenrod);
+			}
+			else if(state == GameState.Grey){
+				myBrush2 =new SolidBrush (Color.Gray);
+			}
 			Rectangle cir = location;
 			brush.FillRectangle (myBrush2, cir);		
 			myBrush2.Dispose ();

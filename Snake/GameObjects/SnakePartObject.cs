@@ -46,7 +46,7 @@ namespace Snake
 
 		public void draw (System.Drawing.Graphics brush)
 		{
-			SolidBrush myBrush2 = new SolidBrush (Color.DarkRed);
+			SolidBrush myBrush2 = new SolidBrush (Color.DarkSlateBlue);
 			Rectangle cir = location;
 			brush.FillRectangle (myBrush2, cir);		
 	

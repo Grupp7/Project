@@ -65,6 +65,7 @@
     <Compile Include="GameObjects\MenuObject.cs" />
     <Compile Include="GameObjects\TextObject.cs" />
     <Compile Include="GameObjects\ShowTimeObject.cs" />
+    <Compile Include="GameObjects\TextObject2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
