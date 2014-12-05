@@ -1,9 +1,6 @@
 using System;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Threading;
-using System.Drawing.Drawing2D;
-using System.ComponentModel;
 
 
 namespace Snake{

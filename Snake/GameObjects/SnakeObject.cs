@@ -66,10 +66,9 @@ namespace Snake{
 
 				break;
 			case GameState.Right:
-				if(lastDirection!=GameState.Right){
+				if (lastDirection != GameState.Right) {
 					currentDirection = GameState.Right;
 				}
-
 				break;
 
 

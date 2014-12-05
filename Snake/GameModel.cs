@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
-using System.ComponentModel;
-using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using System.Media;
+using System.Windows.Forms;
 using System.Threading;
+using System.Drawing.Drawing2D;
 
-namespace Snake
-{
-	public class GameModel:IGameModel
-	{
+namespace Snake {
+
+	/// <summary>
+	/// Game model.
+	/// </summary>
+	public class GameModel:IGameModel {
+
 		#region ModelConfig
 
 		// The Bitmap that the MainFrame will get and draw to screen
@@ -22,15 +24,14 @@ namespace Snake
 		// update method called every 10ms
 		private const double gameUpdateSpeed = 10;
 
-		// The keypressed updated from the MainFrame
-		private char keyPressed;
-
 		// The clientSize from the MainFrame
 		// This determinates the size of the Bitmap in this model
+		// that will get drawn.
 		private Size clientSize;
 
-	
 
+		private const string FOOD_SOUND = "Pickup.wav";
+		private const string HIGH_SCORE = "HIGHSCORE ";
 		#endregion
 
 		#region IGameObjects
@@ -38,30 +39,56 @@ namespace Snake
 		// The dangerous obstacles for the snake
 		private List<IGameObject> gameObstacles;
 
-		private List<IGameObject> snakeFood;
+		// The friendly obstacles for the snake
+		// This will make the snake grow
+		// and get a score for it
+		private List<IGameObject> gameSnakeFood;
 
 		// The snakeObject that includes our SnakeObject
 		// But since we only need to talk to our interface
 		// we do not need to know how it is implemented here.
-		private IGameObject snake;
+		private IGameObject gameSnake;
+
+		// MainMenu
+		private IGameObject mainMenuBackground;
+		private IGameObject mainMenuSelectionBox;
+		private IGameObject mainMenuShowHighScore;
+
+		//Game
+		//Shows the score and highscore to the game
 		private IGameObject gameScore;
+		//Shows the elapsed gametime in seconds
 		private IGameObject gameTime;
-		private IGameObject background;
-		private IGameObject menu;
-		private IGameObject highScoreText;
 
 		#endregion
 
-		private GameState modelState;
-		private bool newGame;
-		private int highScore;
-		private int realHighScore;
-		private int score;
-		private SoundPlayer player = new SoundPlayer ("Pickup.wav");
+		#region GameData
 
+		// The current state of the model
+		// 1:state show menu
+		// 2:state show and start game
+		private GameState modelState;
+
+		//The sound for eating a food
+		private SoundPlayer player;
+
+		// Keeping track of the current scores
+		private int tempHighScore;
+		private int highScore;
+		private int score;
+
+		// Saving value for going back and forth
+		// between game and mainMenu
+		private bool userWantsNewGame;
+
+		#endregion
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Snake.GameModel"/> class.
+		/// </summary>
+		/// <param name="clientSize">Client size.</param>
 		public GameModel (Size clientSize)
 		{
-		
 			// How fast the objects will update
 			// 10 equals 10ms
 			// In a sense every IGameobject will have their
@@ -75,19 +102,51 @@ namespace Snake
 			// that the form will get from
 			// getBitmap method from IGameModel interface
 			this.clientSize = clientSize;
-			newGame = true;
 
-			player.Load ();
+			// User can choose to exit application or start game
+			userWantsNewGame = true;
+
+			//Start in the mainMenu
 			modelState = GameState.Menu;
-			initMenu ();
+
+			//Initiate the sound for food
+			player = new SoundPlayer (FOOD_SOUND);
+			player.Load ();
+		
+			initMainMenu ();
 			initGameData ();
 		}
 
-		private void initMenu ()
+		/// <summary>
+		/// Inits the main menu display
+		/// </summary>
+		private void initMainMenu ()
 		{
-			menu = new MenuObject (new Rectangle (new Point (50, 200), new Size (50, 50)));
-			Rectangle temp = new Rectangle (new Point (20, 100), new Size (50, 50));
-			highScoreText = new TextObject (temp, "HIGHSCORE " + realHighScore.ToString ());
+			//Init menuselectionBox
+			int selectionBoxPosX = 50;
+			int selectionBoxPosY = 200;
+			Point selectionBoxPoint = new Point (selectionBoxPosX, selectionBoxPosY);
+
+			int selectionBoxWidth = 50;
+			int selectionBoxHeight = 50;
+			Size selectionBoxSize = new Size (selectionBoxWidth, selectionBoxHeight);
+
+			Rectangle selectionBoxRect = new Rectangle (selectionBoxPoint, selectionBoxSize);
+			mainMenuSelectionBox = new MenuObject (selectionBoxRect);
+
+			//Init menu High Score
+			int highScorePosX =20;
+			int highScorePosY =100;
+			Point highScorePoint = new Point (highScorePosX, highScorePosY);
+
+			int highScoreWidth = 50;
+			int highScoreHeigth = 50;
+			Size highScoreSize = new Size (highScoreWidth, highScoreHeigth);
+
+			Rectangle highScoreRect = new Rectangle (highScorePoint,highScoreSize);
+
+			string highScoreString = HIGH_SCORE+highScore.ToString ();
+			mainMenuShowHighScore = new TextObject (highScoreRect,highScoreString );
 		}
 
 		/// <summary>
@@ -101,33 +160,51 @@ namespace Snake
 		private void initGameData ()
 		{
 
-			// Initializze our gameobject list
-			gameTime = new ShowTimeObject (new Rectangle (new Point (300, 0), new Size (10, 10)));
+			// Init gameTime
+			int gameTimeWidth = 10;
+			int gameTimeHeight = 10;
+
+			Size gameTimeSize = new Size (gameTimeWidth, gameTimeHeight);
+
+			int gameTimePosX = 300;
+			int gameTimePosY = 0;
+
+			Point gameTimePoint = new Point (gameTimePosX, gameTimePosY);
+
+			Rectangle gameTimeRect = new Rectangle (gameTimePoint, gameTimeSize);
+
+			gameTime = new ShowTimeObject (gameTimeRect);
+
+			//Init gameObstacles
 			gameObstacles = new List<IGameObject> ();
-			snakeFood = new List<IGameObject> ();
+
+			// Create the obstacles in the map
+			addObstaclesToList ();
+
+			//Init snakeFood
+			gameSnakeFood = new List<IGameObject> ();
 			// Creates our implemented snake
-			snake = new Snake ();
-			background = GameUtils.getBlockObject (0, 0, 600, 600);
-			background.passData (new GameData (GameState.None));
-			snakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
+			gameSnake = new Snake ();
+			mainMenuBackground = GameUtils.getBlockObject (0, 0, 600, 600);
+			mainMenuBackground.passData (new GameData (GameState.None));
+			gameSnakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
 			ShowScoreObject gameScore = new ShowScoreObject (new Rectangle (new Point (0, 200), new Size (20, 20)));
-			if (realHighScore < highScore) {
-				realHighScore = highScore;
+			if (highScore < tempHighScore) {
+				highScore = tempHighScore;
 			}
 
-			gameScore.highScore = realHighScore;
-			highScore = 0;
+			gameScore.highScore = highScore;
+			tempHighScore = 0;
 			score = 0;
 			this.gameScore = gameScore;
-			// Create the obstacles in the map
-			createPlayingField ();
+		
 
 		}
 
 		/// <summary>
 		/// Creates the playing field.
 		/// </summary>
-		private void createPlayingField ()
+		private void addObstaclesToList ()
 		{
 			int fieldWidth = 500;
 			int fieldHeigth = 500;
@@ -160,33 +237,32 @@ namespace Snake
 		/// <param name="key">Key.</param>
 		public void updateCurrentKey (char key)
 		{
-			if (modelState == GameState.Menu) {
+			bool userPressedConfirmKey = getKeyState (key) == GameState.Confirm;
+			bool selectionBoxcontainsRunGame = mainMenuSelectionBox.getStates ().Contains (GameState.RunGame);
 
-				menu.passData (new GameData (getKeyState (key)));
-				if (getKeyState (key) == GameState.Confirm) {
-					if (menu.getStates ().Contains (GameState.RunGame)) {
-						modelState = GameState.RunGame;
-						if(newGame){
-							gameTime.passData (new GameData (GameState.Reset));
-							newGame = false;
-						}
-					} else {
-						modelState = GameState.ExitGame;
-
+			switch(modelState){
+			case GameState.Menu:
+				mainMenuSelectionBox.passData (new GameData (getKeyState (key)));
+				if (userPressedConfirmKey && selectionBoxcontainsRunGame) {
+					modelState = GameState.RunGame;
+					if(userWantsNewGame){
+						gameTime.passData (new GameData (GameState.Reset));
+						userWantsNewGame = false;
 					}
-
 				}
-			} else if (modelState == GameState.RunGame) {
-
-				GameState snakState = getKeyState (key);
-				if (snakState != GameState.None) {
-					snake.passData (new GameData (snakState));
+				else if(userPressedConfirmKey && !selectionBoxcontainsRunGame){
+						modelState = GameState.ExitGame;
 				}
+				break;
+			case GameState.RunGame:
+
+				GameState getNewSnakeStateFromKeyboardInput = getKeyState (key);
+
+				if (getNewSnakeStateFromKeyboardInput != GameState.None) {
+					gameSnake.passData (new GameData (getNewSnakeStateFromKeyboardInput));
+				}
+				break;
 			}
-
-
-
-		
 		}
 
 		/// <summary>
@@ -280,38 +356,38 @@ namespace Snake
 			foreach (var item in gameObstacles) {
 
 				item.update (gameUpdateSpeed);
-				if (GameUtils.isColliding (item, snake)) {
-					snake.passData (new GameData (GameState.Dead));
+				if (GameUtils.isColliding (item, gameSnake)) {
+					gameSnake.passData (new GameData (GameState.Dead));
 				}
 
 			}
-			lock (snakeFood) {
-				foreach (var item in snakeFood) {
-					if (GameUtils.isColliding (item, snake)) {
+			lock (gameSnakeFood) {
+				foreach (var item in gameSnakeFood) {
+					if (GameUtils.isColliding (item, gameSnake)) {
 						player.Play ();
-						snake.passData (new GameData (GameState.Grow));
-						snake.passData (new GameData (GameState.SpeedUp));
-						snakeFood.Clear ();
-						snakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
+						gameSnake.passData (new GameData (GameState.Grow));
+						gameSnake.passData (new GameData (GameState.SpeedUp));
+						gameSnakeFood.Clear ();
+						gameSnakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
 						gameScore.passData (new GameData (GameState.Score));
 						score++;
 					}
 				}
 			}
-			if (highScore < score) {
-				highScore = score;
+			if (tempHighScore < score) {
+				tempHighScore = score;
 
 			}
 
-			snake.update (gameUpdateSpeed);
+			gameSnake.update (gameUpdateSpeed);
 			gameScore.update (gameUpdateSpeed);
 
-			if (snake.getStates ().Contains (GameState.Dead)) {
+			if (gameSnake.getStates ().Contains (GameState.Dead)) {
 			
 				Thread.Sleep (1000);
 				modelState = GameState.Menu;
 				initGameData ();
-				initMenu ();
+				initMainMenu ();
 			}
 		}
 
@@ -335,8 +411,8 @@ namespace Snake
 			Graphics g = Graphics.FromImage (backBuffer);
 			g.Clear (Color.Black);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
-			menu.draw (g);
-			highScoreText.draw (g);
+			mainMenuSelectionBox.draw (g);
+			mainMenuShowHighScore.draw (g);
 			g.Dispose ();
 		}
 
@@ -345,17 +421,17 @@ namespace Snake
 			Graphics g = Graphics.FromImage (backBuffer);
 			g.Clear (Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
-			background.draw (g);
+			mainMenuBackground.draw (g);
 			foreach (var item in gameObstacles) {
 				item.draw (g);
 			}
-			lock (snakeFood) {
-				foreach (var item in snakeFood) {
+			lock (gameSnakeFood) {
+				foreach (var item in gameSnakeFood) {
 					item.draw (g);
 				}
 			}
 
-			snake.draw (g);
+			gameSnake.draw (g);
 			gameTime.draw (g);
 			gameScore.draw (g);
 			g.Dispose ();

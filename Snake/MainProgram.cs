@@ -1,47 +1,16 @@
 using System;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Timers;
-using Snake;
-using System.Collections.Generic;
-using System.Media;
 
 namespace Snake{
 
 	/// <summary>
-	/// Main program.
+	/// Main program starts the game
+	/// Initiate the Form to run on a thread
 	/// </summary>
 	public class MainProgram{
-
 		[STAThread]
 		public static void Main (string[] args){
-//			MainApp.MainTest();
-//			while(true){
-//				
-//			}
 			Application.Run(new MainFrame ());
-/*			IPrint klassA = new PrinterA ();
-			IPrint klassB = new PrinterB ();
-
-
-			klassA.printNow ();
-		
-			klassB.printNow ();
-	
-
-			List<IPrint> list = new List<IPrint> ();
-			list.Add (klassA);
-			list.Add (klassB);
-
-			foreach (var item in list) {
-				item.printNow ();
-			}
-			while (true) {
-
-			}*/
-		
 		}
-
 	}
 }
-
