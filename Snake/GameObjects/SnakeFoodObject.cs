@@ -5,29 +5,42 @@ namespace Snake{
 	public class SnakeFoodObject:IGameObject{
 
 		private  Rectangle location;
-
+		private System.Collections.Generic.List<GameState> gameStates;
 		public SnakeFoodObject(Rectangle location){
 			this.location = location;
-
+			gameStates = new System.Collections.Generic.List<GameState>();
 		}
 
 		#region IGameObject implementation
 
 		public System.Collections.Generic.List<GameState> getStates ()
 		{
-			throw new NotImplementedException ();
+			return gameStates;
 		}
 
 		public void passData (GameData newInfo){
 
+			addGameState(newInfo.state);
 		}
 
 		public void update (double gameTime){
 
 		}
+		private void addGameState (GameState state){
 
+			if(!gameStates.Contains(state)){
+				gameStates.Add(state);
+			}
+		}
 		public void draw (System.Drawing.Graphics brush){
+
 			SolidBrush myBrush2 = new SolidBrush (Color.DarkSlateBlue);
+			if(gameStates.Contains(GameState.Red)){
+				myBrush2 = new SolidBrush (Color.Red);
+			}
+			else {
+				
+			}
 			Rectangle cir = location;
 			Rectangle smaller = new Rectangle();
 			smaller.X = location.X + Convert.ToInt32((location.Width-location.Width *0.7)/2);

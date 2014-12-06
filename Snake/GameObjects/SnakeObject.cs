@@ -16,14 +16,14 @@ namespace Snake{
 		private int speed;
 		private int tickCounter;
 		private List<GameState> gameStates;
-	
+		private GameState currentColorState;
 		private LinkedList<IGameObject> snakeParts;
 
 
 		public Snake(){
 			gameStates = new List<GameState>();
 			snakeParts = new LinkedList<IGameObject>();
-
+			currentColorState = GameState.None;
 			newDirection = new SnakePartObject(new Rectangle(new Point(100, 140), new Size(new Point(20, 20))));
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 400), new Size(new Point(20, 20)))));
 			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 380), new Size(new Point(20, 20)))));
@@ -68,6 +68,7 @@ namespace Snake{
 					currentDirection = GameState.Right;
 				}
 				break;
+
 
 
 			}
@@ -115,8 +116,42 @@ namespace Snake{
 
 						gameStates.Remove(GameState.SpeedUp);
 					}
+					if(gameStates.Contains(GameState.Break)){
+						gameStates.Remove(GameState.Break);
+						int counter = snakeParts.Count-10;
+						for(int i = 0; i < counter; i++){
+							snakeParts.RemoveFirst();
+						}
+						currentColorState= GameState.Black;
+					}
+					if(gameStates.Contains(GameState.Red)){
+						currentColorState= GameState.Red;
+						gameStates.Remove(GameState.Red);
+					}
+					if(gameStates.Contains(GameState.None)){
+						currentColorState= GameState.None;
+						gameStates.Remove(GameState.None);
+					}
+
+
+
+					switch(currentColorState){
+					case GameState.Black:
+						newDirection.passData(new GameData(GameState.Black));
+						break;
+					case GameState.Red:
+						newDirection.passData(new GameData(GameState.Red));
+						break;
+					case GameState.None:
+						newDirection.passData(new GameData(GameState.None));
+						break;
+					default:
+						newDirection.passData(new GameData(GameState.None));
+						break;
+					}
 
 					snakeParts.AddLast(newDirection);
+
 				}
 				tickCounter = 0;
 			}

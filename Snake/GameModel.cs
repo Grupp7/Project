@@ -78,8 +78,10 @@ namespace Snake {
 		// Keeping track of the current scores
 		private int tempHighScore;
 		private int highScore;
+		private int tempScore;
 		private int score;
 
+		private int snakeFoodCounter;
 		// Saving value for going back and forth
 		// between game and mainMenu
 		private bool userWantsNewGame;
@@ -392,16 +394,41 @@ namespace Snake {
 			lock (gameSnakeFood) {
 				foreach (var item in gameSnakeFood) {
 					if (GameUtils.isColliding (item, gameSnake)) {
+						snakeFoodCounter++;
+						if(item.getStates().Contains(GameState.Red)){
+							gameSnake.passData (new GameData (GameState.Red));
+						}
+						else{
+							gameSnake.passData (new GameData (GameState.None));
+						}
+
 						playerFood.Play ();
 						gameSnake.passData (new GameData (GameState.Grow));
 						gameSnake.passData (new GameData (GameState.SpeedUp));
 						gameSnakeFood.Clear ();
-						gameSnakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
+						if(snakeFoodCounter>10){
+							snakeFoodCounter = 0;
+							SnakeFoodObject temp = GameUtils.getRandomSnakeFoodObject();
+							temp.passData(new GameData(GameState.Red));
+							gameSnakeFood.Add(temp);
+						}
+						else{
+							gameSnakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
+						}
+					
 						gameScore.passData (new GameData (GameState.Score));
 						score++;
+						tempScore++;
 					}
 				}
+			
 			}
+
+			if(tempScore>75){
+				tempScore = 0;
+				gameSnake.passData(new GameData (GameState.Break));
+			}
+
 			if (tempHighScore < score) {
 				tempHighScore = score;
 
