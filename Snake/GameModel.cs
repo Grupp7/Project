@@ -33,6 +33,7 @@ namespace Snake {
 		private const string FOOD_SOUND = "Pickup.wav";
 		private const string HIGH_SCORE = "HIGHSCORE ";
 		private const string DEAD_SOUND = "Death.wav";
+		private const string POWERUP_SOUND = "Powerup.wav";
 		private const char UP = 'w';
 		#endregion
 
@@ -75,6 +76,7 @@ namespace Snake {
 		private SoundPlayer playerFood;
 
 		private SoundPlayer playerDead;
+		private SoundPlayer playerPowerUp;
 		// Keeping track of the current scores
 		private int tempHighScore;
 		private int highScore;
@@ -120,6 +122,9 @@ namespace Snake {
 
 			playerDead = new SoundPlayer(DEAD_SOUND);
 			playerDead.Load ();
+
+			playerPowerUp = new SoundPlayer (POWERUP_SOUND);
+			playerPowerUp.Load ();
 			initMainMenu ();
 			initGameData ();
 		}
@@ -427,10 +432,11 @@ namespace Snake {
 			
 			}
 
-			if(tempScore>50){
+			if(tempScore>20){
 				tempScore = 0;
 				points++;
 				gameSnake.passData(new GameData (GameState.Break));
+				playerPowerUp.Play ();
 			}
 
 			if (tempHighScore < score) {
