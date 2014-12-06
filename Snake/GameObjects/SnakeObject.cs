@@ -129,7 +129,7 @@ namespace Snake{
 						currentColorState= GameState.Black;
 					}
 
-					if(50*speed < tickCounterGreen * 10){
+					if(30*speed < tickCounterGreen * 10){
 						Console.WriteLine (	"ENDED GREEN");
 						gameStates.Remove(GameState.Red);
 						gameStates.Add (GameState.None);
