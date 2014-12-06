@@ -204,6 +204,7 @@ namespace Snake {
 			gameScore.highScore = highScore;
 			tempHighScore = 0;
 			score = 0;
+			snakeFoodCounter = 0;
 			this.gameScore = gameScore;
 		
 
@@ -406,7 +407,6 @@ namespace Snake {
 						gameSnake.passData (new GameData (GameState.Grow));
 						gameSnake.passData (new GameData (GameState.SpeedUp));
 						gameSnakeFood.Clear ();
-<<<<<<< Upstream, based on origin/developer
 						if(snakeFoodCounter>10){
 							snakeFoodCounter = 0;
 							SnakeFoodObject temp = GameUtils.getRandomSnakeFoodObject();
@@ -417,16 +417,6 @@ namespace Snake {
 							gameSnakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
 						}
 					
-=======
-						SnakeFoodObject temp = GameUtils.getRandomSnakeFoodObject ();
-	
-						while(temp.isColliding(gameSnake)){
-
-							temp =GameUtils.getRandomSnakeFoodObject ();
-						}
-
-						gameSnakeFood.Add (temp);
->>>>>>> 53fae3f Small fix Cant collide food with snake
 						gameScore.passData (new GameData (GameState.Score));
 						score++;
 						tempScore++;
