@@ -80,7 +80,7 @@ namespace Snake {
 		private int highScore;
 		private int tempScore;
 		private int score;
-
+		private int points;
 		private int snakeFoodCounter;
 		// Saving value for going back and forth
 		// between game and mainMenu
@@ -205,6 +205,8 @@ namespace Snake {
 			tempHighScore = 0;
 			score = 0;
 			snakeFoodCounter = 0;
+			tempScore = 0;
+			points = 1;
 			this.gameScore = gameScore;
 		
 
@@ -407,7 +409,7 @@ namespace Snake {
 						gameSnake.passData (new GameData (GameState.Grow));
 						gameSnake.passData (new GameData (GameState.SpeedUp));
 						gameSnakeFood.Clear ();
-						if(snakeFoodCounter>10){
+						if(snakeFoodCounter>9){
 							snakeFoodCounter = 0;
 							SnakeFoodObject temp = GameUtils.getRandomSnakeFoodObject();
 							temp.passData(new GameData(GameState.Red));
@@ -418,15 +420,16 @@ namespace Snake {
 						}
 					
 						gameScore.passData (new GameData (GameState.Score));
-						score++;
+						score+=points;
 						tempScore++;
 					}
 				}
 			
 			}
 
-			if(tempScore>75){
+			if(tempScore>50){
 				tempScore = 0;
+				points++;
 				gameSnake.passData(new GameData (GameState.Break));
 			}
 

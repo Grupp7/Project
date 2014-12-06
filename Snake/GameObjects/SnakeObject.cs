@@ -15,6 +15,7 @@ namespace Snake{
 		private IGameObject newDirection;
 		private int speed;
 		private int tickCounter;
+		private int tickCounterGreen;
 		private List<GameState> gameStates;
 		private GameState currentColorState;
 		private LinkedList<IGameObject> snakeParts;
@@ -93,7 +94,7 @@ namespace Snake{
 		/// </summary>
 		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime){
-			tickCounter++;
+			tickCounter++;tickCounterGreen++;
 			if(gameStates.Contains(GameState.Dead)){
 				speed = 1000000;
 			}
@@ -107,7 +108,10 @@ namespace Snake{
 
 					}
 					else{
-						snakeParts.RemoveFirst();
+						if(!gameStates.Contains(GameState.Red)){
+							snakeParts.RemoveFirst();
+						}
+					
 					}
 					if(gameStates.Contains(GameState.SpeedUp)){
 						if(speed>30){
@@ -124,13 +128,21 @@ namespace Snake{
 						}
 						currentColorState= GameState.Black;
 					}
+
+					if(50*speed < tickCounterGreen * 10){
+						Console.WriteLine (	"ENDED GREEN");
+						gameStates.Remove(GameState.Red);
+						gameStates.Add (GameState.None);
+						tickCounterGreen = 0;
+					}
 					if(gameStates.Contains(GameState.Red)){
 						currentColorState= GameState.Red;
-						gameStates.Remove(GameState.Red);
+						//gameStates.Remove(GameState.Red);
 					}
 					if(gameStates.Contains(GameState.None)){
 						currentColorState= GameState.None;
 						gameStates.Remove(GameState.None);
+						gameStates.Remove(GameState.Red);
 					}
 
 
@@ -154,6 +166,7 @@ namespace Snake{
 
 				}
 				tickCounter = 0;
+
 			}
 		}
 
