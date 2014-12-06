@@ -424,7 +424,10 @@ namespace Snake {
 							gameSnakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
 						}
 					
-						gameScore.passData (new GameData (GameState.Score));
+						GameData scoreInfo = new GameData();
+						scoreInfo.score =points;
+						gameScore.passData (scoreInfo);
+
 						score+=points;
 						tempScore++;
 					}
@@ -432,7 +435,7 @@ namespace Snake {
 			
 			}
 
-			if(tempScore>20){
+			if(tempScore>19){
 				tempScore = 0;
 				points++;
 				gameSnake.passData(new GameData (GameState.Break));

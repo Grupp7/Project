@@ -23,10 +23,10 @@ namespace Snake
 
 		public void passData (GameData newInfo)
 		{
-			if(newInfo.state == GameState.Score){
 
-				score++;
-			}
+
+			score+=newInfo.score;
+
 		}
 
 		public void update (double gameTime)

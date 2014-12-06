@@ -9,7 +9,7 @@ namespace Snake
 	public class GameData
 	{
 		public char key;
-
+		public int score;
 		public Point point;
 
 		public GameState state;
