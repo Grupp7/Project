@@ -414,7 +414,7 @@ namespace Snake {
 						gameSnake.passData (new GameData (GameState.Grow));
 						gameSnake.passData (new GameData (GameState.SpeedUp));
 						gameSnakeFood.Clear ();
-						if(snakeFoodCounter>9){
+						if(snakeFoodCounter>4){
 							snakeFoodCounter = 0;
 							SnakeFoodObject temp = GameUtils.getRandomSnakeFoodObject();
 							temp.passData(new GameData(GameState.Red));
