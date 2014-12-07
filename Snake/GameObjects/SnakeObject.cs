@@ -130,7 +130,7 @@ namespace Snake{
 					}
 
 					if(30*speed < tickCounterGreen * 10){
-						Console.WriteLine (	"ENDED GREEN");
+
 						gameStates.Remove(GameState.Red);
 						gameStates.Add (GameState.None);
 						tickCounterGreen = 0;
