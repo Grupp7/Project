@@ -9,26 +9,65 @@ namespace Snake{
 
 	public class Snake:IGameObject{
 
-	
-		private GameState lastDirection = GameState.Left;
+		// Is the opposite direction the snake is currently moving
+		private GameState oppositeDirection = GameState.Left;
+
+		// Is the direction the snake is currently moving
 		private GameState currentDirection = GameState.Right;
+
+		// Is the directon the snake will move next
 		private IGameObject newDirection;
+
+		// Speed of the snake
 		private int speed;
+
+		//
 		private int tickCounter;
+
+		//
 		private int tickCounterGreen;
+
+		//
 		private List<GameState> gameStates;
+
+		//
 		private GameState currentColorState;
+
+		// List with all the snakes parts
 		private LinkedList<IGameObject> snakeParts;
 
-
+		// Initializes all the methods
 		public Snake(){
 			gameStates = new List<GameState>();
 			snakeParts = new LinkedList<IGameObject>();
 			currentColorState = GameState.None;
-			newDirection = new SnakePartObject(new Rectangle(new Point(100, 140), new Size(new Point(20, 20))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 400), new Size(new Point(20, 20)))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 380), new Size(new Point(20, 20)))));
-			snakeParts.AddFirst(new SnakePartObject(new Rectangle(new Point(100, 360), new Size(new Point(20, 20)))));
+
+			// Sets the snake parts size and
+			// move block size
+			Point snakePartSizePoint = new Point (20, 20);
+			Size snakePartSize = new Size (snakePartSizePoint);
+
+			// Sets the snakes first direction
+			Point snakePartDirRectPoint = new Point (100, 140);
+			Rectangle snakePartDirRect = new Rectangle (snakePartDirRectPoint,snakePartSize);
+
+			// Sets the location of first snakePart
+			Point snakeFirPartPoint = new Point (100, 400);
+			Rectangle snakeFirPartRect = new Rectangle (snakeFirPartPoint,snakePartSize);
+
+			// Sets the location of second snakePart
+			Point snakeSecPartPoint = new Point (100, 380);
+			Rectangle snakeSecPartRect = new Rectangle (snakeSecPartPoint,snakePartSize);
+
+			// Sets the location of the third snakePart
+			Point snakeThirPartPoint = new Point (100, 360);
+			Rectangle snakeThirPartRect = new Rectangle (snakeThirPartPoint,snakePartSize);
+
+			// Determines data for the snake from the beginning
+			newDirection = new SnakePartObject(snakePartDirRect);
+			snakeParts.AddFirst(new SnakePartObject(snakeFirPartRect));
+			snakeParts.AddFirst(new SnakePartObject(snakeSecPartRect));
+			snakeParts.AddFirst(new SnakePartObject(snakeThirPartRect));
 			speed = 80;
 			tickCounter = 0;
 		}
@@ -48,24 +87,24 @@ namespace Snake{
 			addGameState(newInfo.state);
 			switch(newInfo.state){
 			case GameState.Up:
-				if(lastDirection!=GameState.Up){
+				if(oppositeDirection!=GameState.Up){
 					currentDirection = GameState.Up;
 				}
 				break;
 			case GameState.Down:
-				if(lastDirection!=GameState.Down){
+				if(oppositeDirection!=GameState.Down){
 					currentDirection = GameState.Down;
 				}
 
 				break;
 			case GameState.Left:
-				if(lastDirection!=GameState.Left){
+				if(oppositeDirection!=GameState.Left){
 					currentDirection = GameState.Left;
 				}
 
 				break;
 			case GameState.Right:
-				if (lastDirection != GameState.Right) {
+				if (oppositeDirection != GameState.Right) {
 					currentDirection = GameState.Right;
 				}
 				break;
@@ -202,30 +241,34 @@ namespace Snake{
 		}
 
 		#endregion
-
+		/// <summary>
+		/// Gets the new direction.
+		/// </summary>
+		/// <returns>The new direction.</returns>
 		private IGameObject getNewDirection (){
 			IGameObject temp;
 			int lenght = snakeParts.Count;
 			int xPos = snakeParts.Last.Value.getRectangle().X;
 			int yPos = snakeParts.Last.Value.getRectangle().Y;
 
+			// Says where next move of the snake will be made
 			switch(currentDirection){
 
 			case GameState.Right:
 				temp = getWrapperGameObject(new Point(xPos + 20, yPos));
-				lastDirection = GameState.Left;
+				oppositeDirection = GameState.Left;
 				break;
 			case GameState.Left:
 				temp = getWrapperGameObject(new Point(xPos - 20, yPos));
-				lastDirection = GameState.Right;
+				oppositeDirection = GameState.Right;
 				break;
 			case GameState.Down:
 				temp = getWrapperGameObject(new Point(xPos, yPos + 20));
-				lastDirection = GameState.Up;
+				oppositeDirection = GameState.Up;
 				break;
 			case GameState.Up:
 				temp = getWrapperGameObject(new Point(xPos, yPos - 20));
-				lastDirection = GameState.Down;
+				oppositeDirection = GameState.Down;
 				break;
 			default:
 				temp = getWrapperGameObject(new Point(0, 0));
@@ -234,6 +277,7 @@ namespace Snake{
 
 			return temp;
 		}
+
 
 		private IGameObject getWrapperGameObject (Point point){
 			return new SnakePartObject(new Rectangle(point, new Size(new Point(20, 20))));
