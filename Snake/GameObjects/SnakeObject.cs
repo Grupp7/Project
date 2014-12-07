@@ -45,9 +45,9 @@ namespace Snake{
 			// Sets the snake parts size and
 			// move block size
 			int snakePartWidth = 20;
-			int snakePartHeigth = 20;
+			int snakePartHeight = 20;
 
-			Size snakePartSize = new Size (snakePartWidth,snakePartHeigth);
+			Size snakePartSize = new Size (snakePartWidth,snakePartHeight);
 
 			// Sets the snakes first direction
 			int SnakePartNewDir_X = 100;
@@ -93,6 +93,7 @@ namespace Snake{
 
 		#region IGameObject implementation
 
+		// Check if colliding
 		public bool isColliding (IGameObject objectToTest){
 			return GameUtils.isColliding(this, objectToTest);
 		}
@@ -133,10 +134,12 @@ namespace Snake{
 
 		}
 
+		// List of gameStates
 		public List<GameState> getStates ()
 		{
 			return gameStates;
 		}
+
 
 		private void addGameState (GameState state){
 
@@ -268,27 +271,29 @@ namespace Snake{
 			int lenght = snakeParts.Count;
 			int xPos = snakeParts.Last.Value.getRectangle().X;
 			int yPos = snakeParts.Last.Value.getRectangle().Y;
+			int moveBlock = 20;
 
-			// Says where next move of the snake will be made
+			// Says where next move of the snake will be
 			switch(currentDirection){
 
 			case GameState.Right:
-				temp = getWrapperGameObject(new Point(xPos + 20, yPos));
+				temp = getWrapperGameObject(new Point(xPos + moveBlock, yPos));
 				oppositeDirection = GameState.Left;
 				break;
 			case GameState.Left:
-				temp = getWrapperGameObject(new Point(xPos - 20, yPos));
+				temp = getWrapperGameObject(new Point(xPos - moveBlock, yPos));
 				oppositeDirection = GameState.Right;
 				break;
 			case GameState.Down:
-				temp = getWrapperGameObject(new Point(xPos, yPos + 20));
+				temp = getWrapperGameObject(new Point(xPos, yPos + moveBlock));
 				oppositeDirection = GameState.Up;
 				break;
 			case GameState.Up:
-				temp = getWrapperGameObject(new Point(xPos, yPos - 20));
+				temp = getWrapperGameObject(new Point(xPos, yPos - moveBlock));
 				oppositeDirection = GameState.Down;
 				break;
 			default:
+				// Something goes wrong if it ends up here
 				temp = getWrapperGameObject(new Point(0, 0));
 				break;
 			}
@@ -298,7 +303,11 @@ namespace Snake{
 
 
 		private IGameObject getWrapperGameObject (Point point){
-			return new SnakePartObject(new Rectangle(point, new Size(new Point(20, 20))));
+			int BlockWidth = 20;
+			int BlockHeight = 20;
+
+			Size Block = new Size (BlockWidth, BlockHeight);
+			return new SnakePartObject(new Rectangle(point,Block));
 		}
 	}
 }
