@@ -15,7 +15,7 @@ namespace Snake{
 		// Is the direction the snake is currently moving
 		private GameState currentDirection = GameState.Right;
 
-		// Is the directon the snake will move next
+		// Is the direction the snake will move next
 		private IGameObject newDirection;
 
 		// Speed of the snake
