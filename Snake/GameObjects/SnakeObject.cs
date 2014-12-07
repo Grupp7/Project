@@ -21,16 +21,12 @@ namespace Snake{
 		// Speed of the snake
 		private int speed;
 
-		//
 		private int tickCounter;
 
-		//
 		private int tickCounterGreen;
 
-		//
 		private List<GameState> gameStates;
 
-		//
 		private GameState currentColorState;
 
 		// List with all the snakes parts
@@ -93,13 +89,20 @@ namespace Snake{
 
 		#region IGameObject implementation
 
-		// Check if colliding
+		/// <summary>
+		/// Check collsion between the this and
+		/// the specified object to test
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
+		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest){
 			return GameUtils.isColliding(this, objectToTest);
 		}
 
 		/// <summary>
-		/// The current key pressed that will be handeled
+		/// Passes the new states and gamedata
+		/// to the gameobject
 		/// </summary>
 		/// <param name="newInfo">New info.</param>
 		public void passData (GameData newInfo){	
@@ -134,14 +137,17 @@ namespace Snake{
 
 		}
 
-		// List of gameStates
+		/// <summary>
+		/// Gets the current states from the gameObject.
+		/// </summary>
+		/// <returns>The states.</returns>
 		public List<GameState> getStates ()
 		{
 			return gameStates;
 		}
 
 		/// <summary>
-		/// Adds the state of the game.
+		/// Adds the new state to the snake.
 		/// </summary>
 		/// <param name="state">State.</param>
 		private void addGameState (GameState state){
@@ -152,17 +158,20 @@ namespace Snake{
 		}
 
 		/// <summary>
-		/// The updatetimer tick here ,upda  100ms
-		/// e snake movement
+		/// Update the specified gameTime to the gameObject.
+		/// And let it know that time has passed so it 
+		/// can do its internal update
 		/// </summary>
 		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime){
 			tickCounter++;tickCounterGreen++;
 			if(gameStates.Contains(GameState.Dead)){
+				//This will make the snake move very slowly
+				// particulary deathlike
 				speed = 1000000;
 			}
-	
-			if(speed < tickCounter * 10){
+
+			if(speed < tickCounter * gameTime){
 				lock(snakeParts){
 					newDirection = getNewDirection();
 					snakeCollide();
@@ -177,8 +186,11 @@ namespace Snake{
 					
 					}
 					if(gameStates.Contains(GameState.SpeedUp)){
-						if(speed>30){
-							speed -=10;
+						int maxSpeed = 30;
+						int speedIncrease = 10;
+						if(speed>maxSpeed){
+							//This increase the speed
+							speed -=speedIncrease;
 						}
 
 						gameStates.Remove(GameState.SpeedUp);
@@ -192,7 +204,8 @@ namespace Snake{
 						currentColorState= GameState.Black;
 					}
 
-					if(30*speed < tickCounterGreen * 10){
+
+					if(30*speed < tickCounterGreen * gameTime){
 
 						gameStates.Remove(GameState.Green);
 						gameStates.Add (GameState.None);
@@ -235,9 +248,9 @@ namespace Snake{
 
 	
 		/// <summary>
-		/// Snakes the collide.
+		/// Check if snake collides with itself
 		/// </summary>
-		/// <returns><c>true</c>, if collide was snaked, <c>false</c> otherwise.</returns>
+		/// <returns><c>true</c>, If snake collide with self, <c>false</c> otherwise.</returns>
 		private bool snakeCollide (){
 			bool snakeIsDead = false;
 			lock(snakeParts){
@@ -252,7 +265,7 @@ namespace Snake{
 		}
 
 		/// <summary>
-		/// Draw the snakeparts here with the brush 60x
+		/// Draw the specified appearance to the brush.
 		/// </summary>
 		/// <param name="brush">Brush.</param>
 		public void draw (System.Drawing.Graphics brush){
@@ -313,16 +326,18 @@ namespace Snake{
 
 
 		/// <summary>
-		/// Gets the wrapper game object.
+		/// Gets the wrapper gameobject.
+		/// The standard SnakePartObject at
+		/// a position standard size
 		/// </summary>
 		/// <returns>The wrapper game object.</returns>
 		/// <param name="point">Point.</param>
 		private IGameObject getWrapperGameObject (Point point){
-			int BlockWidth = 20;
-			int BlockHeight = 20;
+			int blockWidth = 20;
+			int blockHeight = 20;
 
-			Size Block = new Size (BlockWidth, BlockHeight);
-			return new SnakePartObject(new Rectangle(point,Block));
+			Size block = new Size (blockWidth, blockHeight);
+			return new SnakePartObject(new Rectangle(point,block));
 		}
 	}
 }

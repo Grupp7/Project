@@ -42,17 +42,8 @@ namespace Snake
 		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest)
 		{
-			Rectangle otherRectangle = objectToTest.getRectangle ();
-			Rectangle thisRectangle = location;
-			bool hasCollided = false;
-
-			if (thisRectangle.X < otherRectangle.X + otherRectangle.Width &&
-				thisRectangle.X + thisRectangle.Width > otherRectangle.X &&
-				thisRectangle.Y < otherRectangle.Y + otherRectangle.Height &&
-				thisRectangle.Height + thisRectangle.Y > otherRectangle.Y) {
-				hasCollided = true;
-			}
-			return hasCollided;
+	
+			return GameUtils.isColliding(this,objectToTest);
 		}
 
 		/// <summary>
