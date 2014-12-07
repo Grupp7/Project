@@ -59,7 +59,7 @@ namespace Snake
 		public void draw (System.Drawing.Graphics brush)
 		{	SolidBrush myBrush2 = new SolidBrush (Color.DarkSlateBlue);
 		
-			if(currentColor == GameState.Red){
+			if(currentColor == GameState.Green){
 				myBrush2 = new SolidBrush (Color.DarkGreen);
 
 			}

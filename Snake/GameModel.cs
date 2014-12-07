@@ -350,19 +350,29 @@ namespace Snake {
 			bool userPressedConfirmKey = getKeyState (key) == GameState.Confirm;
 			bool selectionBoxcontainsRunGame = mainMenuSelectionBox.getStates ().Contains (GameState.RunGame);
 			bool selectionBoxcontainsExitGame = mainMenuSelectionBox.getStates ().Contains (GameState.ExitGame);
+
 			switch(modelState){
 			case GameState.Menu:
-				mainMenuSelectionBox.passData (new GameData (getKeyState (key)));
+
+				//Pass the new state 
+				GameData newStateFromKey = new GameData (getKeyState (key));
+				mainMenuSelectionBox.passData (newStateFromKey);
+
 				if (userPressedConfirmKey && selectionBoxcontainsRunGame) {
+					//Run the game again
 					modelState = GameState.RunGame;
+
 					if(userWantsNewGame){
+
+						//Reset the time, since user wants new game
 						gameTime.passData (new GameData (GameState.Reset));
 						gameTime.passData (new GameData (GameState.Start));
 						userWantsNewGame = false;
 					}
 				}
 				else if(userPressedConfirmKey && !selectionBoxcontainsRunGame){
-						modelState = GameState.ExitGame;
+					//Prepare the game to exit
+					modelState = GameState.ExitGame;
 				}
 				break;
 			case GameState.RunGame:
@@ -370,6 +380,7 @@ namespace Snake {
 				GameState getNewSnakeStateFromKeyboardInput = getKeyState (key);
 
 				if (getNewSnakeStateFromKeyboardInput != GameState.None) {
+					//Pass the new direction to the snake
 					gameSnake.passData (new GameData (getNewSnakeStateFromKeyboardInput));
 				}
 				break;
@@ -497,31 +508,46 @@ namespace Snake {
 				foreach (var item in gameSnakeFood) {
 					if (GameUtils.isColliding (item, gameSnake)) {
 						greenSnakeFoodCounter++;
-						if(item.getStates().Contains(GameState.Red)){
-							gameSnake.passData (new GameData (GameState.Red));
+
+						if(item.getStates().Contains(GameState.Green)){
+							//Pass info about that the snake has eaten a green food
+							gameSnake.passData (new GameData (GameState.Green));
 						}
 						else{
+							//Pass info about that the snake has eaten a normal food
 							gameSnake.passData (new GameData (GameState.None));
 						}
 
+						//Play sound since the snake has eaten a food
 						playerFood.Play ();
+						// Tell the snake to grow
 						gameSnake.passData (new GameData (GameState.Grow));
+						//Tell the snake to speed up if possible
 						gameSnake.passData (new GameData (GameState.SpeedUp));
+						//Remove the eaten food
 						gameSnakeFood.Clear ();
-						if(greenSnakeFoodCounter>4){
+
+						int spawnRate = 4;
+						if(greenSnakeFoodCounter>spawnRate){
+							//Reset the counter
 							greenSnakeFoodCounter = 0;
+
+							//Spawn a green food in the game
 							SnakeFoodObject temp = GameUtils.getRandomSnakeFoodObject();
-							temp.passData(new GameData(GameState.Red));
+							temp.passData(new GameData(GameState.Green));
 							gameSnakeFood.Add(temp);
 						}
 						else{
+							//Spawn normal food in the game
 							gameSnakeFood.Add (GameUtils.getRandomSnakeFoodObject ());
 						}
-					
+
+						//Update the score to the graphical objects
 						GameData scoreInfo = new GameData();
 						scoreInfo.score =points;
 						gameScore.passData (scoreInfo);
 
+						//Keep count of the scores for the model
 						score+=points;
 						tempScoreCounter++;
 					}
@@ -529,26 +555,41 @@ namespace Snake {
 			
 			}
 
-			if(tempScoreCounter>19){
+			int snakeShrinkRate = 19;
+
+			if(tempScoreCounter>snakeShrinkRate){
 				tempScoreCounter = 0;
 				points++;
+				//Tell the snake to break a part
 				gameSnake.passData(new GameData (GameState.Break));
+
+				//Play the fance powerup sound
 				playerPowerUp.Play ();
 			}
 
+			//Update the new highscore if possible
 			if (tempHighScore < score) {
 				tempHighScore = score;
 
 			}
 
+			//Tell the snake that some time has passed
 			gameSnake.update (gameUpdateSpeed);
+			//Tell the scoreObject that some time has passed
 			gameScore.update (gameUpdateSpeed);
 
+			//Check if the snake is alive
 			if (gameSnake.getStates ().Contains (GameState.Dead)) {
+				//Play dead sound if the snake is dead
 				playerDead.Play ();
+				//Pause the gameTime object
 				gameTime.passData (new GameData (GameState.Pause));
+
+				//Restart the game
 				initGameData ();
 				initMainMenu ();
+
+				//Go the the menu
 				modelState = GameState.Menu;
 			
 			}

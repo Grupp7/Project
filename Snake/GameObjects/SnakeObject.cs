@@ -108,7 +108,7 @@ namespace Snake{
 
 					}
 					else{
-						if(!gameStates.Contains(GameState.Red)){
+						if(!gameStates.Contains(GameState.Green)){
 							snakeParts.RemoveFirst();
 						}
 					
@@ -131,18 +131,18 @@ namespace Snake{
 
 					if(30*speed < tickCounterGreen * 10){
 
-						gameStates.Remove(GameState.Red);
+						gameStates.Remove(GameState.Green);
 						gameStates.Add (GameState.None);
 						tickCounterGreen = 0;
 					}
-					if(gameStates.Contains(GameState.Red)){
-						currentColorState= GameState.Red;
+					if(gameStates.Contains(GameState.Green)){
+						currentColorState= GameState.Green;
 						//gameStates.Remove(GameState.Red);
 					}
 					if(gameStates.Contains(GameState.None)){
 						currentColorState= GameState.None;
 						gameStates.Remove(GameState.None);
-						gameStates.Remove(GameState.Red);
+						gameStates.Remove(GameState.Green);
 					}
 
 
@@ -151,8 +151,8 @@ namespace Snake{
 					case GameState.Black:
 						newDirection.passData(new GameData(GameState.Black));
 						break;
-					case GameState.Red:
-						newDirection.passData(new GameData(GameState.Red));
+					case GameState.Green:
+						newDirection.passData(new GameData(GameState.Green));
 						break;
 					case GameState.None:
 						newDirection.passData(new GameData(GameState.None));
