@@ -30,20 +30,39 @@ namespace Snake{
 			return gameStates;
 		}
 
+		/// <summary>
+		/// Passes the new states and gamedata
+		/// to the gameobject
+		/// </summary>
+		/// <param name="newInfo">New info.</param>
 		public void passData (GameData newInfo){
 
 			addGameState(newInfo.state);
 		}
 
+		/// <summary>
+		/// Update the specified gameTime to the gameObject.
+		/// And let it know that time has passed so it 
+		/// can do its internal update
+		/// </summary>
+		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime){
 
 		}
+		/// <summary>
+		/// Adds the state of the game.
+		/// </summary>
+		/// <param name="state">State.</param>
 		private void addGameState (GameState state){
 
 			if(!gameStates.Contains(state)){
 				gameStates.Add(state);
 			}
 		}
+		/// <summary>
+		/// Draw the specified appearance to the brush.
+		/// </summary>
+		/// <param name="brush">Brush.</param>
 		public void draw (System.Drawing.Graphics brush){
 
 			SolidBrush myBrush2 = new SolidBrush (Color.DarkSlateBlue);
@@ -69,10 +88,21 @@ namespace Snake{
 			myBrush2.Dispose ();
 		}
 
+		/// <summary>
+		/// Gets the rectangle and its location.
+		/// </summary>
+		/// <returns>The rectangle.</returns>
 		public System.Drawing.Rectangle getRectangle (){
 			return location;
 		}
 
+		/// <summary>
+		/// Check collsion between the this and
+		/// the specified object to test
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
+		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest){
 			return GameUtils.isColliding(this, objectToTest);
 		}

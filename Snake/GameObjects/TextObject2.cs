@@ -3,10 +3,18 @@ using System.Drawing;
 
 namespace Snake
 {
+	/// <summary>
+	/// Text object2.
+	/// </summary>
 	public class TextObject2:IGameObject
 	{
 		private Rectangle location;
 		private string stringToDraw;
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Snake.TextObject2"/> class.
+		/// </summary>
+		/// <param name="location">Location.</param>
+		/// <param name="stringToDraw">String to draw.</param>
 		public TextObject2 (Rectangle location,string stringToDraw)
 		{
 			this.location = location;
@@ -15,16 +23,31 @@ namespace Snake
 
 		#region IGameObject implementation
 
+		/// <summary>
+		/// Passes the new states and gamedata
+		/// to the gameobject
+		/// </summary>
+		/// <param name="newInfo">New info.</param>
 		public void passData (GameData newInfo)
 		{
 			throw new NotImplementedException ();
 		}
 
+		/// <summary>
+		/// Update the specified gameTime to the gameObject.
+		/// And let it know that time has passed so it 
+		/// can do its internal update
+		/// </summary>
+		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime)
 		{
 
 		}
 
+		/// <summary>
+		/// Draw the specified appearance to the brush.
+		/// </summary>
+		/// <param name="brush">Brush.</param>
 		public void draw (System.Drawing.Graphics brush)
 		{
 			String drawString = stringToDraw;
@@ -40,16 +63,31 @@ namespace Snake
 			brush.DrawString (drawString, drawFont, drawBrush, drawPoint);
 		}
 
+		/// <summary>
+		/// Gets the rectangle and its location.
+		/// </summary>
+		/// <returns>The rectangle.</returns>
 		public System.Drawing.Rectangle getRectangle ()
 		{
 			return location;
 		}
 
+		/// <summary>
+		/// Gets the current states from the gameObject.
+		/// </summary>
+		/// <returns>The states.</returns>
 		public System.Collections.Generic.List<GameState> getStates ()
 		{
 			throw new NotImplementedException ();
 		}
 
+		/// <summary>
+		/// Check collsion between the this and
+		/// the specified object to test
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
+		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest)
 		{
 			return false;
