@@ -5,6 +5,8 @@ namespace Snake
 {
 	/// <summary>
 	/// Text object.
+	/// Draws a specified text
+	/// on a position
 	/// </summary>
 	public class TextObject:IGameObject
 	{
@@ -86,6 +88,7 @@ namespace Snake
 		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest)
 		{
+			//No colliding with unit interface
 			return false;
 		}
 

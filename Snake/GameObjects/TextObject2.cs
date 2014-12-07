@@ -90,6 +90,7 @@ namespace Snake
 		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest)
 		{
+			//No colliding with unit interface
 			return false;
 		}
 

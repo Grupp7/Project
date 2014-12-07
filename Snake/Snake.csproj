@@ -61,11 +61,11 @@
     <Compile Include="Learning\GameCamera.cs" />
     <Compile Include="Learning\ParticleSystem.cs" />
     <Compile Include="Learning\SoundManager.cs" />
-    <Compile Include="GameObjects\ShowScoreObject.cs" />
     <Compile Include="GameObjects\MenuObject.cs" />
     <Compile Include="GameObjects\TextObject.cs" />
-    <Compile Include="GameObjects\ShowTimeObject.cs" />
     <Compile Include="GameObjects\TextObject2.cs" />
+    <Compile Include="GameObjects\GameShowScoreObject.cs" />
+    <Compile Include="GameObjects\GameShowTimeObject.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

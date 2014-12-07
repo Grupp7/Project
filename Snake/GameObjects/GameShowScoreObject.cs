@@ -3,6 +3,9 @@ using System.Drawing;
 
 namespace Snake
 {
+	/// <summary>
+	/// Show score and highscore in the game.
+	/// </summary>
 	public class ShowScoreObject:IGameObject
 	{
 		private Rectangle location;
@@ -94,6 +97,7 @@ namespace Snake
 		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest)
 		{
+			//Is unit interface no collsion
 			return false;
 		}
 

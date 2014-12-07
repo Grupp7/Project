@@ -10,13 +10,17 @@ namespace Snake
 	/// </summary>
 	public class MenuObject:IGameObject
 	{
+
 		private Rectangle location;
+		private GameState currentState;
+		private List<GameState> states;
+
 		private string currentString;
 		private const string NEW_GAME = "Play?";
 		private const string EXIT_GAME = "Exit game?";
-		private TextObject2 textObject;
-		private GameState currentState;
-		private List<GameState> states;
+
+		private TextObject2 newGameTextObject;
+
 
 
 		/// <summary>
@@ -29,7 +33,7 @@ namespace Snake
 			currentString = NEW_GAME;
 			states = new List<GameState> ();
 			currentState = GameState.RunGame;
-			textObject = new TextObject2 (new Rectangle(new Point(150,200),new Size(20,20)),NEW_GAME);
+			newGameTextObject = new TextObject2 (new Rectangle(new Point(150,200),new Size(20,20)),NEW_GAME);
 		}
 
 		#region IGameObject implementation
@@ -116,7 +120,7 @@ namespace Snake
 				brush.DrawString (drawString, drawFont, drawBrush, drawPoint);
 			}
 			else{
-				textObject.draw (brush);
+				newGameTextObject.draw (brush);
 			}
 
 
