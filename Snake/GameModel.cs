@@ -9,7 +9,10 @@ using System.Drawing.Drawing2D;
 namespace Snake {
 
 	/// <summary>
-	/// Game model.
+	/// This class holds every information about the game
+	/// Its purpose is to control the rules and update corresponding gameobejects it holds
+	/// It is responsible to update the Bitmap with the correct data from the gameobjects
+	/// so the MainFrame can draw it to its Form
 	/// </summary>
 	public class GameModel:IGameModel {
 
