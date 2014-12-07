@@ -50,30 +50,42 @@ namespace Snake{
 			Size snakePartSize = new Size (snakePartWidth,snakePartHeigth);
 
 			// Sets the snakes first direction
-			Point snakePartDirRectPoint = new Point (100, 140);
+			int SnakePartNewDir_X = 100;
+			int SnakePartNewDir_Y = 140;
+
+			Point snakePartDirRectPoint = new Point (SnakePartNewDir_X, SnakePartNewDir_Y);
 			Rectangle snakePartDirRect = new Rectangle (snakePartDirRectPoint,snakePartSize);
 
 		
 
 			// Sets the location of first snakePart
-			Point snakePartOnePoint = new Point (100, 400);
+			int snakePartOne_X = 100;
+			int snakePartOne_Y = 400;
+
+			Point snakePartOnePoint = new Point (snakePartOne_X, snakePartOne_Y);
 			Rectangle snakePartOneRect = new Rectangle (snakePartOnePoint,snakePartSize);
 			SnakePartObject snakePartOne = new SnakePartObject (snakePartOneRect);
 			snakeParts.AddFirst(snakePartOne);
 
 			// Sets the location of second snakePart
-			Point snakeSecPartPoint = new Point (100, 380);
-			Rectangle snakeSecPartRect = new Rectangle (snakeSecPartPoint,snakePartSize);
+			int snakePartTwo_X = 100;
+			int snakePartTwo_Y = 380;
+
+			Point snakePartTwoPoint = new Point (snakePartTwo_X, snakePartTwo_Y);
+			Rectangle snakePartTwoRect = new Rectangle (snakePartTwoPoint,snakePartSize);
 
 			// Sets the location of the third snakePart
-			Point snakeThirPartPoint = new Point (100, 360);
-			Rectangle snakeThirPartRect = new Rectangle (snakeThirPartPoint,snakePartSize);
+			int snakePartThree_X = 100;
+			int snakePartThree_Y = 360;
+
+			Point snakePartThreePoint = new Point (snakePartThree_X, snakePartThree_Y);
+			Rectangle snakePartThreeRect = new Rectangle (snakePartThreePoint,snakePartSize);
 
 			// Determines data for the snake from the beginning
 			newDirection = new SnakePartObject(snakePartDirRect);
 		
-			snakeParts.AddFirst(new SnakePartObject(snakeSecPartRect));
-			snakeParts.AddFirst(new SnakePartObject(snakeThirPartRect));
+			snakeParts.AddFirst(new SnakePartObject(snakePartTwoRect));
+			snakeParts.AddFirst(new SnakePartObject(snakePartThreeRect));
 			speed = 80;
 			tickCounter = 0;
 		}
