@@ -2,10 +2,15 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-//TODO: Design better interface for alla gameobjects properties that we want 
-// to use
 namespace Snake
 {
+	/// <summary>
+	/// Game data.
+	/// This class contains information that will
+	/// be passed in the IGameObject interface
+	///  TODO: This design needs to be updated to a better
+	///  idea. Its bad right now.
+	/// </summary>
 	public class GameData
 	{
 		public char key;
@@ -16,6 +21,7 @@ namespace Snake
 		public GameData(){
 
 		}
+
 		public GameData(GameState state){
 			this.state = state;
 
