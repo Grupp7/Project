@@ -2,10 +2,18 @@
 using System.Drawing;
 
 namespace Snake{
+	/// <summary>
+	/// Snake food object.
+	/// </summary>
 	public class SnakeFoodObject:IGameObject{
 
 		private  Rectangle location;
 		private System.Collections.Generic.List<GameState> gameStates;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Snake.SnakeFoodObject"/> class.
+		/// </summary>
+		/// <param name="location">Location.</param>
 		public SnakeFoodObject(Rectangle location){
 			this.location = location;
 			gameStates = new System.Collections.Generic.List<GameState>();
@@ -13,6 +21,10 @@ namespace Snake{
 
 		#region IGameObject implementation
 
+		/// <summary>
+		/// Gets the current states from the gameObject.*/
+		/// </summary>
+		/// <returns>The states.</returns>
 		public System.Collections.Generic.List<GameState> getStates ()
 		{
 			return gameStates;

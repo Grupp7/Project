@@ -19,6 +19,11 @@ namespace Snake
 
 
 		#region IGameObject implementation
+		/// <summary>
+		/// Passes the new states and gamedata
+		/// to the gameobject
+		/// </summary>
+		/// <param name="newInfo">New info.</param>
 		public void passData (GameData newInfo)
 		{
 			if(newInfo.state==GameState.Pause){
@@ -32,6 +37,12 @@ namespace Snake
 
 			}
 		}
+		/// <summary>
+		/// Update the specified gameTime to the gameObject.
+		/// And let it know that time has passed so it 
+		/// can do its internal update*/
+		/// </summary>
+		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime)
 		{
 			elaptime = Convert.ToString (stopwatch.Elapsed.TotalSeconds);
@@ -39,6 +50,10 @@ namespace Snake
 			elaptime = temp [0];
 
 		}
+		/// <summary>
+		/// Draw the specified appearance to the brush.
+		/// </summary>
+		/// <param name="brush">Brush.</param>
 		public void draw (Graphics brush)
 		{
 			// Create string to draw.
@@ -54,14 +69,29 @@ namespace Snake
 			// Draw string to screen.
 			brush.DrawString(drawString, drawFont, drawBrush, drawPoint);
 		}
+		/// <summary>
+		/// Gets the rectangle and its location.
+		/// </summary>
+		/// <returns>The rectangle.</returns>
 		public Rectangle getRectangle ()
 		{
 			return location;
 		}
+		/// <summary>
+		/// Gets the current states from the gameObject.
+		/// </summary>
+		/// <returns>The states.</returns>
 		public System.Collections.Generic.List<GameState> getStates ()
 		{
 			throw new NotImplementedException ();
 		}
+		/// <summary>
+		/// Check collsion between the this and
+		/// the specified object to test
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
+		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest)
 		{
 			return false;

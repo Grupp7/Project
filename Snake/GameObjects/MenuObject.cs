@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 namespace Snake
 {
+	/// <summary>
+	/// Menu object.
+	/// 
+	/// </summary>
 	public class MenuObject:IGameObject
 	{
 		private Rectangle location;
@@ -13,6 +17,12 @@ namespace Snake
 		private TextObject2 textObject;
 		private GameState currentState;
 		private List<GameState> states;
+
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="Snake.MenuObject"/> class.
+		/// </summary>
+		/// <param name="location">Location.</param>
 		public MenuObject (Rectangle location)
 		{
 			this.location = location;
@@ -24,12 +34,21 @@ namespace Snake
 
 		#region IGameObject implementation
 
+		/// <summary>
+		/// Gets the current states from the gameObject.
+		/// </summary>
+		/// <returns>The states.</returns>
 		public System.Collections.Generic.List<GameState> getStates ()
 		{	states.Clear ();
 			states.Add (currentState);
 			return states;
 		}
 
+		/// <summary>
+		/// Passes the new states and gamedata
+		/// to the gameobject
+		/// </summary>
+		/// <param name="newInfo">New info.</param>
 		public void passData (GameData newInfo)
 		{
 			switch (newInfo.state) {
@@ -66,11 +85,21 @@ namespace Snake
 			}
 		}
 
+		/// <summary>
+		/// Update the specified gameTime to the gameObject.
+		/// And let it know that time has passed so it 
+		/// can do its internal update
+		/// </summary>
+		/// <param name="gameTime">Game time.</param>
 		public void update (double gameTime)
 		{
 
 		}
 
+		/// <summary>
+		/// Draw the specified appearance to the brush.
+		/// </summary>
+		/// <param name="brush">Brush.</param>
 		public void draw (System.Drawing.Graphics brush)
 		{
 			if(currentState==GameState.ExitGame){
@@ -95,14 +124,26 @@ namespace Snake
 
 		}
 
+		/// <summary>
+		/// Gets the rectangle and its location.
+		/// </summary>
+		/// <returns>The rectangle.</returns>
 		public System.Drawing.Rectangle getRectangle ()
 		{return location;
 
 		
 		}
 
+		/// <summary>
+		/// Check collsion between the this and
+		/// the specified object to test
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
+		/// <param name="objectToTest">Object to test.</param>
 		public bool isColliding (IGameObject objectToTest)
 		{
+			//Can never collide with this
 			return false;
 
 		}
