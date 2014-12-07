@@ -140,7 +140,10 @@ namespace Snake{
 			return gameStates;
 		}
 
-
+		/// <summary>
+		/// Adds the state of the game.
+		/// </summary>
+		/// <param name="state">State.</param>
 		private void addGameState (GameState state){
 
 			if(!gameStates.Contains(state)){
@@ -231,7 +234,10 @@ namespace Snake{
 		}
 
 	
-
+		/// <summary>
+		/// Snakes the collide.
+		/// </summary>
+		/// <returns><c>true</c>, if collide was snaked, <c>false</c> otherwise.</returns>
 		private bool snakeCollide (){
 			bool snakeIsDead = false;
 			lock(snakeParts){
@@ -257,6 +263,10 @@ namespace Snake{
 			}
 		}
 
+		/// <summary>
+		/// Gets the rectangle and its location.
+		/// </summary>
+		/// <returns>The rectangle.</returns>
 		public System.Drawing.Rectangle getRectangle (){
 			return snakeParts.Last.Value.getRectangle();
 		}
@@ -302,6 +312,11 @@ namespace Snake{
 		}
 
 
+		/// <summary>
+		/// Gets the wrapper game object.
+		/// </summary>
+		/// <returns>The wrapper game object.</returns>
+		/// <param name="point">Point.</param>
 		private IGameObject getWrapperGameObject (Point point){
 			int BlockWidth = 20;
 			int BlockHeight = 20;
