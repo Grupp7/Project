@@ -44,16 +44,22 @@ namespace Snake{
 
 			// Sets the snake parts size and
 			// move block size
-			Point snakePartSizePoint = new Point (20, 20);
-			Size snakePartSize = new Size (snakePartSizePoint);
+			int snakePartWidth = 20;
+			int snakePartHeigth = 20;
+
+			Size snakePartSize = new Size (snakePartWidth,snakePartHeigth);
 
 			// Sets the snakes first direction
 			Point snakePartDirRectPoint = new Point (100, 140);
 			Rectangle snakePartDirRect = new Rectangle (snakePartDirRectPoint,snakePartSize);
 
+		
+
 			// Sets the location of first snakePart
-			Point snakeFirPartPoint = new Point (100, 400);
-			Rectangle snakeFirPartRect = new Rectangle (snakeFirPartPoint,snakePartSize);
+			Point snakePartOnePoint = new Point (100, 400);
+			Rectangle snakePartOneRect = new Rectangle (snakePartOnePoint,snakePartSize);
+			SnakePartObject snakePartOne = new SnakePartObject (snakePartOneRect);
+			snakeParts.AddFirst(snakePartOne);
 
 			// Sets the location of second snakePart
 			Point snakeSecPartPoint = new Point (100, 380);
@@ -65,7 +71,7 @@ namespace Snake{
 
 			// Determines data for the snake from the beginning
 			newDirection = new SnakePartObject(snakePartDirRect);
-			snakeParts.AddFirst(new SnakePartObject(snakeFirPartRect));
+		
 			snakeParts.AddFirst(new SnakePartObject(snakeSecPartRect));
 			snakeParts.AddFirst(new SnakePartObject(snakeThirPartRect));
 			speed = 80;

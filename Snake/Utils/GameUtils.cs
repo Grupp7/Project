@@ -3,6 +3,9 @@ using System.Drawing;
 
 namespace Snake
 {
+	/// <summary>
+	/// Game utils.
+	/// </summary>
 	public static class GameUtils
 	{
 		public static Random random = new Random();
