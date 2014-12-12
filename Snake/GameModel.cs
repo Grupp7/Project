@@ -650,9 +650,12 @@ namespace Snake {
 			g.Clear (Color.White);      
 			g.SmoothingMode = SmoothingMode.AntiAlias;
 			mainMenuBackground.draw (g);
-			foreach (var item in gameObstacles) {
-				item.draw (g);
+			lock (gameObstacles) {
+				foreach (var item in gameObstacles) {
+					item.draw (g);
+				}
 			}
+
 			lock (gameSnakeFood) {
 				foreach (var item in gameSnakeFood) {
 					item.draw (g);
